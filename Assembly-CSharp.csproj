@@ -40,6 +40,7 @@
      <Compile Include="Assets\Scripts\PlayerData.cs" />
      <Compile Include="Assets\Scripts\TeamData.cs" />
      <Compile Include="Assets\Scripts\Skip Lobby\TeamUI.cs" />
+     <Compile Include="Assets\Scripts\Meta\SettingsManager.cs" />
      <Compile Include="Assets\Scripts\Skip Overlay\SkipTeamUI.cs" />
      <Compile Include="Assets\Scripts\Skip Game\TimerBarUI.cs" />
      <Compile Include="Assets\Scripts\Meta\DataManager.cs" />
@@ -63,7 +64,6 @@
      <Compile Include="Assets\Scripts\Skip Lobby\LobbyEvents.cs" />
      <Compile Include="Assets\Scripts\Word Bank.cs" />
      <Compile Include="Assets\Scripts\Skip Overlay\SkipOverlayManager.cs" />
-     <Compile Include="Assets\Scripts\Meta\SettingsManager.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
