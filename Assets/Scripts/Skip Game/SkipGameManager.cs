@@ -1,9 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SkipGameManager : MonoBehaviour
 {
+    [Header("Components")]
+    [SerializeField] private Button correctButton;
+    [SerializeField] private Button endButton;
+
     [Header("Hotkeys")]
     [SerializeField] private KeyCode correctKey = KeyCode.C;
     [SerializeField] private KeyCode skipKey = KeyCode.S;
@@ -67,6 +72,10 @@ public class SkipGameManager : MonoBehaviour
 
     public void StartRound()
     {
+        // Enable buttons
+        correctButton.interactable = true;
+        endButton.interactable = true;
+
         // Start timer
         StartCoroutine(StartTimer(lobbyData.roundTime));
     }
@@ -79,6 +88,7 @@ public class SkipGameManager : MonoBehaviour
             // Trigger event
             SkipGameEvents.instance.TriggerOnTimeChanged(remaining, duration);
 
+            // Decrement
             remaining -= Time.deltaTime;
             yield return null;
         }
@@ -154,8 +164,16 @@ public class SkipGameManager : MonoBehaviour
         numberOfWords = 0;
         roundStarted = false;
 
+        // Disable buttons
+        correctButton.interactable = false;
+        endButton.interactable = false;
+
         // Trigger events
+        SkipGameEvents.instance.TriggerOnCorrectWord(0);
+        SkipGameEvents.instance.TriggerOnNewWord("Press SKIP to start");
         SkipGameEvents.instance.TriggerOnSetPlayer(playerData);
         SkipGameEvents.instance.TriggerOnTimeChanged(lobbyData.roundTime, lobbyData.roundTime);
+
+        SkipGameEvents.instance.TriggerOnRedo();
     }
 }

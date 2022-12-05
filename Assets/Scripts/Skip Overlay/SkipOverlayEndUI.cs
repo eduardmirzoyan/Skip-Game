@@ -13,6 +13,7 @@ public class SkipOverlayEndUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI teamsText;
     [SerializeField] private TextMeshProUGUI playersText;
     [SerializeField] private Animator animator;
+    [SerializeField] private Animator windowAnimator;
 
     private void Start()
     {
@@ -29,9 +30,7 @@ public class SkipOverlayEndUI : MonoBehaviour
     private void DisplayResults(LobbyData lobbyData)
     {
         // Show UI
-        canvasGroup.alpha = 1f;
-        canvasGroup.interactable = true;
-        canvasGroup.blocksRaycasts = true;
+        windowAnimator.Play("Show");
 
         // Enable animation
         animator.Play("Win");

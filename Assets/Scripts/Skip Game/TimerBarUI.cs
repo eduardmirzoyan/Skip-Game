@@ -10,10 +10,13 @@ public class TimerBarUI : MonoBehaviour
     [SerializeField] private Image barImage;
     [SerializeField] private TextMeshProUGUI numericalText;
     [SerializeField] private TextMeshProUGUI pointsText;
-
+    [SerializeField] private GameObject popupTextPrefab;
+    
     [Header("Data")]
     [SerializeField] private Color startColor;
     [SerializeField] private Color endColor;
+    [SerializeField] private Color popupColor;
+    [SerializeField] private Vector2 popupVariance;
 
     private void Start()
     {
@@ -50,5 +53,14 @@ public class TimerBarUI : MonoBehaviour
     {
         // Update display
         pointsText.text = points + " pts";
+
+        // Get a random offset
+        Vector3 offset = new Vector2(Random.Range(-popupVariance.x, popupVariance.x), Random.Range(-popupVariance.y, popupVariance.y));
+        print(offset);
+
+        // Create a popup
+        var popup = Instantiate(popupTextPrefab, transform.root).GetComponent<PopupTextUI>();
+        popup.transform.position = pointsText.transform.position + offset;
+        popup.Initialize("+1 pt", popupColor);
     }
 }

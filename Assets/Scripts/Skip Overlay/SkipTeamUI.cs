@@ -13,6 +13,7 @@ public class SkipTeamUI : MonoBehaviour
     [SerializeField] private Image background;
     [SerializeField] private Shadow shadow;
     [SerializeField] private Outline outline;
+    [SerializeField] private Animator animator;
 
     [Header("Data")]
     [SerializeField] private GameObject playerPrefab;
@@ -50,11 +51,13 @@ public class SkipTeamUI : MonoBehaviour
         {
             // Select this
             outline.enabled = true;
+            animator.Play("Selected");
         }
         else
         {
             // Deselect
             outline.enabled = false;
+            animator.Play("Idle");
         }
     }
 }

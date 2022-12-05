@@ -62,8 +62,9 @@
      <Compile Include="Assets\Scripts\Skip Overlay\SkipOverlayEndUI.cs" />
      <Compile Include="Assets\Scripts\Skip Overlay\SkipOverlayEvents.cs" />
      <Compile Include="Assets\Scripts\Skip Lobby\LobbyEvents.cs" />
-     <Compile Include="Assets\Scripts\Word Bank.cs" />
+     <Compile Include="Assets\Scripts\WordBank.cs" />
      <Compile Include="Assets\Scripts\Skip Overlay\SkipOverlayManager.cs" />
+     <Compile Include="Assets\Scripts\Meta\PopupTextUI.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

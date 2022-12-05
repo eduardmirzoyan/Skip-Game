@@ -13,25 +13,27 @@ public class ResultsUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI wpsText;
     [SerializeField] private TextMeshProUGUI skipsText;
     [SerializeField] private TextMeshProUGUI totalwordsText;
+    [SerializeField] private Animator animator;
 
     private void Start()
     {
         // Sub
         SkipGameEvents.instance.onEnd += DisplayResults;
+        SkipGameEvents.instance.onRedo += HideResults;
+        
     }
 
     private void OnDestroy()
     {
         // Sub
         SkipGameEvents.instance.onEnd -= DisplayResults;
+        SkipGameEvents.instance.onRedo += HideResults;
     }
 
     private void DisplayResults(int numberOfCorrect, int numberOfWords, float duration, PlayerData playerData)
     {
         // Show UI
-        canvasGroup.alpha = 1f;
-        canvasGroup.interactable = true;
-        canvasGroup.blocksRaycasts = true;
+        animator.Play("Show");
 
         // Set name
         playerText.text = "Player: " + playerData.name;
@@ -47,5 +49,11 @@ public class ResultsUI : MonoBehaviour
         skipsText.text = "Number of SKIPs: " + numberOfSkips;
 
         totalwordsText.text = "Total Words Seen: " + numberOfWords;
+    }
+
+    private void HideResults()
+    {
+        // Hide window;
+        animator.Play("Hide");
     }
 }

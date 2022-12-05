@@ -23,6 +23,7 @@ public class SkipGameEvents : MonoBehaviour
     public event Action<int> onCorrectWord;
     public event Action<float, float> onTimeChanged;
     public event Action<int, int, float, PlayerData> onEnd;
+    public event Action onRedo;
 
     public void TriggerOnSetPlayer(PlayerData playerData)
     {
@@ -61,6 +62,14 @@ public class SkipGameEvents : MonoBehaviour
         if (onEnd != null)
         {
             onEnd(numberOfCorrect, numberOfWords, duration, playerData);
+        }
+    }
+
+    public void TriggerOnRedo()
+    {
+        if (onRedo != null)
+        {
+            onRedo();
         }
     }
 }

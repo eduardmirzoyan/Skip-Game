@@ -11,10 +11,19 @@ public class TeamUI : MonoBehaviour
     [SerializeField] private TMP_InputField nameInput;
     [SerializeField] private GameObject addPlayerButton;
     [SerializeField] private GameObject removeTeamButton;
+    [SerializeField] private Rigidbody2D rigidbody2d;
+    [SerializeField] private CanvasGroup canvasGroup;
 
     [Header("Data")]
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private TeamData teamData;
+
+    [Header("Settings")]
+    [SerializeField] private float startAlpha = 0.75f;
+    [SerializeField] private Vector2 forceVariance;
+    [SerializeField] private float gravityMultiplier;
+    [SerializeField] private float timeTilDestroy = 2f;
+    
 
     private void Start()
     {
@@ -151,8 +160,18 @@ public class TeamUI : MonoBehaviour
             return;
         }
 
-        // Destroy self
-        Destroy(this.gameObject);
+        // Give a randomized push
+        Vector2 randomPush = new Vector2(Random.Range(-forceVariance.x, forceVariance.x), forceVariance.y);
+        rigidbody2d.velocity = randomPush;
+
+        // Enable gravity
+        rigidbody2d.gravityScale = gravityMultiplier;
+
+        // Remove parent
+        transform.SetParent(transform.root);
+
+        // Fade out
+        StartCoroutine(FadeOut(startAlpha, timeTilDestroy)); 
     }
 
     private void RemovePlayer(PlayerData playerData, TeamData teamData)
@@ -164,6 +183,30 @@ public class TeamUI : MonoBehaviour
             // Show button
             addPlayerButton.SetActive(true);
         }
+    }
+
+    private IEnumerator FadeOut(float startAlpha, float duration)
+    {
+        // Disable interaction
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
+
+        // Start alpha
+        canvasGroup.alpha = startAlpha;
+
+        float elapsed = 0;
+        while (elapsed < duration)
+        {
+            // Lerp alpha
+            canvasGroup.alpha = Mathf.Lerp(startAlpha, 0, elapsed / duration);
+
+            // Increment
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // Destroy
+        Destroy(this.gameObject);
     }
 
     # endregion
