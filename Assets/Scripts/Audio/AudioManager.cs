@@ -88,7 +88,33 @@ public class AudioManager : MonoBehaviour
 
         // Reset volume
         sound.audioSource.volume = sound.volume;
+    }
 
+    public void ButtonSound()
+    {
+        string name = "Button";
+        Sound sound = sounds.Find(sound => sound.name == name);
+        if (sound != null)
+        {
+            sound.audioSource.Play();
+        }
+        else { throw new System.Exception("Sound with that name not found: " + name); }
+
+        // Set volume
+        sound.audioSource.volume = sound.volume;
+    }
+
+    public void PlayImm(string name)
+    {
+        Sound sound = sounds.Find(sound => sound.name == name);
+        if (sound != null)
+        {
+            // Set to desired volume
+            sound.audioSource.volume = sound.volume;
+
+            // Play sound
+            sound.audioSource.Play();
+        }
     }
 
     public void Play(string name)

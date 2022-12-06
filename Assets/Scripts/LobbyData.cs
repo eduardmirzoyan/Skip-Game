@@ -16,8 +16,9 @@ public class LobbyData : ScriptableObject
     public int teamIndex;
     public int roundNumber;
     public int totalRounds;
-    public float roundTime;
+    public float turnTime;
     public WordBank wordBank;
+    public AdvancedSettings advancedSettings;
 
     public void Initialize(string name, int maxSize, TextAsset textAsset)
     {
@@ -29,10 +30,13 @@ public class LobbyData : ScriptableObject
 
         this.totalRounds = 5;
         this.roundNumber = 1;
-        this.roundTime = 30f;
+        this.turnTime = 30f;
 
         wordBank = ScriptableObject.CreateInstance<WordBank>();
         wordBank.Initialize(textAsset);
+
+        advancedSettings = ScriptableObject.CreateInstance<AdvancedSettings>();
+        advancedSettings.Initialize();
     }
 
     public bool IsFull()

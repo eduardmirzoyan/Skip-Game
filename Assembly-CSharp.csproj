@@ -55,6 +55,7 @@
      <Compile Include="Assets\Scripts\Skip Game\SkipGameEvents.cs" />
      <Compile Include="Assets\Scripts\Skip Overlay\SkipPlayerUI.cs" />
      <Compile Include="Assets\Scripts\Meta\TransitionManager.cs" />
+     <Compile Include="Assets\Scripts\Meta\PopupTextUI.cs" />
      <Compile Include="Assets\Scripts\Skip Game\ResultsUI.cs" />
      <Compile Include="Assets\Scripts\Meta\SaveManager.cs" />
      <Compile Include="Assets\Scripts\Skip Overlay\SkipOverlayUI.cs" />
@@ -64,7 +65,9 @@
      <Compile Include="Assets\Scripts\Skip Lobby\LobbyEvents.cs" />
      <Compile Include="Assets\Scripts\WordBank.cs" />
      <Compile Include="Assets\Scripts\Skip Overlay\SkipOverlayManager.cs" />
-     <Compile Include="Assets\Scripts\Meta\PopupTextUI.cs" />
+     <Compile Include="Assets\Scripts\Skip Lobby\AdvancedSettingsUI.cs" />
+     <Compile Include="Assets\Scripts\AdvancedSettings.cs" />
+     <Compile Include="Assets\Scripts\ExtraRule.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

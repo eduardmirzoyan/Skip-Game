@@ -14,6 +14,7 @@ public class LobbyUI : MonoBehaviour
     [SerializeField] private GameObject addTeamButton;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI teamCountText;
+    [SerializeField] private AdvancedSettingsUI advancedSettingsUI;
 
     [Header("Data")]
     [SerializeField] private GameObject teamPrefab;
@@ -26,7 +27,7 @@ public class LobbyUI : MonoBehaviour
     [SerializeField] private bool randomTeamOrder = false;
     [SerializeField] private bool randomPlayerOrder = false;
     [SerializeField] private int gameLength = 5;
-    [SerializeField] private float roundTime = 30f;
+    [SerializeField] private float turnTime = 30f;
 
 
     private void Start()
@@ -34,6 +35,9 @@ public class LobbyUI : MonoBehaviour
         // Initialzie lobby
         lobbyData = ScriptableObject.CreateInstance<LobbyData>();
         lobbyData.Initialize("Lobby", lobbySize, textAsset);
+
+        // Initialize settings
+        advancedSettingsUI.Initialize(lobbyData.advancedSettings);
 
         // Sub to events
         LobbyEvents.instance.onAddTeam += AddTeam;
@@ -106,7 +110,7 @@ public class LobbyUI : MonoBehaviour
         lobbyData.totalRounds = gameLength;
 
         // Set round time
-        lobbyData.roundTime = roundTime;
+        lobbyData.turnTime = turnTime;
 
         // Save data
         DataManager.instance.SaveData(lobbyData);
@@ -161,22 +165,22 @@ public class LobbyUI : MonoBehaviour
         switch (value)
         {
             case 0:
-                roundTime = 10f;
+                turnTime = 10f;
                 break;
             case 1:
-                roundTime = 20f;
+                turnTime = 20f;
                 break;
             case 2:
-                roundTime = 30f;
+                turnTime = 30f;
                 break;
             case 3:
-                roundTime = 45f;
+                turnTime = 45f;
                 break;
             case 4:
-                roundTime = 60f;
+                turnTime = 60f;
                 break;
             default:
-                roundTime = 120f;
+                turnTime = 120f;
                 break;
         }
     }

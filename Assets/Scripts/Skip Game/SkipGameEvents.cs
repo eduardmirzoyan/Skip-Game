@@ -24,6 +24,7 @@ public class SkipGameEvents : MonoBehaviour
     public event Action<float, float> onTimeChanged;
     public event Action<int, int, float, PlayerData> onEnd;
     public event Action onRedo;
+    public event Action<ExtraRule> onSetTurnRule;
 
     public void TriggerOnSetPlayer(PlayerData playerData)
     {
@@ -70,6 +71,14 @@ public class SkipGameEvents : MonoBehaviour
         if (onRedo != null)
         {
             onRedo();
+        }
+    }
+
+    public void TriggerSetTurnRule(ExtraRule rule)
+    {
+        if (onSetTurnRule != null)
+        {
+            onSetTurnRule(rule);
         }
     }
 }

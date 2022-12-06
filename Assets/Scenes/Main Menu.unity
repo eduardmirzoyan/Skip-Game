@@ -502,15 +502,22 @@ MonoBehaviour:
     audioSource: {fileID: 0}
     audioMixerGroup: {fileID: 24300002, guid: 874d9dfb56c5ead4497997b85c3582f6, type: 2}
   - name: Background 3
-    audioClip: {fileID: 8300000, guid: 7ac588326af065045b0c6a1ca091c4ee, type: 3}
+    audioClip: {fileID: 8300000, guid: 1d48efb83e5765048bdeaabafaea2d49, type: 3}
     volume: 0.2
     pitch: 1
     loop: 1
     audioSource: {fileID: 0}
     audioMixerGroup: {fileID: 24300002, guid: 874d9dfb56c5ead4497997b85c3582f6, type: 2}
   - name: Button
-    audioClip: {fileID: 8300000, guid: 39f48fa840f40914e867132ee27895d5, type: 3}
-    volume: 0.2
+    audioClip: {fileID: 8300000, guid: cbd079e9459a6eb4a8be065af691e591, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    audioSource: {fileID: 0}
+    audioMixerGroup: {fileID: 24300002, guid: 874d9dfb56c5ead4497997b85c3582f6, type: 2}
+  - name: Turn End 0
+    audioClip: {fileID: 8300000, guid: 60e969f2d50e0e644aa6b7a95506c7ff, type: 3}
+    volume: 0.75
     pitch: 1
     loop: 0
     audioSource: {fileID: 0}
@@ -2177,6 +2184,18 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 1
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 439289286}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: ButtonSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2

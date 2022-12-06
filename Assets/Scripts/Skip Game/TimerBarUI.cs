@@ -11,6 +11,7 @@ public class TimerBarUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI numericalText;
     [SerializeField] private TextMeshProUGUI pointsText;
     [SerializeField] private GameObject popupTextPrefab;
+    [SerializeField] private TextMeshProUGUI turnRuleText;
     
     [Header("Data")]
     [SerializeField] private Color startColor;
@@ -23,6 +24,7 @@ public class TimerBarUI : MonoBehaviour
         // Sub
         SkipGameEvents.instance.onTimeChanged += UpdateBar;
         SkipGameEvents.instance.onCorrectWord += UpdateScore;
+        SkipGameEvents.instance.onSetTurnRule += UpdateTurnRule;
     }
 
     private void OnDestroy()
@@ -30,6 +32,7 @@ public class TimerBarUI : MonoBehaviour
         // Sub
         SkipGameEvents.instance.onTimeChanged -= UpdateBar;
         SkipGameEvents.instance.onCorrectWord -= UpdateScore;
+        SkipGameEvents.instance.onSetTurnRule -= UpdateTurnRule;
     }
 
     private void UpdateBar(float remaining, float duration)
@@ -56,11 +59,19 @@ public class TimerBarUI : MonoBehaviour
 
         // Get a random offset
         Vector3 offset = new Vector2(Random.Range(-popupVariance.x, popupVariance.x), Random.Range(-popupVariance.y, popupVariance.y));
-        print(offset);
 
         // Create a popup
         var popup = Instantiate(popupTextPrefab, transform.root).GetComponent<PopupTextUI>();
         popup.transform.position = pointsText.transform.position + offset;
         popup.Initialize("+1 pt", popupColor);
+    }
+
+    private void UpdateTurnRule(ExtraRule rule)
+    {
+        // Set text
+        if (rule != null)
+            turnRuleText.text = rule.name + ": " + rule.description;
+        else 
+            turnRuleText.text = "";
     }
 }
