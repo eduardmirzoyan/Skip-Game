@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a005edca1e21ff42aa1f62bb32b8554, type: 3}
   m_Name: Caveman Rule
   m_EditorClassIdentifier: 
-  name: CAVEMAN
-  description: Clue-giver can only speak in single-syllables
+  name: Cavemen
+  description: Clue-giver can ONLY speak in single syllable words

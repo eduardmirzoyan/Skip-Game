@@ -16,14 +16,15 @@ public class TimerBarUI : MonoBehaviour
     [Header("Data")]
     [SerializeField] private Color startColor;
     [SerializeField] private Color endColor;
-    [SerializeField] private Color popupColor;
+    [SerializeField] private Color skipColor;
+    [SerializeField] private Color correctColor;
     [SerializeField] private Vector2 popupVariance;
 
     private void Start()
     {
         // Sub
         SkipGameEvents.instance.onTimeChanged += UpdateBar;
-        SkipGameEvents.instance.onCorrectWord += UpdateScore;
+        SkipGameEvents.instance.onScoreChanged += UpdateScore;
         SkipGameEvents.instance.onSetTurnRule += UpdateTurnRule;
     }
 
@@ -31,7 +32,7 @@ public class TimerBarUI : MonoBehaviour
     {
         // Sub
         SkipGameEvents.instance.onTimeChanged -= UpdateBar;
-        SkipGameEvents.instance.onCorrectWord -= UpdateScore;
+        SkipGameEvents.instance.onScoreChanged -= UpdateScore;
         SkipGameEvents.instance.onSetTurnRule -= UpdateTurnRule;
     }
 
@@ -52,10 +53,10 @@ public class TimerBarUI : MonoBehaviour
         
     }
 
-    private void UpdateScore(int points)
+    private void UpdateScore(int score, int change)
     {
         // Update display
-        pointsText.text = points + " pts";
+        pointsText.text = score + " pts";
 
         // Get a random offset
         Vector3 offset = new Vector2(Random.Range(-popupVariance.x, popupVariance.x), Random.Range(-popupVariance.y, popupVariance.y));
@@ -63,7 +64,21 @@ public class TimerBarUI : MonoBehaviour
         // Create a popup
         var popup = Instantiate(popupTextPrefab, transform.root).GetComponent<PopupTextUI>();
         popup.transform.position = pointsText.transform.position + offset;
-        popup.Initialize("+1 pt", popupColor);
+        if (change > 0)
+        {
+            // Increase
+            popup.Initialize("+" + change + " pt", correctColor);
+        }
+        else if (change < 0)
+        {
+            // Decrease
+            popup.Initialize("-" + -change + " pt", skipColor);
+        }
+        else {
+            // Don't show
+            popup.Initialize("", Color.clear);
+        }
+        
     }
 
     private void UpdateTurnRule(ExtraRule rule)

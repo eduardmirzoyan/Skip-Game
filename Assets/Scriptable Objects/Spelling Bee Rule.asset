@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a005edca1e21ff42aa1f62bb32b8554, type: 3}
   m_Name: Spelling Bee Rule
   m_EditorClassIdentifier: 
-  name: SPELLING BEE
-  description: Guessers must also correctly spell their word to get their point
+  name: Spelling Bee
+  description: Guessers MUST also correctly spell their word to get their points

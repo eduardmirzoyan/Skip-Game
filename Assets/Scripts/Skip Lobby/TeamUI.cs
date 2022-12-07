@@ -11,7 +11,6 @@ public class TeamUI : MonoBehaviour
     [SerializeField] private TMP_InputField nameInput;
     [SerializeField] private GameObject addPlayerButton;
     [SerializeField] private GameObject removeTeamButton;
-    [SerializeField] private Rigidbody2D rigidbody2d;
     [SerializeField] private CanvasGroup canvasGroup;
 
     [Header("Data")]
@@ -19,10 +18,7 @@ public class TeamUI : MonoBehaviour
     [SerializeField] private TeamData teamData;
 
     [Header("Settings")]
-    [SerializeField] private float startAlpha = 0.75f;
-    [SerializeField] private Vector2 forceVariance;
-    [SerializeField] private float gravityMultiplier;
-    [SerializeField] private float timeTilDestroy = 2f;
+    [SerializeField] private float scaleTime = 0.1f;
     
 
     private void Start()
@@ -57,6 +53,9 @@ public class TeamUI : MonoBehaviour
             // Prevent deleting
             removeTeamButton.SetActive(true);
         }
+
+        // Grow in
+        StartCoroutine(GrowIn(scaleTime));
     }
 
     # region Logic
@@ -160,18 +159,8 @@ public class TeamUI : MonoBehaviour
             return;
         }
 
-        // Give a randomized push
-        Vector2 randomPush = new Vector2(Random.Range(-forceVariance.x, forceVariance.x), forceVariance.y);
-        rigidbody2d.velocity = randomPush;
-
-        // Enable gravity
-        rigidbody2d.gravityScale = gravityMultiplier;
-
-        // Remove parent
-        transform.SetParent(transform.root);
-
-        // Fade out
-        StartCoroutine(FadeOut(startAlpha, timeTilDestroy)); 
+        // Shrink out
+        StartCoroutine(ShrinkOut(scaleTime));
     }
 
     private void RemovePlayer(PlayerData playerData, TeamData teamData)
@@ -185,20 +174,17 @@ public class TeamUI : MonoBehaviour
         }
     }
 
-    private IEnumerator FadeOut(float startAlpha, float duration)
+    private IEnumerator ShrinkOut(float duration)
     {
         // Disable interaction
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
 
-        // Start alpha
-        canvasGroup.alpha = startAlpha;
-
         float elapsed = 0;
         while (elapsed < duration)
         {
-            // Lerp alpha
-            canvasGroup.alpha = Mathf.Lerp(startAlpha, 0, elapsed / duration);
+            // Lerp scale
+            transform.localScale = Vector3.Lerp(Vector3.one, Vector3.zero, elapsed / duration);
 
             // Increment
             elapsed += Time.deltaTime;
@@ -207,6 +193,31 @@ public class TeamUI : MonoBehaviour
 
         // Destroy
         Destroy(this.gameObject);
+    }
+
+    private IEnumerator GrowIn(float duration)
+    {
+        // Disable interaction
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
+
+        float elapsed = 0;
+        while (elapsed < duration)
+        {
+            // Lerp scale
+            transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, elapsed / duration);
+
+            // Increment
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // Set scale
+        transform.localScale = Vector3.one;
+
+        // Allow interaction
+        canvasGroup.interactable = true;
+        canvasGroup.blocksRaycasts = true;
     }
 
     # endregion

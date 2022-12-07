@@ -23,6 +23,8 @@ public class SkipGameManager : MonoBehaviour
     [Header("Stats")]
     [SerializeField] private int numberOfCorrect;
     [SerializeField] private int numberOfWords;
+    [SerializeField] private int score;
+    [SerializeField] private float remainingTime;
 
     private bool roundStarted;
 
@@ -89,14 +91,14 @@ public class SkipGameManager : MonoBehaviour
 
     private IEnumerator StartTimer(float duration)
     {
-        float remaining = duration;
-        while (remaining >= 0)
+        remainingTime = duration;
+        while (remainingTime >= 0)
         {
             // Trigger event
-            SkipGameEvents.instance.TriggerOnTimeChanged(remaining, duration);
+            SkipGameEvents.instance.TriggerOnTimeChanged(remainingTime, duration);
 
             // Decrement
-            remaining -= Time.deltaTime;
+            remainingTime -= Time.deltaTime;
             yield return null;
         }
 
@@ -106,16 +108,23 @@ public class SkipGameManager : MonoBehaviour
 
     public void Correct()
     {
-        // Incrment pts
+        // Increment points
         numberOfCorrect++;
 
         // Play audio
+        // TODO
+
+        // Update score
+        score += lobbyData.advancedSettings.pointsOnCorrect;
 
         // Trigger event
-        SkipGameEvents.instance.TriggerOnCorrectWord(numberOfCorrect * lobbyData.advancedSettings.pointsOnCorrect);
+        SkipGameEvents.instance.TriggerOnScoreChanged(score, lobbyData.advancedSettings.pointsOnCorrect);
 
-        // Then just skip
-        Skip();
+        // Update time
+        AddTime(lobbyData.advancedSettings.timeOnCorrect);
+
+        // Then get new word
+        GetNewWord();
     }
 
     public void Skip()
@@ -127,10 +136,32 @@ public class SkipGameManager : MonoBehaviour
 
             // Set flag
             roundStarted = true;
+
+            // Get next word
+            GetNewWord();
+
+            // Finish
+            return;
         }
 
         // Play audio
+        // TODO
 
+        // Update score
+        score += lobbyData.advancedSettings.pointsOnSkip;
+
+        // Trigger event
+        SkipGameEvents.instance.TriggerOnScoreChanged(score, lobbyData.advancedSettings.pointsOnSkip);
+
+        // Update time
+        AddTime(lobbyData.advancedSettings.timeOnSkip);
+
+        // Get next word
+        GetNewWord();
+    }
+
+    private void GetNewWord()
+    {
         // Increment
         numberOfWords++;
 
@@ -139,6 +170,13 @@ public class SkipGameManager : MonoBehaviour
 
         // Trigger event
         SkipGameEvents.instance.TriggerOnNewWord(word);
+    }
+    
+    private void AddTime(float amount)
+    {
+        // Update time with clamping
+        remainingTime += amount;
+        remainingTime = Mathf.Clamp(remainingTime, 0, lobbyData.turnTime);
     }
 
     public void End()
@@ -150,13 +188,13 @@ public class SkipGameManager : MonoBehaviour
         AudioManager.instance.PlayImm("Turn End 0");
 
         // Trigger event
-        SkipGameEvents.instance.TriggerOnEnd(numberOfCorrect, numberOfWords, lobbyData.turnTime, playerData);
+        SkipGameEvents.instance.TriggerOnEnd(score, numberOfCorrect, numberOfWords, lobbyData.turnTime, playerData);
     }
 
     public void NextRound()
     {
         // Give points to player
-        playerData.score += numberOfCorrect * lobbyData.advancedSettings.pointsOnCorrect;
+        playerData.score += score;
         
         // Increment this player first
         lobbyData.GetIndexedTeam().IncrementIndex();
@@ -176,6 +214,7 @@ public class SkipGameManager : MonoBehaviour
         // Reset values
         numberOfCorrect = 0;
         numberOfWords = 0;
+        score = 0;
         roundStarted = false;
 
         // Disable buttons
@@ -183,7 +222,7 @@ public class SkipGameManager : MonoBehaviour
         endButton.interactable = false;
 
         // Trigger events
-        SkipGameEvents.instance.TriggerOnCorrectWord(0);
+        SkipGameEvents.instance.TriggerOnScoreChanged(score, 0);
         SkipGameEvents.instance.TriggerOnNewWord("Press SKIP to start");
         SkipGameEvents.instance.TriggerOnSetPlayer(playerData);
         SkipGameEvents.instance.TriggerOnTimeChanged(lobbyData.turnTime, lobbyData.turnTime);

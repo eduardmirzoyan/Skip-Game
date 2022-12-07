@@ -103,6 +103,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2123729835978556209}
+  - component: {fileID: 3742747008364762923}
   - component: {fileID: 2027894900520506812}
   m_Layer: 5
   m_Name: Lobby Player UI
@@ -135,6 +136,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &3742747008364762923
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2123729835978556210}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!114 &2027894900520506812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,7 +162,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameInput: {fileID: 4788556927846802061}
   removePlayerButton: {fileID: 2123729835346428558}
+  canvasGroup: {fileID: 3742747008364762923}
   playerData: {fileID: 0}
+  scaleTime: 0.1
 --- !u!1 &2123729835997100226
 GameObject:
   m_ObjectHideFlags: 0
@@ -420,7 +435,7 @@ MonoBehaviour:
   m_CharacterValidation: 0
   m_RegexValue: 
   m_GlobalPointSize: 14
-  m_CharacterLimit: 0
+  m_CharacterLimit: 20
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:

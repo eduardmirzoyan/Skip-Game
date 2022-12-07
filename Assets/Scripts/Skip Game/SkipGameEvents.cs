@@ -20,9 +20,9 @@ public class SkipGameEvents : MonoBehaviour
 
     public event Action<PlayerData> onSetPlayer;
     public event Action<string> onNewWord;
-    public event Action<int> onCorrectWord;
+    public event Action<int, int> onScoreChanged;
     public event Action<float, float> onTimeChanged;
-    public event Action<int, int, float, PlayerData> onEnd;
+    public event Action<int, int, int, float, PlayerData> onEnd;
     public event Action onRedo;
     public event Action<ExtraRule> onSetTurnRule;
 
@@ -42,11 +42,11 @@ public class SkipGameEvents : MonoBehaviour
         }
     }
 
-    public void TriggerOnCorrectWord(int points)
+    public void TriggerOnScoreChanged(int points, int change)
     {
-        if (onCorrectWord != null)
+        if (onScoreChanged != null)
         {
-            onCorrectWord(points);
+            onScoreChanged(points, change);
         }
     }
 
@@ -58,11 +58,11 @@ public class SkipGameEvents : MonoBehaviour
         }
     }
 
-    public void TriggerOnEnd(int numberOfCorrect, int numberOfWords, float duration, PlayerData playerData)
+    public void TriggerOnEnd(int score, int numberOfCorrect, int numberOfWords, float duration, PlayerData playerData)
     {
         if (onEnd != null)
         {
-            onEnd(numberOfCorrect, numberOfWords, duration, playerData);
+            onEnd(score, numberOfCorrect, numberOfWords, duration, playerData);
         }
     }
 

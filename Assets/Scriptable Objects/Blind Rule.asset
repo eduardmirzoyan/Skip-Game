@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a005edca1e21ff42aa1f62bb32b8554, type: 3}
   m_Name: Blind Rule
   m_EditorClassIdentifier: 
-  name: BLIND
-  description: Guessers must keep their eyes closed
+  name: Blind
+  description: Guessers MUST keep their eyes closed

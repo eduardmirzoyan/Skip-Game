@@ -8,9 +8,11 @@ public class PlayerUI : MonoBehaviour
     [Header("Components")]
     [SerializeField] private TMP_InputField nameInput;
     [SerializeField] private GameObject removePlayerButton;
+    [SerializeField] private CanvasGroup canvasGroup;
 
     [Header("Data")]
     [SerializeField] private PlayerData playerData;
+    [SerializeField] private float scaleTime = 0.1f;
 
     private void Start()
     {
@@ -37,6 +39,9 @@ public class PlayerUI : MonoBehaviour
             // Enable
             removePlayerButton.SetActive(true);
         }
+
+        // Grow in
+        StartCoroutine(GrowIn(scaleTime));
     }
 
     public void RemovePlayerButton()
@@ -91,6 +96,55 @@ public class PlayerUI : MonoBehaviour
             return;
         }
 
+        // Grow in
+        StartCoroutine(ShrinkOut(scaleTime));
+
+        // Destroy(this.gameObject);
+    }
+
+    private IEnumerator ShrinkOut(float duration)
+    {
+        // Disable interaction
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
+
+        float elapsed = 0;
+        while (elapsed < duration)
+        {
+            // Lerp scale
+            transform.localScale = Vector3.Lerp(Vector3.one, Vector3.zero, elapsed / duration);
+
+            // Increment
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // Destroy
         Destroy(this.gameObject);
+    }
+
+    private IEnumerator GrowIn(float duration)
+    {
+        // Disable interaction
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
+
+        float elapsed = 0;
+        while (elapsed < duration)
+        {
+            // Lerp scale
+            transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, elapsed / duration);
+
+            // Increment
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // Set scale
+        transform.localScale = Vector3.one;
+
+        // Allow interaction
+        canvasGroup.interactable = true;
+        canvasGroup.blocksRaycasts = true;
     }
 }

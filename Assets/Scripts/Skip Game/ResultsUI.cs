@@ -10,6 +10,7 @@ public class ResultsUI : MonoBehaviour
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private TextMeshProUGUI playerText;
     [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI correctText;
     [SerializeField] private TextMeshProUGUI wpsText;
     [SerializeField] private TextMeshProUGUI skipsText;
     [SerializeField] private TextMeshProUGUI totalwordsText;
@@ -30,7 +31,7 @@ public class ResultsUI : MonoBehaviour
         SkipGameEvents.instance.onRedo += HideResults;
     }
 
-    private void DisplayResults(int numberOfCorrect, int numberOfWords, float duration, PlayerData playerData)
+    private void DisplayResults(int score, int numberOfCorrect, int numberOfWords, float duration, PlayerData playerData)
     {
         // Show UI
         animator.Play("Show");
@@ -38,17 +39,19 @@ public class ResultsUI : MonoBehaviour
         // Set name
         playerText.text = "Player: " + playerData.name;
 
-        // Update text
-        scoreText.text = "Score: " + numberOfCorrect + " pts";
+        // Update text values
+        scoreText.text = "Score: " + score + " pts";
+
+        correctText.text = "Number of Guesses: " + numberOfCorrect;
+
+        int numberOfSkips = numberOfWords - numberOfCorrect;
+        skipsText.text = "Number of SKIPs: " + numberOfSkips;
+        
+        totalwordsText.text = "Total Words Seen: " + numberOfWords;
 
         float wps = numberOfCorrect / duration;
         wps = Mathf.Round(wps * 100f) / 100f;
         wpsText.text = "Guesses Per Second: " + wps;
-
-        int numberOfSkips = numberOfWords - numberOfCorrect;
-        skipsText.text = "Number of SKIPs: " + numberOfSkips;
-
-        totalwordsText.text = "Total Words Seen: " + numberOfWords;
     }
 
     private void HideResults()

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a005edca1e21ff42aa1f62bb32b8554, type: 3}
   m_Name: Charades Rule
   m_EditorClassIdentifier: 
-  name: CHARADES
-  description: Clue-giver cannot speak and must pantomime their words
+  name: Charades
+  description: Clue-giver CANNOT speak and MUST pantomime their words instead

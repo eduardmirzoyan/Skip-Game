@@ -50,6 +50,7 @@
      <Compile Include="Assets\Scripts\Skip Game\PlayerDisplayUI.cs" />
      <Compile Include="Assets\Scripts\LobbyData.cs" />
      <Compile Include="Assets\Scripts\Skip Game\SkipGameManager.cs" />
+     <Compile Include="Assets\Scripts\AdvancedSettings.cs" />
      <Compile Include="Assets\Scripts\Meta\MainMenuManager.cs" />
      <Compile Include="Assets\Scripts\Skip Game\WordDisplayUI.cs" />
      <Compile Include="Assets\Scripts\Skip Game\SkipGameEvents.cs" />
@@ -62,12 +63,14 @@
      <Compile Include="Assets\Scripts\Meta\PauseManager.cs" />
      <Compile Include="Assets\Scripts\Skip Overlay\SkipOverlayEndUI.cs" />
      <Compile Include="Assets\Scripts\Skip Overlay\SkipOverlayEvents.cs" />
+     <Compile Include="Assets\Scripts\Skip Lobby\AdvancedSettingsUI.cs" />
      <Compile Include="Assets\Scripts\Skip Lobby\LobbyEvents.cs" />
      <Compile Include="Assets\Scripts\WordBank.cs" />
      <Compile Include="Assets\Scripts\Skip Overlay\SkipOverlayManager.cs" />
-     <Compile Include="Assets\Scripts\Skip Lobby\AdvancedSettingsUI.cs" />
-     <Compile Include="Assets\Scripts\AdvancedSettings.cs" />
      <Compile Include="Assets\Scripts\ExtraRule.cs" />
+     <Compile Include="Assets\Scripts\Meta\TooltipTriggerUI.cs" />
+     <Compile Include="Assets\Scripts\Meta\TextTooltipUI.cs" />
+     <Compile Include="Assets\Scripts\Skip Lobby\ExtraRuleUI.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

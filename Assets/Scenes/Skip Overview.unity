@@ -3073,7 +3073,7 @@ MonoBehaviour:
   nextPlayerText: {fileID: 1803850860}
   roundDisplayText: {fileID: 1982627499}
   teamPrefab: {fileID: 8541141933825797278, guid: 06e0f41542dcfe34db1cf5d5ee1fe29d, type: 3}
-  xRadius: 6
+  xRadius: 6.25
   yRadius: 3.5
 --- !u!95 &1201689276
 Animator:

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a005edca1e21ff42aa1f62bb32b8554, type: 3}
   m_Name: Reversed Rule
   m_EditorClassIdentifier: 
-  name: REVERSED
-  description: Clue-giver and Gussers switch roles
+  name: Reversed
+  description: Clue-giver and Guessers SWITCH roles
