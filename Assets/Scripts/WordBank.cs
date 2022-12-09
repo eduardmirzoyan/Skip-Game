@@ -23,27 +23,6 @@ public class WordBank : ScriptableObject
 
     private void ReadCSV(TextAsset textAsset)
     {
-        // string path = System.IO.Directory.GetCurrentDirectory() + "/Assets/Word Bank/Word Bank.csv";
-        // StreamReader streamReader = new StreamReader(path);
-        // // Skip first line
-        // streamReader.ReadLine();
-
-        // while (!streamReader.EndOfStream)
-        // {
-        //     // Read line
-        //     string line = streamReader.ReadLine();
-
-        //     // Break line into words
-        //     string[] words = line.Split(',');
-
-        //     // Add english word
-        //     englishWords.Add(words[0]);
-
-        //     // Add translations
-        //     russianDict.Add(words[0], words[1]);
-        //     frenchDict.Add(words[0], words[2]);
-        // }
-
         var lines = textAsset.ToString().Split('\n');
         bool skip = true;
         foreach (var line in lines)

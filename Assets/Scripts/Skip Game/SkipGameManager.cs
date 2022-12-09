@@ -8,10 +8,12 @@ public class SkipGameManager : MonoBehaviour
     [Header("Components")]
     [SerializeField] private Button correctButton;
     [SerializeField] private Button endButton;
+    [SerializeField] private Button penalityButton;
 
     [Header("Hotkeys")]
     [SerializeField] private KeyCode correctKey = KeyCode.C;
     [SerializeField] private KeyCode skipKey = KeyCode.S;
+    [SerializeField] private KeyCode penalityKey = KeyCode.D;
     [SerializeField] private KeyCode endKey = KeyCode.E;
 
     [Header("Data")]
@@ -25,6 +27,7 @@ public class SkipGameManager : MonoBehaviour
     [SerializeField] private int numberOfWords;
     [SerializeField] private int score;
     [SerializeField] private float remainingTime;
+    [SerializeField] private int penaltyCount;
 
     private bool roundStarted;
 
@@ -46,11 +49,13 @@ public class SkipGameManager : MonoBehaviour
         numberOfCorrect = 0;
         numberOfWords = 0;
         roundStarted = false;
+        penaltyCount = 0;
 
         // Choose a random rule
         var rule = lobbyData.advancedSettings.GetRandomRestriction();
 
         // Trigger events
+        SkipGameEvents.instance.TriggerOnNewWord("Press SKIP to start");
         SkipGameEvents.instance.TriggerSetTurnRule(rule);
         SkipGameEvents.instance.TriggerOnSetPlayer(playerData);
         SkipGameEvents.instance.TriggerOnTimeChanged(lobbyData.turnTime, lobbyData.turnTime);
@@ -61,6 +66,8 @@ public class SkipGameManager : MonoBehaviour
 
     private void Update()
     {
+        if (!roundStarted) return;
+
         // Check for hotkeys
         if (Input.GetKeyDown(correctKey))
         {
@@ -69,6 +76,10 @@ public class SkipGameManager : MonoBehaviour
         else if (Input.GetKeyDown(skipKey))
         {
             Skip();
+        }
+        else if (Input.GetKeyDown(penalityKey))
+        {
+            Penalty();
         }
         else if (Input.GetKeyDown(endKey))
         {
@@ -81,9 +92,11 @@ public class SkipGameManager : MonoBehaviour
         // Enable buttons
         correctButton.interactable = true;
         endButton.interactable = true;
+        penalityButton.interactable = true;
 
         // Start background music
-        // AudioManager.instance.Play("Turn Start 0");
+        AudioManager.instance.StopImm("Background 3");
+        AudioManager.instance.Play("Background 4");
 
         // Start timer
         StartCoroutine(StartTimer(lobbyData.turnTime));
@@ -112,7 +125,7 @@ public class SkipGameManager : MonoBehaviour
         numberOfCorrect++;
 
         // Play audio
-        // TODO
+        AudioManager.instance.PlayImm("Correct");
 
         // Update score
         score += lobbyData.advancedSettings.pointsOnCorrect;
@@ -144,9 +157,6 @@ public class SkipGameManager : MonoBehaviour
             return;
         }
 
-        // Play audio
-        // TODO
-
         // Update score
         score += lobbyData.advancedSettings.pointsOnSkip;
 
@@ -158,6 +168,21 @@ public class SkipGameManager : MonoBehaviour
 
         // Get next word
         GetNewWord();
+    }
+
+    public void Penalty()
+    {
+        // Incremenet
+        penaltyCount++;
+
+        // Reduce score
+        score--;
+
+        // Play audio
+        AudioManager.instance.PlayImm("Penalty");
+
+        // Trigger event
+        SkipGameEvents.instance.TriggerOnScoreChanged(score, -1);
     }
 
     private void GetNewWord()
@@ -184,11 +209,15 @@ public class SkipGameManager : MonoBehaviour
         // Stop timer
         StopAllCoroutines();
 
+        // Stop audio
+        AudioManager.instance.StopImm("Background 4");
+        
         // Play audio
-        AudioManager.instance.PlayImm("Turn End 0");
+        AudioManager.instance.PlayImm("Turn End");
+        AudioManager.instance.Play("Background 3");
 
         // Trigger event
-        SkipGameEvents.instance.TriggerOnEnd(score, numberOfCorrect, numberOfWords, lobbyData.turnTime, playerData);
+        SkipGameEvents.instance.TriggerOnEnd(score, numberOfCorrect, numberOfWords, penaltyCount, lobbyData.turnTime, playerData);
     }
 
     public void NextRound()
@@ -216,10 +245,12 @@ public class SkipGameManager : MonoBehaviour
         numberOfWords = 0;
         score = 0;
         roundStarted = false;
+        penaltyCount = 0;
 
         // Disable buttons
         correctButton.interactable = false;
         endButton.interactable = false;
+        penalityButton.interactable = false;
 
         // Trigger events
         SkipGameEvents.instance.TriggerOnScoreChanged(score, 0);

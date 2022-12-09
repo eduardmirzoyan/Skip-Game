@@ -62,8 +62,6 @@ public class TextTooltipUI : MonoBehaviour
     private void Resize() {
         int descriptionLength = descriptionText.text.Length;
 
-        print(descriptionLength);
-
         layoutElement.enabled = (descriptionLength > characterWrapLimit);
     }
 

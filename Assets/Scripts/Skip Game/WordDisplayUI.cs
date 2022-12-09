@@ -23,6 +23,11 @@ public class WordDisplayUI : MonoBehaviour
     {
         // Change color
         wordText.color = Color.black;
+
+        // Get float size if exists
+        float size = PlayerPrefs.GetFloat("Size", 108f);
+        // Set size
+        wordText.fontSizeMax = size;
         
         // Change text
         wordText.text = word;

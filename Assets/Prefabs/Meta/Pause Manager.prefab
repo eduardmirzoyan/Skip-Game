@@ -102,6 +102,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5102483423714368272}
   - component: {fileID: 6715270516431633761}
+  - component: {fileID: 7009342438593579926}
   m_Layer: 5
   m_Name: Menu Button
   m_TagString: Untagged
@@ -187,6 +188,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7009342438593579926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3964750870518496574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b344c94f41df360418126892531bc401, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 0}
 --- !u!1 &5977348180475410037
 GameObject:
   m_ObjectHideFlags: 0
@@ -462,6 +476,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5977348180551571436}
   - component: {fileID: 5977348180551571437}
+  - component: {fileID: 2736051210089967475}
   m_Layer: 5
   m_Name: Quit Button
   m_TagString: Untagged
@@ -547,6 +562,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2736051210089967475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5977348180551570963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b344c94f41df360418126892531bc401, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 0}
 --- !u!1 &5977348180644537857
 GameObject:
   m_ObjectHideFlags: 0
@@ -776,7 +804,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5977348180687793145}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 90}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1077,6 +1105,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5977348181015072296}
   - component: {fileID: 5977348181015072297}
+  - component: {fileID: 8097545914705827423}
   m_Layer: 5
   m_Name: Resume Button
   m_TagString: Untagged
@@ -1162,6 +1191,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8097545914705827423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5977348181015072303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b344c94f41df360418126892531bc401, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 0}
 --- !u!1 &5977348181022173488
 GameObject:
   m_ObjectHideFlags: 0
@@ -1606,6 +1648,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5977348181613872831}
   - component: {fileID: 5977348181613872824}
+  - component: {fileID: 1735439608525409830}
   m_Layer: 5
   m_Name: Options Button
   m_TagString: Untagged
@@ -1691,6 +1734,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1735439608525409830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5977348181613872830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b344c94f41df360418126892531bc401, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 0}
 --- !u!1 &5977348181643361621
 GameObject:
   m_ObjectHideFlags: 0

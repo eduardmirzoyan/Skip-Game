@@ -14,6 +14,7 @@ public class ResultsUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI wpsText;
     [SerializeField] private TextMeshProUGUI skipsText;
     [SerializeField] private TextMeshProUGUI totalwordsText;
+    [SerializeField] private TextMeshProUGUI penalityText;
     [SerializeField] private Animator animator;
 
     private void Start()
@@ -31,7 +32,7 @@ public class ResultsUI : MonoBehaviour
         SkipGameEvents.instance.onRedo += HideResults;
     }
 
-    private void DisplayResults(int score, int numberOfCorrect, int numberOfWords, float duration, PlayerData playerData)
+    private void DisplayResults(int score, int numberOfCorrect, int numberOfWords, int penalties, float duration, PlayerData playerData)
     {
         // Show UI
         animator.Play("Show");
@@ -52,6 +53,8 @@ public class ResultsUI : MonoBehaviour
         float wps = numberOfCorrect / duration;
         wps = Mathf.Round(wps * 100f) / 100f;
         wpsText.text = "Guesses Per Second: " + wps;
+
+        penalityText.text = "Number of Penalities: " + penalties;
     }
 
     private void HideResults()

@@ -38,12 +38,6 @@ public class AudioManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    // private void Start()
-    // {
-    //     // Play background music based on which scene you are in
-    //     Play("Background " + TransitionManager.instance.GetSceneIndex());
-    // }
-
     private IEnumerator FadeInAudio(Sound sound)
     {
         var startVolume = 0;
@@ -90,20 +84,6 @@ public class AudioManager : MonoBehaviour
         sound.audioSource.volume = sound.volume;
     }
 
-    public void ButtonSound()
-    {
-        string name = "Button";
-        Sound sound = sounds.Find(sound => sound.name == name);
-        if (sound != null)
-        {
-            sound.audioSource.Play();
-        }
-        else { throw new System.Exception("Sound with that name not found: " + name); }
-
-        // Set volume
-        sound.audioSource.volume = sound.volume;
-    }
-
     public void PlayImm(string name)
     {
         Sound sound = sounds.Find(sound => sound.name == name);
@@ -114,6 +94,16 @@ public class AudioManager : MonoBehaviour
 
             // Play sound
             sound.audioSource.Play();
+        }
+    }
+
+    public void StopImm(string name)
+    {
+        Sound sound = sounds.Find(sound => sound.name == name);
+        if (sound != null)
+        {
+            // Stop sound
+            sound.audioSource.Stop();
         }
     }
 

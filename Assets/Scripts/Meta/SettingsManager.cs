@@ -10,6 +10,7 @@ public class SettingsManager : MonoBehaviour
     [SerializeField] private AudioMixer audioMixer;
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private TMP_Dropdown resolutionsDropdown;
+    [SerializeField] private TextMeshProUGUI fontSizeText;
 
     private Resolution[] resolutions;
     private bool isOpen;
@@ -143,5 +144,17 @@ public class SettingsManager : MonoBehaviour
 
         // Debug
         Debug.Log("Fullscreen set to: " + isFullscreen.ToString());
+    }
+
+    public void SetTextSize(float size)
+    {
+        // Set size
+        PlayerPrefs.SetFloat("Size", size);
+
+        // Set text
+        fontSizeText.text = "Word Size: " + (int) size;
+
+        // Debug
+        Debug.Log("Text Size set to: " + size);
     }
 }

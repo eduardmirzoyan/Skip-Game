@@ -49,6 +49,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5285054416424370740}
   - component: {fileID: 3179038664155172487}
+  - component: {fileID: 6268962868889471495}
   m_Layer: 5
   m_Name: Add Player Button
   m_TagString: Untagged
@@ -135,6 +136,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6268962868889471495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 727594516438888393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b344c94f41df360418126892531bc401, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 0}
 --- !u!1 &1230236772158850335
 GameObject:
   m_ObjectHideFlags: 0
@@ -687,6 +701,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1230236772410674396}
   - component: {fileID: 1230236772410674371}
+  - component: {fileID: 6203168639588882459}
   m_Layer: 5
   m_Name: Delete Button
   m_TagString: Untagged
@@ -771,6 +786,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6203168639588882459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1230236772410674397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b344c94f41df360418126892531bc401, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 0}
 --- !u!1 &1230236772424686897
 GameObject:
   m_ObjectHideFlags: 0
@@ -923,7 +951,7 @@ MonoBehaviour:
   canvasGroup: {fileID: 1096336544104903200}
   playerPrefab: {fileID: 2123729835978556210, guid: b6fd4b1f4e706d34ea20d99916ba8aec, type: 3}
   teamData: {fileID: 0}
-  timeTilDestroy: 0.1
+  scaleTime: 0.1
 --- !u!1 &1230236772448837858
 GameObject:
   m_ObjectHideFlags: 0
