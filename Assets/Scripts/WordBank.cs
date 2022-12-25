@@ -8,6 +8,7 @@ public class WordBank : ScriptableObject
 {
     public List<string> englishWords;
     public Dictionary<string, string> russianDict;
+    public Dictionary<string, string> armenianDict;
     public Dictionary<string, string> frenchDict;
 
     public void Initialize(TextAsset textAsset)
@@ -15,6 +16,7 @@ public class WordBank : ScriptableObject
         // Initalize lists
         englishWords = new List<string>();
         russianDict = new Dictionary<string, string>();
+        armenianDict = new Dictionary<string, string>();
         frenchDict = new Dictionary<string, string>();
 
         // Parse CSV into lists
@@ -23,6 +25,9 @@ public class WordBank : ScriptableObject
 
     private void ReadCSV(TextAsset textAsset)
     {
+        // Load Asset
+        textAsset = Resources.Load<TextAsset>("Word Bank");
+
         var lines = textAsset.ToString().Split('\n');
         bool skip = true;
         foreach (var line in lines)
@@ -41,7 +46,8 @@ public class WordBank : ScriptableObject
 
             // Add translations
             russianDict.Add(words[0], words[1]);
-            frenchDict.Add(words[0], words[2]);
+            armenianDict.Add(words[0], words[2]);
+            frenchDict.Add(words[0], words[3]);
         }
 
         Debug.Log(englishWords.Count);
@@ -64,6 +70,11 @@ public class WordBank : ScriptableObject
                 translatedWord = russianDict[englishWord];
                 russianDict.Remove(englishWord);
                 break;
+            case Language.Armenian:
+                // Search dict
+                translatedWord = armenianDict[englishWord];
+                russianDict.Remove(englishWord);
+            break;
             case Language.French:
                 // Search dict
                 translatedWord = frenchDict[englishWord];

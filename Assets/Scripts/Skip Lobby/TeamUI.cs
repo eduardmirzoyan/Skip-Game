@@ -12,6 +12,7 @@ public class TeamUI : MonoBehaviour
     [SerializeField] private GameObject addPlayerButton;
     [SerializeField] private GameObject removeTeamButton;
     [SerializeField] private CanvasGroup canvasGroup;
+    [SerializeField] private TMP_Dropdown dropdown;
 
     [Header("Data")]
     [SerializeField] private GameObject playerPrefab;
@@ -52,6 +53,15 @@ public class TeamUI : MonoBehaviour
         {
             // Prevent deleting
             removeTeamButton.SetActive(true);
+        }
+
+        // Initialize dropdown
+        dropdown.options = new List<TMP_Dropdown.OptionData>();
+        string[] languages = System.Enum.GetNames(typeof(Language));
+        foreach (var language in languages)
+        {
+            var option = new TMP_Dropdown.OptionData(language);
+            dropdown.options.Add(option);
         }
 
         // Grow in

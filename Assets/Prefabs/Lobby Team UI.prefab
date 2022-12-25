@@ -949,6 +949,7 @@ MonoBehaviour:
   addPlayerButton: {fileID: 727594516438888393}
   removeTeamButton: {fileID: 1230236772410674397}
   canvasGroup: {fileID: 1096336544104903200}
+  dropdown: {fileID: 1230236774239272731}
   playerPrefab: {fileID: 2123729835978556210, guid: b6fd4b1f4e706d34ea20d99916ba8aec, type: 3}
   teamData: {fileID: 0}
   scaleTime: 0.1
@@ -2100,8 +2101,6 @@ MonoBehaviour:
     - m_Text: English
       m_Image: {fileID: 0}
     - m_Text: Russian
-      m_Image: {fileID: 0}
-    - m_Text: French
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:

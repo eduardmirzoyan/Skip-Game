@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public enum Language { English, Russian, French }
+public enum Language { English, Russian, Armenian, French }
 
 [System.Serializable]
 [CreateAssetMenu]

@@ -66,16 +66,18 @@ public class SkipGameManager : MonoBehaviour
 
     private void Update()
     {
+        // Always allow skip
+        if (Input.GetKeyDown(skipKey))
+        {
+            Skip();
+        }
+
         if (!roundStarted) return;
 
         // Check for hotkeys
         if (Input.GetKeyDown(correctKey))
         {
             Correct();
-        }
-        else if (Input.GetKeyDown(skipKey))
-        {
-            Skip();
         }
         else if (Input.GetKeyDown(penalityKey))
         {
