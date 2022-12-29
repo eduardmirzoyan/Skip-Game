@@ -179,6 +179,9 @@ public class LobbyUI : MonoBehaviour
             case 4:
                 turnTime = 60f;
                 break;
+            case 5:
+                turnTime = 90;
+                break;
             default:
                 turnTime = 120f;
                 break;

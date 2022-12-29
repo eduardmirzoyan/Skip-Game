@@ -9646,6 +9646,8 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: 60 Seconds
       m_Image: {fileID: 0}
+    - m_Text: 90 Seconds
+      m_Image: {fileID: 0}
     - m_Text: 120 Seconds
       m_Image: {fileID: 0}
   m_OnValueChanged:
