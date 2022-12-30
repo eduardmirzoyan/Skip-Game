@@ -22,6 +22,7 @@ public class ResultsUI : MonoBehaviour
         // Sub
         SkipGameEvents.instance.onEnd += DisplayResults;
         SkipGameEvents.instance.onRedo += HideResults;
+        SkipGameEvents.instance.onScoreChanged += UpdateScore;
         
     }
 
@@ -29,7 +30,8 @@ public class ResultsUI : MonoBehaviour
     {
         // Sub
         SkipGameEvents.instance.onEnd -= DisplayResults;
-        SkipGameEvents.instance.onRedo += HideResults;
+        SkipGameEvents.instance.onRedo -= HideResults;
+        SkipGameEvents.instance.onScoreChanged -= UpdateScore;
     }
 
     private void DisplayResults(int score, int numberOfCorrect, int numberOfWords, int penalties, float duration, PlayerData playerData)
@@ -50,11 +52,17 @@ public class ResultsUI : MonoBehaviour
         
         totalwordsText.text = "Total Words Seen: " + numberOfWords;
 
-        float wps = numberOfCorrect / duration;
-        wps = Mathf.Round(wps * 100f) / 100f;
-        wpsText.text = "Guesses Per Second: " + wps;
+        float rate = (float) numberOfCorrect / numberOfWords * 100;
+        print(rate);
+        wpsText.text = "Accuracy: " + (int) rate + "%";
 
         penalityText.text = "Number of Penalities: " + penalties;
+    }
+
+    private void UpdateScore(int score, int change)
+    {
+        // Update text values
+        scoreText.text = "Score: " + score + " pts";
     }
 
     private void HideResults()

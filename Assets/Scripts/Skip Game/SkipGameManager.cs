@@ -47,7 +47,7 @@ public class SkipGameManager : MonoBehaviour
 
         // Reset values
         numberOfCorrect = 0;
-        numberOfWords = 0;
+        numberOfWords = -1;
         roundStarted = false;
         penaltyCount = 0;
 
@@ -123,17 +123,14 @@ public class SkipGameManager : MonoBehaviour
 
     public void Correct()
     {
-        // Increment points
-        numberOfCorrect++;
-
         // Play audio
         AudioManager.instance.PlayImm("Correct");
 
-        // Update score
-        score += lobbyData.advancedSettings.pointsOnCorrect;
+        // Increment points
+        numberOfCorrect++;
 
-        // Trigger event
-        SkipGameEvents.instance.TriggerOnScoreChanged(score, lobbyData.advancedSettings.pointsOnCorrect);
+        // Increase score
+        IncreaseScore();
 
         // Update time
         AddTime(lobbyData.advancedSettings.timeOnCorrect);
@@ -174,17 +171,14 @@ public class SkipGameManager : MonoBehaviour
 
     public void Penalty()
     {
+        // Play audio
+        AudioManager.instance.PlayImm("Penalty");
+
         // Incremenet
         penaltyCount++;
 
         // Reduce score
-        score--;
-
-        // Play audio
-        AudioManager.instance.PlayImm("Penalty");
-
-        // Trigger event
-        SkipGameEvents.instance.TriggerOnScoreChanged(score, -1);
+        DecreaseScore();
     }
 
     private void GetNewWord()
@@ -222,6 +216,24 @@ public class SkipGameManager : MonoBehaviour
         SkipGameEvents.instance.TriggerOnEnd(score, numberOfCorrect, numberOfWords, penaltyCount, lobbyData.turnTime, playerData);
     }
 
+    public void IncreaseScore()
+    {
+        // Increase score value
+        score += lobbyData.advancedSettings.pointsOnCorrect;
+
+        // Trigger event
+        SkipGameEvents.instance.TriggerOnScoreChanged(score, lobbyData.advancedSettings.pointsOnCorrect);
+    }
+
+    public void DecreaseScore()
+    {
+        // Reduce score value
+        score -= lobbyData.advancedSettings.pointsOnCorrect;
+
+        // Trigger event
+        SkipGameEvents.instance.TriggerOnScoreChanged(score, -lobbyData.advancedSettings.pointsOnCorrect);
+    }
+
     public void NextRound()
     {
         // Give points to player
@@ -244,7 +256,7 @@ public class SkipGameManager : MonoBehaviour
     {
         // Reset values
         numberOfCorrect = 0;
-        numberOfWords = 0;
+        numberOfWords = -1;
         score = 0;
         roundStarted = false;
         penaltyCount = 0;
