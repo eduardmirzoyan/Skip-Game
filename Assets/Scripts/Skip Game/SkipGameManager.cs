@@ -9,6 +9,7 @@ public class SkipGameManager : MonoBehaviour
     [SerializeField] private Button correctButton;
     [SerializeField] private Button endButton;
     [SerializeField] private Button penalityButton;
+    [SerializeField] private Button skipButton;
 
     [Header("Hotkeys")]
     [SerializeField] private KeyCode correctKey = KeyCode.C;
@@ -69,7 +70,7 @@ public class SkipGameManager : MonoBehaviour
         // Always allow skip
         if (Input.GetKeyDown(skipKey))
         {
-            Skip();
+            skipButton.onClick.Invoke();
         }
 
         if (!roundStarted) return;
@@ -77,15 +78,15 @@ public class SkipGameManager : MonoBehaviour
         // Check for hotkeys
         if (Input.GetKeyDown(correctKey))
         {
-            Correct();
+            correctButton.onClick.Invoke();
         }
         else if (Input.GetKeyDown(penalityKey))
         {
-            Penalty();
+            penalityButton.onClick.Invoke();
         }
         else if (Input.GetKeyDown(endKey))
         {
-            End();
+            endButton.onClick.Invoke();
         }
     }
 
