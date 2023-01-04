@@ -208,7 +208,7 @@ public class LobbyUI : MonoBehaviour
                 gameLength = 20;
                 break;
             default:
-                gameLength = 999;
+                gameLength = -1;
                 break;
         }
     }

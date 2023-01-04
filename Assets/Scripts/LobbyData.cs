@@ -15,7 +15,7 @@ public class LobbyData : ScriptableObject
     public int size { get { return teams.Count; } }
     public int teamIndex;
     public int roundNumber;
-    public int totalRounds;
+    public int totalRounds; // -1 means infinite
     public float turnTime;
     public WordBank wordBank;
     public AdvancedSettings advancedSettings;
@@ -64,7 +64,7 @@ public class LobbyData : ScriptableObject
 
     public bool GameOver()
     {
-        return roundNumber > totalRounds;
+        return totalRounds != -1 && roundNumber > totalRounds;
     }
 
     public void RandomizeIndex()

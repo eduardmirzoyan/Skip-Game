@@ -21,11 +21,21 @@ public class SkipOverlayManager : MonoBehaviour
     {
         yield return new WaitForSeconds(duration);
 
-        // Select team
-        SkipOverlayEvents.instance.TriggerOnSelectTeam(lobbyData.GetIndexedTeam());
+        // Check if game is over
+        if (lobbyData.GameOver())
+        {
+            // Trigger event
+            SkipOverlayEvents.instance.TriggerOnEnd(lobbyData);
 
-        // Select player on that team
-        SkipOverlayEvents.instance.TriggerOnSelectPlayer(lobbyData.GetIndexedTeam().GetIndexedPlayer());
+        }
+        else 
+        {
+            // Select team
+            SkipOverlayEvents.instance.TriggerOnSelectTeam(lobbyData.GetIndexedTeam());
+
+            // Select player on that team
+            SkipOverlayEvents.instance.TriggerOnSelectPlayer(lobbyData.GetIndexedTeam().GetIndexedPlayer());
+        }
 
         // Open scene
         TransitionManager.instance.OpenScene();
@@ -66,6 +76,14 @@ public class SkipOverlayManager : MonoBehaviour
 
         // Select player on that team
         SkipOverlayEvents.instance.TriggerOnSelectPlayer(lobbyData.GetIndexedTeam().GetIndexedPlayer());
+    }
+
+    public void EndGame()
+    {
+        // End the game prematurely
+
+        // Trigger event
+        SkipOverlayEvents.instance.TriggerOnEnd(lobbyData);
     }
 
     public void NewGame()

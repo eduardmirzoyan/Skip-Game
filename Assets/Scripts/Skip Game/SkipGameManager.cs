@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class SkipGameManager : MonoBehaviour
@@ -70,23 +71,27 @@ public class SkipGameManager : MonoBehaviour
         // Always allow skip
         if (Input.GetKeyDown(skipKey))
         {
-            skipButton.onClick.Invoke();
+            // Press corresponding button
+            ExecuteEvents.Execute(skipButton.gameObject, new BaseEventData(null), ExecuteEvents.submitHandler);
         }
 
         if (!roundStarted) return;
 
         // Check for hotkeys
         if (Input.GetKeyDown(correctKey))
-        {
-            correctButton.onClick.Invoke();
+        {   
+            // Press corresponding button
+            ExecuteEvents.Execute(correctButton.gameObject, new BaseEventData(null), ExecuteEvents.submitHandler);
         }
         else if (Input.GetKeyDown(penalityKey))
         {
-            penalityButton.onClick.Invoke();
+            // Press corresponding button
+            ExecuteEvents.Execute(penalityButton.gameObject, new BaseEventData(null), ExecuteEvents.submitHandler);
         }
         else if (Input.GetKeyDown(endKey))
         {
-            endButton.onClick.Invoke();
+            // Press corresponding button
+            ExecuteEvents.Execute(endButton.gameObject, new BaseEventData(null), ExecuteEvents.submitHandler);
         }
     }
 

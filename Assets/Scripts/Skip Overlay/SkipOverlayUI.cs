@@ -72,7 +72,17 @@ public class SkipOverlayUI : MonoBehaviour
         if (teamData != null)
         {
             // Update display
-            roundDisplayText.text = "Round " + teamData.lobbyData.roundNumber + "/" + teamData.lobbyData.totalRounds;
+
+            // If infinite, the display only round #
+            if (teamData.lobbyData.totalRounds == -1)
+            {
+                roundDisplayText.text = "Round " + teamData.lobbyData.roundNumber;
+            }
+            else
+            {
+                roundDisplayText.text = "Round " + teamData.lobbyData.roundNumber + "/" + teamData.lobbyData.totalRounds;
+            }
+
         }
     }
 
@@ -83,6 +93,6 @@ public class SkipOverlayUI : MonoBehaviour
             // Update text
             nextPlayerText.text = "Next Team: " + playerData.teamData.name + "\nNext Player: " + playerData.name;
         }
-        
+
     }
 }
