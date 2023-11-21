@@ -13,10 +13,7 @@ public class SkipGameManager : MonoBehaviour
     [SerializeField] private Button skipButton;
 
     [Header("Hotkeys")]
-    [SerializeField] private KeyCode correctKey = KeyCode.C;
-    [SerializeField] private KeyCode skipKey = KeyCode.S;
-    [SerializeField] private KeyCode penalityKey = KeyCode.D;
-    [SerializeField] private KeyCode endKey = KeyCode.E;
+    [SerializeField] private Keybindings keybindings;
 
     [Header("Data")]
     [SerializeField] private LobbyData lobbyData;
@@ -25,11 +22,9 @@ public class SkipGameManager : MonoBehaviour
     [SerializeField] private WordBank wordBank;
 
     [Header("Stats")]
-    [SerializeField] private int numberOfCorrect;
-    [SerializeField] private int numberOfWords;
-    [SerializeField] private int score;
+    [SerializeField] private TurnData turnData;
+    [SerializeField] private string currentWord;
     [SerializeField] private float remainingTime;
-    [SerializeField] private int penaltyCount;
 
     private bool roundStarted;
 
@@ -48,10 +43,10 @@ public class SkipGameManager : MonoBehaviour
         wordBank = lobbyData.wordBank;
 
         // Reset values
-        numberOfCorrect = 0;
-        numberOfWords = -1;
+        currentWord = "";
         roundStarted = false;
-        penaltyCount = 0;
+        turnData = new TurnData();
+        turnData.Init(playerData);
 
         // Choose a random rule
         var rule = lobbyData.advancedSettings.GetRandomRestriction();
@@ -69,7 +64,7 @@ public class SkipGameManager : MonoBehaviour
     private void Update()
     {
         // Always allow skip
-        if (Input.GetKeyDown(skipKey))
+        if (Input.GetKeyDown(keybindings.skipKey))
         {
             // Press corresponding button
             ExecuteEvents.Execute(skipButton.gameObject, new BaseEventData(null), ExecuteEvents.submitHandler);
@@ -78,17 +73,17 @@ public class SkipGameManager : MonoBehaviour
         if (!roundStarted) return;
 
         // Check for hotkeys
-        if (Input.GetKeyDown(correctKey))
-        {   
+        if (Input.GetKeyDown(keybindings.correctKey))
+        {
             // Press corresponding button
             ExecuteEvents.Execute(correctButton.gameObject, new BaseEventData(null), ExecuteEvents.submitHandler);
         }
-        else if (Input.GetKeyDown(penalityKey))
+        else if (Input.GetKeyDown(keybindings.penalityKey))
         {
             // Press corresponding button
             ExecuteEvents.Execute(penalityButton.gameObject, new BaseEventData(null), ExecuteEvents.submitHandler);
         }
-        else if (Input.GetKeyDown(endKey))
+        else if (Input.GetKeyDown(keybindings.endKey))
         {
             // Press corresponding button
             ExecuteEvents.Execute(endButton.gameObject, new BaseEventData(null), ExecuteEvents.submitHandler);
@@ -133,7 +128,10 @@ public class SkipGameManager : MonoBehaviour
         AudioManager.instance.PlayImm("Correct");
 
         // Increment points
-        numberOfCorrect++;
+        turnData.numCorrect++;
+
+        // Store word
+        turnData.encounteredWords.Add((currentWord, true));
 
         // Increase score
         IncreaseScore();
@@ -163,10 +161,13 @@ public class SkipGameManager : MonoBehaviour
         }
 
         // Update score
-        score += lobbyData.advancedSettings.pointsOnSkip;
+        turnData.score += lobbyData.advancedSettings.pointsOnSkip;
+
+        // Store word
+        turnData.encounteredWords.Add((currentWord, false));
 
         // Trigger event
-        SkipGameEvents.instance.TriggerOnScoreChanged(score, lobbyData.advancedSettings.pointsOnSkip);
+        SkipGameEvents.instance.TriggerOnScoreChanged(turnData.score, lobbyData.advancedSettings.pointsOnSkip);
 
         // Update time
         AddTime(lobbyData.advancedSettings.timeOnSkip);
@@ -181,7 +182,7 @@ public class SkipGameManager : MonoBehaviour
         AudioManager.instance.PlayImm("Penalty");
 
         // Incremenet
-        penaltyCount++;
+        turnData.numPenalties++;
 
         // Reduce score
         DecreaseScore();
@@ -190,15 +191,15 @@ public class SkipGameManager : MonoBehaviour
     private void GetNewWord()
     {
         // Increment
-        numberOfWords++;
+        turnData.numWords++;
 
         // Get a different word based on language
-        string word = wordBank.GetRandomWord(teamData.language);
+        currentWord = wordBank.GetRandomWord(teamData.language);
 
         // Trigger event
-        SkipGameEvents.instance.TriggerOnNewWord(word);
+        SkipGameEvents.instance.TriggerOnNewWord(currentWord);
     }
-    
+
     private void AddTime(float amount)
     {
         // Update time with clamping
@@ -213,38 +214,38 @@ public class SkipGameManager : MonoBehaviour
 
         // Stop audio
         AudioManager.instance.StopImm("Background 4");
-        
+
         // Play audio
         AudioManager.instance.PlayImm("Turn End");
         AudioManager.instance.Play("Background 3");
 
         // Trigger event
-        SkipGameEvents.instance.TriggerOnEnd(score, numberOfCorrect, numberOfWords, penaltyCount, lobbyData.turnTime, playerData);
+        SkipGameEvents.instance.TriggerOnEnd(turnData);
     }
 
     public void IncreaseScore()
     {
         // Increase score value
-        score += lobbyData.advancedSettings.pointsOnCorrect;
+        turnData.score += lobbyData.advancedSettings.pointsOnCorrect;
 
         // Trigger event
-        SkipGameEvents.instance.TriggerOnScoreChanged(score, lobbyData.advancedSettings.pointsOnCorrect);
+        SkipGameEvents.instance.TriggerOnScoreChanged(turnData.score, lobbyData.advancedSettings.pointsOnCorrect);
     }
 
     public void DecreaseScore()
     {
         // Reduce score value
-        score -= lobbyData.advancedSettings.pointsOnCorrect;
+        turnData.score -= lobbyData.advancedSettings.pointsOnCorrect;
 
         // Trigger event
-        SkipGameEvents.instance.TriggerOnScoreChanged(score, -lobbyData.advancedSettings.pointsOnCorrect);
+        SkipGameEvents.instance.TriggerOnScoreChanged(turnData.score, -lobbyData.advancedSettings.pointsOnCorrect);
     }
 
     public void NextRound()
     {
         // Give points to player
-        playerData.score += score;
-        
+        playerData.score += turnData.score;
+
         // Increment this player first
         lobbyData.GetIndexedTeam().IncrementIndex();
 
@@ -261,11 +262,10 @@ public class SkipGameManager : MonoBehaviour
     public void RedoRound()
     {
         // Reset values
-        numberOfCorrect = 0;
-        numberOfWords = -1;
-        score = 0;
         roundStarted = false;
-        penaltyCount = 0;
+
+        turnData = new TurnData();
+        turnData.Init(playerData);
 
         // Disable buttons
         correctButton.interactable = false;
@@ -273,7 +273,7 @@ public class SkipGameManager : MonoBehaviour
         penalityButton.interactable = false;
 
         // Trigger events
-        SkipGameEvents.instance.TriggerOnScoreChanged(score, 0);
+        SkipGameEvents.instance.TriggerOnScoreChanged(turnData.score, 0);
         SkipGameEvents.instance.TriggerOnNewWord("Press SKIP to start");
         SkipGameEvents.instance.TriggerOnSetPlayer(playerData);
         SkipGameEvents.instance.TriggerOnTimeChanged(lobbyData.turnTime, lobbyData.turnTime);

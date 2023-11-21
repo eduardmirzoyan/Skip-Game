@@ -22,7 +22,7 @@ public class SkipGameEvents : MonoBehaviour
     public event Action<string> onNewWord;
     public event Action<int, int> onScoreChanged;
     public event Action<float, float> onTimeChanged;
-    public event Action<int, int, int, int, float, PlayerData> onEnd;
+    public event Action<TurnData> onEnd;
     public event Action onRedo;
     public event Action<ExtraRule> onSetTurnRule;
 
@@ -58,11 +58,11 @@ public class SkipGameEvents : MonoBehaviour
         }
     }
 
-    public void TriggerOnEnd(int score, int numberOfCorrect, int numberOfWords, int penalties, float duration, PlayerData playerData)
+    public void TriggerOnEnd(TurnData turnData)
     {
         if (onEnd != null)
         {
-            onEnd(score, numberOfCorrect, numberOfWords, penalties, duration, playerData);
+            onEnd(turnData);
         }
     }
 

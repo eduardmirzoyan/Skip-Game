@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 public class ResultsUI : MonoBehaviour
 {
@@ -15,7 +15,12 @@ public class ResultsUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI skipsText;
     [SerializeField] private TextMeshProUGUI totalwordsText;
     [SerializeField] private TextMeshProUGUI penalityText;
+    [SerializeField] private TextMeshProUGUI wordsText;
     [SerializeField] private Animator animator;
+
+    [Header("Settings")]
+    [SerializeField] private Color skipColor;
+    [SerializeField] private Color correctColor;
 
     private void Start()
     {
@@ -23,7 +28,6 @@ public class ResultsUI : MonoBehaviour
         SkipGameEvents.instance.onEnd += DisplayResults;
         SkipGameEvents.instance.onRedo += HideResults;
         SkipGameEvents.instance.onScoreChanged += UpdateScore;
-        
     }
 
     private void OnDestroy()
@@ -34,29 +38,41 @@ public class ResultsUI : MonoBehaviour
         SkipGameEvents.instance.onScoreChanged -= UpdateScore;
     }
 
-    private void DisplayResults(int score, int numberOfCorrect, int numberOfWords, int penalties, float duration, PlayerData playerData)
+    private void DisplayResults(TurnData data)
     {
         // Show UI
         animator.Play("Show");
 
         // Set name
-        playerText.text = "Player: " + playerData.name;
+        playerText.text = "Player: " + data.playerData.name;
 
         // Update text values
-        scoreText.text = "Score: " + score + " pts";
+        scoreText.text = "Score: " + data.score + " pts";
 
-        correctText.text = "Number of Guesses: " + numberOfCorrect;
+        correctText.text = "Number of Guesses: " + data.numCorrect;
 
-        int numberOfSkips = numberOfWords - numberOfCorrect;
+        int numberOfSkips = data.numWords - data.numCorrect;
         skipsText.text = "Number of SKIPs: " + numberOfSkips;
-        
-        totalwordsText.text = "Total Words Seen: " + numberOfWords;
 
-        float rate = (float) numberOfCorrect / numberOfWords * 100;
-        print(rate);
-        wpsText.text = "Accuracy: " + (int) rate + "%";
+        totalwordsText.text = "Total Words Seen: " + data.numWords;
 
-        penalityText.text = "Number of Penalities: " + penalties;
+        float rate = (float)data.numCorrect / data.numWords * 100;
+        wpsText.text = "Accuracy: " + (int)rate + "%";
+
+        penalityText.text = "Number of Penalities: " + data.numPenalties;
+
+        string encounteredWords = "";
+        foreach (var pair in data.encounteredWords)
+        {
+            string tag = "";
+            if (pair.Item2)
+                tag = $"<color=#{correctColor.ToHexString()}>[C]</color>";
+            else
+                tag = $"<color=#{skipColor.ToHexString()}>[S]</color>";
+
+            encounteredWords += $"{pair.Item1} {tag} \n";
+        }
+        wordsText.text = encounteredWords;
     }
 
     private void UpdateScore(int score, int change)
