@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using Unity.VisualScripting;
+using UnityEngine.UI;
 
 public class ResultsUI : MonoBehaviour
 {
@@ -15,12 +15,8 @@ public class ResultsUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI skipsText;
     [SerializeField] private TextMeshProUGUI totalwordsText;
     [SerializeField] private TextMeshProUGUI penalityText;
-    [SerializeField] private TextMeshProUGUI wordsText;
+    [SerializeField] private Text wordsText;
     [SerializeField] private Animator animator;
-
-    [Header("Settings")]
-    [SerializeField] private Color skipColor;
-    [SerializeField] private Color correctColor;
 
     private void Start()
     {
@@ -66,9 +62,9 @@ public class ResultsUI : MonoBehaviour
         {
             string tag = "";
             if (pair.Item2)
-                tag = $"<color=#{correctColor.ToHexString()}>[C]</color>";
+                tag = $"[C]";
             else
-                tag = $"<color=#{skipColor.ToHexString()}>[S]</color>";
+                tag = $"[S]";
 
             encounteredWords += $"{pair.Item1} {tag} \n";
         }

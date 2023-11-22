@@ -1,19 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 using System.Linq;
 
 public class SkipOverlayEndUI : MonoBehaviour
 {
     [Header("Components")]
-    [SerializeField] private CanvasGroup canvasGroup;
-    [SerializeField] private TextMeshProUGUI winnerText;
     [SerializeField] private TextMeshProUGUI teamsText;
     [SerializeField] private TextMeshProUGUI playersText;
-    [SerializeField] private Animator animator;
     [SerializeField] private Animator windowAnimator;
+    [SerializeField] private ParticleSystem fireworkParticles;
+
+    [Header("Pedastal")]
+    [SerializeField] private TextMeshProUGUI[] placedTeamNames;
+    [SerializeField] private TextMeshProUGUI[] placedTeamScores;
+
+    [Header("Settings")]
+    [SerializeField] private int maxTeamsDisplay = 10;
+    [SerializeField] private int maxPlayersDisplay = 10;
 
     private void Start()
     {
@@ -29,17 +34,14 @@ public class SkipOverlayEndUI : MonoBehaviour
 
     private void DisplayResults(LobbyData lobbyData)
     {
+        // Play sound
+        AudioManager.instance.PlayImm("FanFare");
+
         // Show UI
         windowAnimator.Play("Show");
 
-        // Enable animation
-        animator.Play("Win");
-
         // Get team with highest score
         var orderedTeams = lobbyData.teams.OrderByDescending(team => team.GetScore());
-
-        // Update winner
-        winnerText.text = "Team " + orderedTeams.First().name + " wins!";
 
         // Get a list of all players
         var players = new List<PlayerData>();
@@ -50,14 +52,22 @@ public class SkipOverlayEndUI : MonoBehaviour
         foreach (var team in orderedTeams)
         {
             // Skip past 10
-            if (count > 10) continue;
+            if (count > maxTeamsDisplay) continue;
 
             // Update list
             result += count + ". " + team.name + " -- " + team.GetScore() + " pts\n";
-            count++;
+
+            // Update pedastals
+            if (count - 1 < placedTeamNames.Length)
+            {
+                placedTeamNames[count - 1].text = team.name;
+                placedTeamScores[count - 1].text = "" + team.GetScore();
+            }
 
             // Add players
             players.AddRange(team.players);
+
+            count++;
         }
         teamsText.text = result;
 
@@ -70,11 +80,14 @@ public class SkipOverlayEndUI : MonoBehaviour
         foreach (var player in orderedPlayers)
         {
             // Skip past 10
-            if (count > 10) continue;
+            if (count > maxPlayersDisplay) continue;
 
             result += count + ". " + player.name + " -- " + player.score + " pts\n";
             count++;
         }
         playersText.text = result;
+
+        // Play vfx
+        fireworkParticles.Play();
     }
 }

@@ -12,7 +12,7 @@ public class TextTooltipUI : MonoBehaviour
     [SerializeField] private RectTransform rectTransform;
     [SerializeField] private TextMeshProUGUI descriptionText;
     [SerializeField] private LayoutElement layoutElement;
-    
+
 
     [Header("Data")]
     [SerializeField] private int characterWrapLimit;
@@ -36,7 +36,8 @@ public class TextTooltipUI : MonoBehaviour
         FollowMouse();
 
         Resize();
-        if (Application.isEditor) {
+        if (Application.isEditor)
+        {
             Resize();
         }
     }
@@ -59,13 +60,15 @@ public class TextTooltipUI : MonoBehaviour
         canvasGroup.alpha = 0f;
     }
 
-    private void Resize() {
+    private void Resize()
+    {
         int descriptionLength = descriptionText.text.Length;
 
-        layoutElement.enabled = (descriptionLength > characterWrapLimit);
+        layoutElement.enabled = descriptionLength > characterWrapLimit;
     }
 
-    private void FollowMouse() {
+    private void FollowMouse()
+    {
         // Update position
         Vector2 position = Input.mousePosition;
         Vector2 adjustedPosition = Camera.main.ScreenToWorldPoint(position);
@@ -74,7 +77,8 @@ public class TextTooltipUI : MonoBehaviour
         UpdatePivot(position);
     }
 
-    private void UpdatePivot(Vector2 mousePosition) {
+    private void UpdatePivot(Vector2 mousePosition)
+    {
         var width = rectTransform.rect.width;
         var height = rectTransform.rect.height;
 

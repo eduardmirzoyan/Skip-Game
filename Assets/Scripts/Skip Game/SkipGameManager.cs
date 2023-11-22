@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using TMPro;
 
 public class SkipGameManager : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField] private Button correctButton;
+    [SerializeField] private TextMeshProUGUI correctHotkey;
     [SerializeField] private Button endButton;
+    [SerializeField] private TextMeshProUGUI endHotkey;
     [SerializeField] private Button penalityButton;
+    [SerializeField] private TextMeshProUGUI penHotkey;
     [SerializeField] private Button skipButton;
+    [SerializeField] private TextMeshProUGUI skipHotkey;
 
     [Header("Hotkeys")]
     [SerializeField] private Keybindings keybindings;
@@ -51,6 +56,8 @@ public class SkipGameManager : MonoBehaviour
         // Choose a random rule
         var rule = lobbyData.advancedSettings.GetRandomRestriction();
 
+        SetupHotkeys();
+
         // Trigger events
         SkipGameEvents.instance.TriggerOnNewWord("Press SKIP to start");
         SkipGameEvents.instance.TriggerSetTurnRule(rule);
@@ -87,6 +94,58 @@ public class SkipGameManager : MonoBehaviour
         {
             // Press corresponding button
             ExecuteEvents.Execute(endButton.gameObject, new BaseEventData(null), ExecuteEvents.submitHandler);
+        }
+    }
+
+    private void SetupHotkeys()
+    {
+        int keycodeID = PlayerPrefs.GetInt(KeyType.Correct.ToString(), -1);
+        if (keycodeID == -1)
+        {
+            keybindings.correctKey = KeyCode.None;
+            correctHotkey.text = "";
+        }
+        else
+        {
+            keybindings.correctKey = (KeyCode)keycodeID;
+            correctHotkey.text = $"[{keybindings.correctKey}]";
+        }
+
+        keycodeID = PlayerPrefs.GetInt(KeyType.Skip.ToString(), -1);
+        if (keycodeID == -1)
+        {
+            keybindings.skipKey = KeyCode.None;
+            skipHotkey.text = "";
+        }
+        else
+        {
+            keybindings.skipKey = (KeyCode)keycodeID;
+            skipHotkey.text = $"[{keybindings.skipKey}]";
+        }
+
+
+        keycodeID = PlayerPrefs.GetInt(KeyType.Penalty.ToString(), -1);
+        if (keycodeID == -1)
+        {
+            keybindings.penalityKey = KeyCode.None;
+            penHotkey.text = "";
+        }
+        else
+        {
+            keybindings.penalityKey = (KeyCode)keycodeID;
+            penHotkey.text = $"[{keybindings.penalityKey}]";
+        }
+
+        keycodeID = PlayerPrefs.GetInt(KeyType.End.ToString(), -1);
+        if (keycodeID == -1)
+        {
+            keybindings.endKey = KeyCode.None;
+            endHotkey.text = "";
+        }
+        else
+        {
+            keybindings.endKey = (KeyCode)keycodeID;
+            endHotkey.text = $"[{keybindings.endKey}]";
         }
     }
 
