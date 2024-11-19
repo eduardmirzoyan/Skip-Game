@@ -12,7 +12,7 @@ public class TurnData
 
     public List<(string, bool)> encounteredWords; // bool - guessed?
 
-    public void Init(PlayerData playerData)
+    public void Initialize(PlayerData playerData)
     {
         this.playerData = playerData;
 

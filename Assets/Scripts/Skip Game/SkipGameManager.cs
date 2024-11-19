@@ -51,7 +51,7 @@ public class SkipGameManager : MonoBehaviour
         currentWord = "";
         roundStarted = false;
         turnData = new TurnData();
-        turnData.Init(playerData);
+        turnData.Initialize(playerData);
 
         // Choose a random rule
         var rule = lobbyData.advancedSettings.GetRandomRestriction();
@@ -268,6 +268,9 @@ public class SkipGameManager : MonoBehaviour
 
     public void End()
     {
+        // Add word
+        turnData.encounteredWords.Add((currentWord, false));
+
         // Stop timer
         StopAllCoroutines();
 
@@ -324,7 +327,7 @@ public class SkipGameManager : MonoBehaviour
         roundStarted = false;
 
         turnData = new TurnData();
-        turnData.Init(playerData);
+        turnData.Initialize(playerData);
 
         // Disable buttons
         correctButton.interactable = false;

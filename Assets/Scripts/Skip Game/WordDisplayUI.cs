@@ -12,13 +12,13 @@ public class WordDisplayUI : MonoBehaviour
     private void Start()
     {
         // Sub to events
-        SkipGameEvents.instance.onNewWord += ShowWordNormal;
+        SkipGameEvents.instance.OnNewWord += ShowWordNormal;
     }
 
     private void OnDestroy()
     {
         // Unsub to events
-        SkipGameEvents.instance.onNewWord -= ShowWordNormal;
+        SkipGameEvents.instance.OnNewWord -= ShowWordNormal;
     }
 
     private void ShowWord(string word)
@@ -30,7 +30,7 @@ public class WordDisplayUI : MonoBehaviour
         float size = PlayerPrefs.GetFloat("Size", 108f);
         // Set size
         wordText.fontSizeMax = size;
-        
+
         // Change text
         wordText.text = word;
     }
@@ -43,7 +43,7 @@ public class WordDisplayUI : MonoBehaviour
         // Get float size if exists
         float size = PlayerPrefs.GetFloat("Size", 108f);
         // Set size
-        normalWordText.fontSize = (int) size;
+        normalWordText.fontSize = (int)size;
 
         // Change text
         normalWordText.text = word;

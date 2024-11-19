@@ -44,7 +44,7 @@ public class SkipOverlayUI : MonoBehaviour
     public void CreateTeamsAroundPoint(LobbyData lobbyData, Vector3 point, float xRadius, float yRadius)
     {
         // Loop through each team
-        int num = lobbyData.size;
+        int num = lobbyData.Size;
         for (int i = 0; i < num; i++)
         {
             /* Distance around the circle */
@@ -76,11 +76,11 @@ public class SkipOverlayUI : MonoBehaviour
             // If infinite, the display only round #
             if (teamData.lobbyData.totalRounds == -1)
             {
-                roundDisplayText.text = "Round " + teamData.lobbyData.roundNumber;
+                roundDisplayText.text = $"Round {teamData.lobbyData.roundNumber}";
             }
             else
             {
-                roundDisplayText.text = "Round " + teamData.lobbyData.roundNumber + "/" + teamData.lobbyData.totalRounds;
+                roundDisplayText.text = $"Round {teamData.lobbyData.roundNumber}/{teamData.lobbyData.totalRounds}";
             }
 
         }
@@ -91,7 +91,7 @@ public class SkipOverlayUI : MonoBehaviour
         if (playerData != null)
         {
             // Update text
-            nextPlayerText.text = "Next Team: " + playerData.teamData.name + "\nNext Player: " + playerData.name;
+            nextPlayerText.text = $"Next Team: {playerData.teamData.name}\nNext Player: {playerData.name}";
         }
 
     }

@@ -25,33 +25,21 @@ public class SkipOverlayEvents : MonoBehaviour
 
     public void TriggerOnEnterOverlay(LobbyData lobbyData)
     {
-        if (onEnterOverlay != null)
-        {
-            onEnterOverlay(lobbyData);
-        }
+        onEnterOverlay?.Invoke(lobbyData);
     }
 
     public void TriggerOnSelectTeam(TeamData teamData)
     {
-        if (onSelectTeam != null)
-        {
-            onSelectTeam(teamData);
-        }
+        onSelectTeam?.Invoke(teamData);
     }
 
     public void TriggerOnSelectPlayer(PlayerData playerData)
     {
-        if (onSelectPlayer != null)
-        {
-            onSelectPlayer(playerData);
-        }
+        onSelectPlayer?.Invoke(playerData);
     }
 
     public void TriggerOnEnd(LobbyData lobbyData)
     {
-        if (onEnd != null)
-        {
-            onEnd(lobbyData);
-        }
+        onEnd?.Invoke(lobbyData);
     }
 }

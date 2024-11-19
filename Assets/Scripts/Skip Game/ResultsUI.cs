@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class ResultsUI : MonoBehaviour
 {
     [Header("Components")]
-    [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private TextMeshProUGUI playerText;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI correctText;
@@ -21,17 +20,17 @@ public class ResultsUI : MonoBehaviour
     private void Start()
     {
         // Sub
-        SkipGameEvents.instance.onEnd += DisplayResults;
-        SkipGameEvents.instance.onRedo += HideResults;
-        SkipGameEvents.instance.onScoreChanged += UpdateScore;
+        SkipGameEvents.instance.OnEnd += DisplayResults;
+        SkipGameEvents.instance.OnRedo += HideResults;
+        SkipGameEvents.instance.OnScoreChanged += UpdateScore;
     }
 
     private void OnDestroy()
     {
         // Sub
-        SkipGameEvents.instance.onEnd -= DisplayResults;
-        SkipGameEvents.instance.onRedo -= HideResults;
-        SkipGameEvents.instance.onScoreChanged -= UpdateScore;
+        SkipGameEvents.instance.OnEnd -= DisplayResults;
+        SkipGameEvents.instance.OnRedo -= HideResults;
+        SkipGameEvents.instance.OnScoreChanged -= UpdateScore;
     }
 
     private void DisplayResults(TurnData data)

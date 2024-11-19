@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 
 [CreateAssetMenu]
@@ -25,8 +24,8 @@ public class WordBank : ScriptableObject
 
     private void ReadCSV(TextAsset textAsset)
     {
-        // Load Asset
-        textAsset = Resources.Load<TextAsset>("Word Bank");
+        if (textAsset == null)
+            throw new System.Exception("No word bank text asset found.");
 
         var lines = textAsset.ToString().Split('\n');
         bool skip = true;
@@ -50,7 +49,7 @@ public class WordBank : ScriptableObject
             frenchDict.Add(words[0], words[3]);
         }
 
-        Debug.Log(englishWords.Count);
+        Debug.Log($"Word Bank Size: {englishWords.Count}");
     }
 
     public string GetRandomWord(Language language)
@@ -61,7 +60,7 @@ public class WordBank : ScriptableObject
         // Get english word
         string englishWord = englishWords[index];
 
-        string translatedWord = "";
+        string translatedWord;
         // Translate if needed
         switch (language)
         {
@@ -74,7 +73,7 @@ public class WordBank : ScriptableObject
                 // Search dict
                 translatedWord = armenianDict[englishWord];
                 russianDict.Remove(englishWord);
-            break;
+                break;
             case Language.French:
                 // Search dict
                 translatedWord = frenchDict[englishWord];

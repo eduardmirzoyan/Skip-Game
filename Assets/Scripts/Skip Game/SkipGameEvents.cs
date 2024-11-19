@@ -9,7 +9,7 @@ public class SkipGameEvents : MonoBehaviour
     private void Awake()
     {
         // Singleton Logic
-        if (SkipGameEvents.instance != null)
+        if (instance != null)
         {
             Destroy(gameObject);
             return;
@@ -18,67 +18,46 @@ public class SkipGameEvents : MonoBehaviour
         instance = this;
     }
 
-    public event Action<PlayerData> onSetPlayer;
-    public event Action<string> onNewWord;
-    public event Action<int, int> onScoreChanged;
-    public event Action<float, float> onTimeChanged;
-    public event Action<TurnData> onEnd;
-    public event Action onRedo;
-    public event Action<ExtraRule> onSetTurnRule;
+    public event Action<PlayerData> OnSetPlayer;
+    public event Action<string> OnNewWord;
+    public event Action<int, int> OnScoreChanged;
+    public event Action<float, float> OnTimeChanged;
+    public event Action<TurnData> OnEnd;
+    public event Action OnRedo;
+    public event Action<ExtraRule> OnSetTurnRule;
 
     public void TriggerOnSetPlayer(PlayerData playerData)
     {
-        if (onSetPlayer != null)
-        {
-            onSetPlayer(playerData);
-        }
+        OnSetPlayer?.Invoke(playerData);
     }
 
     public void TriggerOnNewWord(string word)
     {
-        if (onNewWord != null)
-        {
-            onNewWord(word);
-        }
+        OnNewWord?.Invoke(word);
     }
 
     public void TriggerOnScoreChanged(int points, int change)
     {
-        if (onScoreChanged != null)
-        {
-            onScoreChanged(points, change);
-        }
+        OnScoreChanged?.Invoke(points, change);
     }
 
     public void TriggerOnTimeChanged(float elapsed, float duration)
     {
-        if (onTimeChanged != null)
-        {
-            onTimeChanged(elapsed, duration);
-        }
+        OnTimeChanged?.Invoke(elapsed, duration);
     }
 
     public void TriggerOnEnd(TurnData turnData)
     {
-        if (onEnd != null)
-        {
-            onEnd(turnData);
-        }
+        OnEnd?.Invoke(turnData);
     }
 
     public void TriggerOnRedo()
     {
-        if (onRedo != null)
-        {
-            onRedo();
-        }
+        OnRedo?.Invoke();
     }
 
     public void TriggerSetTurnRule(ExtraRule rule)
     {
-        if (onSetTurnRule != null)
-        {
-            onSetTurnRule(rule);
-        }
+        OnSetTurnRule?.Invoke(rule);
     }
 }

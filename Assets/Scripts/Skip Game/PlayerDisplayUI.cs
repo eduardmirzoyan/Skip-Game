@@ -12,13 +12,13 @@ public class PlayerDisplayUI : MonoBehaviour
     private void Start()
     {
         // Sub
-        SkipGameEvents.instance.onSetPlayer += DisplayPlayer;
+        SkipGameEvents.instance.OnSetPlayer += DisplayPlayer;
     }
 
     private void OnDestroy()
     {
         // Sub
-        SkipGameEvents.instance.onSetPlayer -= DisplayPlayer;
+        SkipGameEvents.instance.OnSetPlayer -= DisplayPlayer;
     }
 
     private void DisplayPlayer(PlayerData playerData)

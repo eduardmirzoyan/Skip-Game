@@ -9,7 +9,7 @@ public class MainMenuManager : MonoBehaviour
     private void Awake()
     {
         // Singleton Logic
-        if (MainMenuManager.instance != null)
+        if (instance != null)
         {
             Destroy(gameObject);
             return;
@@ -19,7 +19,7 @@ public class MainMenuManager : MonoBehaviour
     }
 
     private void Start()
-    {   
+    {
         // Open scene
         TransitionManager.instance.OpenScene();
     }
@@ -28,6 +28,9 @@ public class MainMenuManager : MonoBehaviour
     {
         // Debug
         print("Start Game");
+
+        // DEBUG
+        //Test();
 
         // Load next scene
         TransitionManager.instance.LoadNextScene();
@@ -56,5 +59,4 @@ public class MainMenuManager : MonoBehaviour
         // Close application
         Application.Quit();
     }
-
 }

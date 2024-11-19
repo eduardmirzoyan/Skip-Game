@@ -9,39 +9,63 @@ using UnityEngine;
 [CreateAssetMenu]
 public class LobbyData : ScriptableObject
 {
-    public new string name;
     public List<TeamData> teams;
     public int maxSize;
-    public int size { get { return teams.Count; } }
     public int teamIndex;
     public int roundNumber;
     public int totalRounds; // -1 means infinite
     public float turnTime;
     public WordBank wordBank;
     public AdvancedSettings advancedSettings;
+    public bool randomTeams;
+    public bool randomPlayers;
 
-    public void Initialize(string name, int maxSize, TextAsset textAsset)
+    public int Size
     {
-        this.name = name;
+        get
+        {
+            return teams.Count;
+        }
+    }
+
+    public void Initialize(int maxSize, TextAsset textAsset)
+    {
         this.maxSize = maxSize;
-        
+
         teams = new List<TeamData>(maxSize);
         teamIndex = 0;
 
-        this.totalRounds = 5;
-        this.roundNumber = 1;
-        this.turnTime = 30f;
+        totalRounds = 5;
+        roundNumber = 1;
+        turnTime = 30f;
+        randomTeams = true;
+        randomPlayers = false;
 
-        wordBank = ScriptableObject.CreateInstance<WordBank>();
+        wordBank = CreateInstance<WordBank>();
         wordBank.Initialize(textAsset);
 
-        advancedSettings = ScriptableObject.CreateInstance<AdvancedSettings>();
+        advancedSettings = CreateInstance<AdvancedSettings>();
         advancedSettings.Initialize();
+    }
+
+    public void AddTeam(TeamData teamData)
+    {
+        teams.Add(teamData);
+    }
+
+    public void RemoveTeam(TeamData teamData)
+    {
+        teams.Remove(teamData);
+    }
+
+    public void RandomizeTeams()
+    {
+        teams.Sort((team1, team2) => Random.value.CompareTo(Random.value));
     }
 
     public bool IsFull()
     {
-        return size >= maxSize;
+        return Size >= maxSize;
     }
 
     public TeamData GetIndexedTeam()
@@ -52,7 +76,7 @@ public class LobbyData : ScriptableObject
     public void IncrementIndex()
     {
         teamIndex++;
-        if (teamIndex >= size)
+        if (teamIndex >= Size)
         {
             // Increment round
             roundNumber++;
@@ -69,8 +93,8 @@ public class LobbyData : ScriptableObject
 
     public void RandomizeIndex()
     {
-        // Set index to a random number between 0 and max size
-        teamIndex = Random.Range(0, size);
+        // Set index to a random number between 0 and current size
+        teamIndex = Random.Range(0, Size);
     }
 
     public void ResetIndex()

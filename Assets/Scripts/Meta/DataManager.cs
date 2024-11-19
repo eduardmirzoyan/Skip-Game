@@ -10,7 +10,7 @@ public class DataManager : MonoBehaviour
     private void Awake()
     {
         // Singleton Logic
-        if (DataManager.instance != null)
+        if (instance != null)
         {
             Destroy(gameObject);
             return;

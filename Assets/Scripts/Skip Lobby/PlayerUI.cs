@@ -14,18 +14,18 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private PlayerData playerData;
     [SerializeField] private float scaleTime = 0.1f;
 
-    private void Start()
+    private void Awake()
     {
         // Sub to events
-        LobbyEvents.instance.onRemovePlayer += RemovePlayer;
-        LobbyEvents.instance.onAddPlayer += AddPlayer;
+        LobbyEvents.instance.OnRemovePlayer += RemovePlayer;
+        LobbyEvents.instance.OnAddPlayer += AddPlayer;
     }
 
     private void OnDestroy()
     {
         // Unsub to events
-        LobbyEvents.instance.onRemovePlayer -= RemovePlayer;
-        LobbyEvents.instance.onAddPlayer -= AddPlayer;
+        LobbyEvents.instance.OnRemovePlayer -= RemovePlayer;
+        LobbyEvents.instance.OnAddPlayer -= AddPlayer;
     }
 
     public void Initialize(PlayerData playerData)
@@ -34,7 +34,7 @@ public class PlayerUI : MonoBehaviour
         nameInput.text = playerData.name;
 
         // Check to see if it's this team and only 1 left
-        if (playerData.teamData.size > 1)
+        if (playerData.teamData.Size > 1)
         {
             // Enable
             removePlayerButton.SetActive(true);
@@ -55,7 +55,7 @@ public class PlayerUI : MonoBehaviour
         if (teamData == null || playerData == null) return;
 
         // Remove player
-        teamData.players.Remove(playerData);
+        teamData.RemovePlayer(playerData);
 
         // Trigger event
         LobbyEvents.instance.TriggerRemovePlayer(playerData, teamData);
@@ -72,7 +72,7 @@ public class PlayerUI : MonoBehaviour
         if (this.playerData != playerData)
         {
             // Check to see if it's this team and only 1 left
-            if (this.playerData.teamData == teamData && teamData.size > 1)
+            if (this.playerData.teamData == teamData && teamData.Size > 1)
             {
                 // Prevent deleting
                 removePlayerButton.SetActive(true);
@@ -84,10 +84,10 @@ public class PlayerUI : MonoBehaviour
 
     private void RemovePlayer(PlayerData playerData, TeamData teamData)
     {
-        if (this.playerData != playerData) 
+        if (this.playerData != playerData)
         {
             // Check to see if it's this team and only 1 left
-            if (this.playerData.teamData == teamData && teamData.size <= 1)
+            if (this.playerData.teamData == teamData && teamData.Size <= 1)
             {
                 // Prevent deleting
                 removePlayerButton.SetActive(false);

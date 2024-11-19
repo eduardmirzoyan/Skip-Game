@@ -12,7 +12,7 @@ public class TimerBarUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI pointsText;
     [SerializeField] private GameObject popupTextPrefab;
     [SerializeField] private TextMeshProUGUI turnRuleText;
-    
+
     [Header("Data")]
     [SerializeField] private Color startColor;
     [SerializeField] private Color endColor;
@@ -23,21 +23,21 @@ public class TimerBarUI : MonoBehaviour
     private void Start()
     {
         // Sub
-        SkipGameEvents.instance.onTimeChanged += UpdateBar;
-        SkipGameEvents.instance.onScoreChanged += UpdateScore;
-        SkipGameEvents.instance.onSetTurnRule += UpdateTurnRule;
+        SkipGameEvents.instance.OnTimeChanged += UpdateBar;
+        SkipGameEvents.instance.OnScoreChanged += UpdateScore;
+        SkipGameEvents.instance.OnSetTurnRule += UpdateTurnRule;
     }
 
     private void OnDestroy()
     {
         // Sub
-        SkipGameEvents.instance.onTimeChanged -= UpdateBar;
-        SkipGameEvents.instance.onScoreChanged -= UpdateScore;
-        SkipGameEvents.instance.onSetTurnRule -= UpdateTurnRule;
+        SkipGameEvents.instance.OnTimeChanged -= UpdateBar;
+        SkipGameEvents.instance.OnScoreChanged -= UpdateScore;
+        SkipGameEvents.instance.OnSetTurnRule -= UpdateTurnRule;
     }
 
     private void UpdateBar(float remaining, float duration)
-    {  
+    {
         // Goes from 0 -> 1
         float ratio = remaining / duration;
 
@@ -50,7 +50,7 @@ public class TimerBarUI : MonoBehaviour
         int rem = (int)remaining;
         // Change numerical display
         numericalText.text = "" + rem;
-        
+
     }
 
     private void UpdateScore(int score, int change)
@@ -74,11 +74,12 @@ public class TimerBarUI : MonoBehaviour
             // Decrease
             popup.Initialize("-" + -change + " pt", skipColor);
         }
-        else {
+        else
+        {
             // Don't show
             popup.Initialize("", Color.clear);
         }
-        
+
     }
 
     private void UpdateTurnRule(ExtraRule rule)
@@ -86,7 +87,7 @@ public class TimerBarUI : MonoBehaviour
         // Set text
         if (rule != null)
             turnRuleText.text = rule.name + ": " + rule.description;
-        else 
+        else
             turnRuleText.text = "";
     }
 }

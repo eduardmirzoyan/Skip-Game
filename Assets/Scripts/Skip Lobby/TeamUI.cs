@@ -20,27 +20,23 @@ public class TeamUI : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] private float scaleTime = 0.1f;
-    
 
-    private void Start()
+    private void Awake()
     {
         // Sub to events
-        LobbyEvents.instance.onAddPlayer += AddPlayers;
-        LobbyEvents.instance.onRemovePlayer += RemovePlayer;
-        LobbyEvents.instance.onRemoveTeam += RemoveTeam;
-        LobbyEvents.instance.onAddTeam += AddTeam;
-
-        // Add a player
-        AddPlayerButton();
+        LobbyEvents.instance.OnAddPlayer += AddPlayers;
+        LobbyEvents.instance.OnRemovePlayer += RemovePlayer;
+        LobbyEvents.instance.OnRemoveTeam += RemoveTeam;
+        LobbyEvents.instance.OnAddTeam += AddTeam;
     }
 
     private void OnDestroy()
     {
         // Unsub to events
-        LobbyEvents.instance.onAddPlayer -= AddPlayers;
-        LobbyEvents.instance.onRemovePlayer -= RemovePlayer;
-        LobbyEvents.instance.onRemoveTeam -= RemoveTeam;
-        LobbyEvents.instance.onAddTeam -= AddTeam;
+        LobbyEvents.instance.OnAddPlayer -= AddPlayers;
+        LobbyEvents.instance.OnRemovePlayer -= RemovePlayer;
+        LobbyEvents.instance.OnRemoveTeam -= RemoveTeam;
+        LobbyEvents.instance.OnAddTeam -= AddTeam;
     }
 
     public void Initialize(TeamData teamData)
@@ -49,7 +45,7 @@ public class TeamUI : MonoBehaviour
         nameInput.text = teamData.name;
 
         // Check to see if it's this team and only 1 left
-        if (teamData.lobbyData.size > 1)
+        if (teamData.lobbyData.Size > 1)
         {
             // Prevent deleting
             removeTeamButton.SetActive(true);
@@ -64,6 +60,9 @@ public class TeamUI : MonoBehaviour
             dropdown.options.Add(option);
         }
 
+        // Select option based on language
+        dropdown.value = (int)teamData.language;
+
         // Grow in
         StartCoroutine(GrowIn(scaleTime));
     }
@@ -75,14 +74,14 @@ public class TeamUI : MonoBehaviour
         // Controller -> Logic
 
         // Make sure team isn't full
-        if (teamData.size >= teamData.maxSize) return;
+        if (teamData.Size >= teamData.maxSize) return;
 
         // Create a new player
         var playerData = ScriptableObject.CreateInstance<PlayerData>();
-        playerData.Initialize("Player " + (teamData.size + 1), teamData);
+        playerData.Initialize($"Player {teamData.Size + 1}", teamData);
 
         // Add to team
-        teamData.players.Add(playerData);
+        teamData.AddPlayer(playerData);
 
         // Logic -> Visuals
         // Trigger event for visuals
@@ -92,15 +91,13 @@ public class TeamUI : MonoBehaviour
     public void RemoveTeamButton()
     {
         // Controller -> Logic
-        // LobbyManager.instance.RemoveTeam(teamData, teamData.lobbyData);
-
         var lobbyData = teamData.lobbyData;
 
         // Error check
         if (teamData == null || lobbyData == null) return;
 
         // Remove team
-        lobbyData.teams.Remove(teamData);
+        lobbyData.RemoveTeam(teamData);
 
         // Trigger event
         LobbyEvents.instance.TriggerRemoveTeam(teamData, lobbyData);
@@ -112,10 +109,10 @@ public class TeamUI : MonoBehaviour
         teamData.name = newName;
     }
 
-    public void ChangeLanguage(int languageIndex) 
+    public void ChangeLanguage(int languageIndex)
     {
         // Change language
-        teamData.language = (Language) languageIndex;
+        teamData.language = (Language)languageIndex;
     }
 
     # endregion
@@ -146,7 +143,7 @@ public class TeamUI : MonoBehaviour
         if (this.teamData != teamData)
         {
             // Check to see if it's this team and only 1 left
-            if (lobbyData.size > 1)
+            if (lobbyData.Size > 1)
             {
                 // Prevent deleting
                 removeTeamButton.SetActive(true);
@@ -158,9 +155,10 @@ public class TeamUI : MonoBehaviour
 
     private void RemoveTeam(TeamData teamData, LobbyData lobbyData)
     {
-        if (this.teamData != teamData) {
+        if (this.teamData != teamData)
+        {
             // Check to see if it's this team and only 1 left
-            if (lobbyData.size <= 1)
+            if (lobbyData.Size <= 1)
             {
                 // Prevent deleting
                 removeTeamButton.SetActive(false);

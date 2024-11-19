@@ -10,18 +10,18 @@ public enum Language { English, Russian, Armenian, French }
 public class TeamData : ScriptableObject
 {
     public new string name;
-    public List<PlayerData> players; /// Members of the team
+    public List<PlayerData> players;
     public int maxSize;
     public LobbyData lobbyData;
-    public int size { get { return players.Count; } }
     public Language language;
     public int playerIndex;
+    public int Size { get { return players.Count; } }
 
-    public void Initialize(string name, int maxSize, LobbyData lobbyData = null)
+    public void Initialize(string name, int maxSize, Language language, LobbyData lobbyData)
     {
         this.name = name;
         this.maxSize = maxSize;
-        this.language = Language.English;
+        this.language = language;
 
         players = new List<PlayerData>(maxSize);
         playerIndex = 0;
@@ -29,14 +29,24 @@ public class TeamData : ScriptableObject
         this.lobbyData = lobbyData;
     }
 
+    public void AddPlayer(PlayerData playerData)
+    {
+        players.Add(playerData);
+    }
+
+    public bool RemovePlayer(PlayerData playerData)
+    {
+        return players.Remove(playerData);
+    }
+
     public int GetScore()
     {
         return players.Sum(player => player.score);
     }
 
-    public bool IsFull() 
+    public bool IsFull()
     {
-        return size >= maxSize;
+        return Size >= maxSize;
     }
 
     public PlayerData GetIndexedPlayer()
@@ -47,20 +57,14 @@ public class TeamData : ScriptableObject
     public void IncrementIndex()
     {
         playerIndex++;
-        if (playerIndex >= size)
+        if (playerIndex >= Size)
         {
             playerIndex = 0;
         }
     }
 
-    public void RandomizeIndex()
+    public void RandomizePlayers()
     {
-        // Set index to a random number between 0 and max size
-        playerIndex = Random.Range(0, size);
-    }
-
-    public void ResetIndex()
-    {
-        playerIndex = 0;
+        players.Sort((player1, player2) => Random.value.CompareTo(Random.value));
     }
 }

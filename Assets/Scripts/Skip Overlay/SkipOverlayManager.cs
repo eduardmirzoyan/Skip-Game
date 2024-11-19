@@ -6,7 +6,7 @@ public class SkipOverlayManager : MonoBehaviour
 {
     [SerializeField] private LobbyData lobbyData;
 
-    private void Start() 
+    private void Start()
     {
         // Get saved data
         lobbyData = DataManager.instance.LoadData();
@@ -28,7 +28,7 @@ public class SkipOverlayManager : MonoBehaviour
             SkipOverlayEvents.instance.TriggerOnEnd(lobbyData);
 
         }
-        else 
+        else
         {
             // Select team
             SkipOverlayEvents.instance.TriggerOnSelectTeam(lobbyData.GetIndexedTeam());
@@ -89,7 +89,7 @@ public class SkipOverlayManager : MonoBehaviour
     public void NewGame()
     {
         // Clear lobby
-        DataManager.instance.SaveData(null);
+        DataManager.instance.SaveData(lobbyData);
 
         // Change scnes
         TransitionManager.instance.LoadPreviousScene();

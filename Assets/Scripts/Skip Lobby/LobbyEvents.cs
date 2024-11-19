@@ -9,7 +9,7 @@ public class LobbyEvents : MonoBehaviour
     private void Awake()
     {
         // Singleton Logic
-        if (LobbyEvents.instance != null)
+        if (instance != null)
         {
             Destroy(gameObject);
             return;
@@ -18,40 +18,28 @@ public class LobbyEvents : MonoBehaviour
         instance = this;
     }
 
-    public event Action<TeamData, LobbyData> onAddTeam;
-    public event Action<TeamData, LobbyData> onRemoveTeam;
-    public event Action<PlayerData, TeamData> onAddPlayer;
-    public event Action<PlayerData, TeamData> onRemovePlayer;
+    public event Action<TeamData, LobbyData> OnAddTeam;
+    public event Action<TeamData, LobbyData> OnRemoveTeam;
+    public event Action<PlayerData, TeamData> OnAddPlayer;
+    public event Action<PlayerData, TeamData> OnRemovePlayer;
 
     public void TriggerAddTeam(TeamData teamData, LobbyData lobbyData)
     {
-        if (onAddTeam != null)
-        {
-            onAddTeam(teamData, lobbyData);
-        }
+        OnAddTeam?.Invoke(teamData, lobbyData);
     }
 
     public void TriggerAddPlayer(PlayerData playerData, TeamData teamData)
     {
-        if (onAddPlayer != null)
-        {
-            onAddPlayer(playerData, teamData);
-        }
+        OnAddPlayer?.Invoke(playerData, teamData);
     }
 
     public void TriggerRemoveTeam(TeamData teamData, LobbyData lobbyData)
     {
-        if (onRemoveTeam != null)
-        {
-            onRemoveTeam(teamData, lobbyData);
-        }
+        OnRemoveTeam?.Invoke(teamData, lobbyData);
     }
 
     public void TriggerRemovePlayer(PlayerData playerData, TeamData teamData)
     {
-        if (onRemovePlayer != null)
-        {
-            onRemovePlayer(playerData, teamData);
-        }
+        OnRemovePlayer?.Invoke(playerData, teamData);
     }
 }
