@@ -94,7 +94,7 @@ public class SettingsManager : MonoBehaviour
         audioMixer.SetFloat("MasterVolume", volume);
 
         // Debug
-        Debug.Log("Master volume set to: " + volume);
+        //Debug.Log("Master volume set to: " + volume);
     }
 
     public void SetMusicVolume(float volume)
@@ -103,7 +103,7 @@ public class SettingsManager : MonoBehaviour
         audioMixer.SetFloat("MusicVolume", volume);
 
         // Debug
-        Debug.Log("Music volume set to: " + volume);
+        //Debug.Log("Music volume set to: " + volume);
     }
 
     public void SetSFXVolume(float volume)
@@ -112,7 +112,7 @@ public class SettingsManager : MonoBehaviour
         audioMixer.SetFloat("SFXVolume", volume);
 
         // Debug
-        Debug.Log("SFX volume set to: " + volume);
+        //Debug.Log("SFX volume set to: " + volume);
     }
 
     public void SetQuality(int qualityIndex)
@@ -122,7 +122,7 @@ public class SettingsManager : MonoBehaviour
         QualitySettings.SetQualityLevel(qualityIndex);
 
         // Debug
-        Debug.Log("Quality set to: " + qualityIndex);
+        //Debug.Log("Quality set to: " + qualityIndex);
     }
 
     public void SetResolution(int resolutionIndex)
@@ -134,7 +134,7 @@ public class SettingsManager : MonoBehaviour
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
 
         // Debug
-        Debug.Log("Resolution set to: " + resolution.width + " x " + resolution.height);
+        //Debug.Log("Resolution set to: " + resolution.width + " x " + resolution.height);
     }
 
     public void SetFullscreen(bool isFullscreen)
@@ -143,18 +143,18 @@ public class SettingsManager : MonoBehaviour
         Screen.fullScreen = isFullscreen;
 
         // Debug
-        Debug.Log("Fullscreen set to: " + isFullscreen.ToString());
+        //Debug.Log("Fullscreen set to: " + isFullscreen.ToString());
     }
 
     public void SetTextSize(float size)
     {
         // Set size
-        PlayerPrefs.SetFloat("Size", size);
+        //PlayerPrefs.SetFloat("Size", size);
 
         // Set text
-        fontSizeText.text = "Word Size: " + (int) size;
+        fontSizeText.text = "Word Size: " + (int)size;
 
         // Debug
-        Debug.Log("Text Size set to: " + size);
+        //Debug.Log("Text Size set to: " + size);
     }
 }

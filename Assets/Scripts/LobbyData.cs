@@ -32,20 +32,34 @@ public class LobbyData : ScriptableObject
     {
         this.maxSize = maxSize;
 
+        // Ongoing game settings
         teams = new List<TeamData>(maxSize);
         teamIndex = 0;
-
-        totalRounds = 5;
         roundNumber = 1;
-        turnTime = 30f;
-        randomTeams = true;
-        randomPlayers = false;
 
+        // Create word bank
         wordBank = CreateInstance<WordBank>();
         wordBank.Initialize(textAsset);
 
+        // Basic Settings
+        totalRounds = 5;
+        turnTime = 30f;
+        randomTeams = false;
+        randomPlayers = false;
+
+        // Advanced settings
         advancedSettings = CreateInstance<AdvancedSettings>();
         advancedSettings.Initialize();
+    }
+
+    public void Reset()
+    {
+        teamIndex = 0;
+        roundNumber = 1;
+        foreach (var team in teams)
+        {
+            team.Reset();
+        }
     }
 
     public void AddTeam(TeamData teamData)
@@ -89,16 +103,5 @@ public class LobbyData : ScriptableObject
     public bool GameOver()
     {
         return totalRounds != -1 && roundNumber > totalRounds;
-    }
-
-    public void RandomizeIndex()
-    {
-        // Set index to a random number between 0 and current size
-        teamIndex = Random.Range(0, Size);
-    }
-
-    public void ResetIndex()
-    {
-        teamIndex = 0;
     }
 }

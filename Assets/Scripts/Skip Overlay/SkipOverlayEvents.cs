@@ -9,7 +9,7 @@ public class SkipOverlayEvents : MonoBehaviour
     private void Awake()
     {
         // Singleton Logic
-        if (SkipOverlayEvents.instance != null)
+        if (instance != null)
         {
             Destroy(gameObject);
             return;
@@ -18,28 +18,34 @@ public class SkipOverlayEvents : MonoBehaviour
         instance = this;
     }
 
-    public event Action<LobbyData> onEnterOverlay;
-    public event Action<TeamData> onSelectTeam;
-    public event Action<PlayerData> onSelectPlayer;
-    public event Action<LobbyData> onEnd;
+    public event Action<LobbyData> OnEnterOverlay;
+    public event Action<TeamData> OnSelectTeam;
+    public event Action<PlayerData> OnSelectPlayer;
+    public event Action<TeamData> OnSelectLanguage;
+    public event Action<LobbyData> OnEnd;
 
     public void TriggerOnEnterOverlay(LobbyData lobbyData)
     {
-        onEnterOverlay?.Invoke(lobbyData);
+        OnEnterOverlay?.Invoke(lobbyData);
     }
 
     public void TriggerOnSelectTeam(TeamData teamData)
     {
-        onSelectTeam?.Invoke(teamData);
+        OnSelectTeam?.Invoke(teamData);
     }
 
     public void TriggerOnSelectPlayer(PlayerData playerData)
     {
-        onSelectPlayer?.Invoke(playerData);
+        OnSelectPlayer?.Invoke(playerData);
+    }
+
+    public void TriggerOnSelectLanguage(TeamData teamData)
+    {
+        OnSelectLanguage?.Invoke(teamData);
     }
 
     public void TriggerOnEnd(LobbyData lobbyData)
     {
-        onEnd?.Invoke(lobbyData);
+        OnEnd?.Invoke(lobbyData);
     }
 }

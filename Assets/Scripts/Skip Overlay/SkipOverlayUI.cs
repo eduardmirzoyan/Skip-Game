@@ -19,17 +19,17 @@ public class SkipOverlayUI : MonoBehaviour
     private void Start()
     {
         // Sub
-        SkipOverlayEvents.instance.onEnterOverlay += DisplayTeams;
-        SkipOverlayEvents.instance.onSelectTeam += SelectTeam;
-        SkipOverlayEvents.instance.onSelectPlayer += SelectPlayer;
+        SkipOverlayEvents.instance.OnEnterOverlay += DisplayTeams;
+        SkipOverlayEvents.instance.OnSelectTeam += SelectTeam;
+        SkipOverlayEvents.instance.OnSelectPlayer += SelectPlayer;
     }
 
     private void OnDestroy()
     {
         // Unsub
-        SkipOverlayEvents.instance.onEnterOverlay -= DisplayTeams;
-        SkipOverlayEvents.instance.onSelectTeam -= SelectTeam;
-        SkipOverlayEvents.instance.onSelectPlayer -= SelectPlayer;
+        SkipOverlayEvents.instance.OnEnterOverlay -= DisplayTeams;
+        SkipOverlayEvents.instance.OnSelectTeam -= SelectTeam;
+        SkipOverlayEvents.instance.OnSelectPlayer -= SelectPlayer;
     }
 
     private void DisplayTeams(LobbyData lobbyData)

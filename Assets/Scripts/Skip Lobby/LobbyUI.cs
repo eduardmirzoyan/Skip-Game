@@ -16,6 +16,8 @@ public class LobbyUI : MonoBehaviour
     [SerializeField] private AdvancedSettingsUI advancedSettingsUI;
     [SerializeField] private Toggle randomTeamsToggle;
     [SerializeField] private Toggle randomPlayersToggle;
+    [SerializeField] private TMP_Dropdown totalRoundsDropdown;
+    [SerializeField] private TMP_Dropdown turnTimeDropdown;
 
     [Header("Data")]
     [SerializeField] private GameObject teamPrefab;
@@ -25,10 +27,6 @@ public class LobbyUI : MonoBehaviour
     [SerializeField] private int lobbySize = 9;
     [SerializeField] private int teamSize = 5;
     [SerializeField] private Language defaultLanguage = Language.English;
-    [SerializeField] private int gameLength = 5;
-    [SerializeField] private float turnTime = 30f;
-    [SerializeField] private bool randomTeams;
-    [SerializeField] private bool randomPlayers;
 
     const string WORD_BANK = "Word Bank";
 
@@ -37,6 +35,8 @@ public class LobbyUI : MonoBehaviour
         // Sub to events
         LobbyEvents.instance.OnAddTeam += AddTeam;
         LobbyEvents.instance.OnRemoveTeam += RemoveTeam;
+
+        InitializeDropdowns();
     }
 
     private void Start()
@@ -85,12 +85,31 @@ public class LobbyUI : MonoBehaviour
         LobbyEvents.instance.OnRemoveTeam -= RemoveTeam;
     }
 
-    public void InitializeSettings(LobbyData lobbyData)
+    private void InitializeSettings(LobbyData lobbyData)
     {
-        // TODO
-        // Init game length settings
+        // Initialize game length
+        totalRoundsDropdown.value = lobbyData.totalRounds switch
+        {
+            1 => 0,
+            3 => 1,
+            5 => 2,
+            10 => 3,
+            20 => 4,
+            _ => 5,
+        };
 
-        // Init toggles
+        turnTimeDropdown.value = lobbyData.turnTime switch
+        {
+            10f => 0,
+            20f => 1,
+            30f => 2,
+            45f => 3,
+            60f => 4,
+            90f => 5,
+            _ => 6,
+        };
+
+        // Initialize randomization
         randomTeamsToggle.isOn = lobbyData.randomTeams;
         randomPlayersToggle.isOn = lobbyData.randomPlayers;
 
@@ -98,7 +117,7 @@ public class LobbyUI : MonoBehaviour
         advancedSettingsUI.Initialize(lobbyData.advancedSettings);
     }
 
-    public void InitializeVisuals(LobbyData lobbyData)
+    private void InitializeVisuals(LobbyData lobbyData)
     {
         foreach (var teamData in lobbyData.teams)
         {
@@ -111,7 +130,7 @@ public class LobbyUI : MonoBehaviour
         }
     }
 
-    public void AddTeamButton()
+    public void AddNewTeamButton()
     {
         // Controller -> Logic
 
@@ -125,11 +144,20 @@ public class LobbyUI : MonoBehaviour
         // Add team
         lobbyData.AddTeam(teamData);
 
-        // Update UI
-        teamCountText.text = $"({lobbyData.Size}/{lobbyData.maxSize})";
-
         // Trigger event for visuals (Logic -> Visuals)
         LobbyEvents.instance.TriggerAddTeam(teamData, lobbyData);
+
+        // ============================================================== //
+
+        // Create a new player
+        var playerData = ScriptableObject.CreateInstance<PlayerData>();
+        playerData.Initialize($"Player {teamData.Size + 1}", teamData);
+
+        // Add to team
+        teamData.AddPlayer(playerData);
+
+        // Trigger event
+        LobbyEvents.instance.TriggerAddPlayer(playerData, teamData);
     }
 
     private void AddTeam(TeamData teamData, LobbyData lobbyData)
@@ -149,6 +177,9 @@ public class LobbyUI : MonoBehaviour
             // Hide button
             addTeamButton.SetActive(false);
         }
+
+        // Update UI
+        teamCountText.text = $"({lobbyData.Size}/{lobbyData.maxSize})";
     }
 
     private void RemoveTeam(TeamData teamData, LobbyData lobbyData)
@@ -172,15 +203,15 @@ public class LobbyUI : MonoBehaviour
         // Controller -> Logic
 
         // Alter order
-        lobbyData.randomTeams = randomTeams;
-        if (randomTeams)
+        lobbyData.randomTeams = randomTeamsToggle.isOn;
+        if (lobbyData.randomTeams)
         {
             // Randomize list
             lobbyData.RandomizeTeams();
         }
 
-        lobbyData.randomPlayers = randomPlayers;
-        if (randomPlayers)
+        lobbyData.randomPlayers = randomPlayersToggle.isOn;
+        if (lobbyData.randomPlayers)
         {
             // Loop through each team
             foreach (var teamData in lobbyData.teams)
@@ -191,10 +222,27 @@ public class LobbyUI : MonoBehaviour
         }
 
         // Set game duration
-        lobbyData.totalRounds = gameLength;
+        lobbyData.totalRounds = totalRoundsDropdown.value switch
+        {
+            0 => 1,
+            1 => 3,
+            2 => 5,
+            3 => 10,
+            4 => 20,
+            _ => -1,
+        };
 
         // Set round time
-        lobbyData.turnTime = turnTime;
+        lobbyData.turnTime = turnTimeDropdown.value switch
+        {
+            0 => 10f,
+            1 => 20f,
+            2 => 30f,
+            3 => 45f,
+            4 => 60f,
+            5 => 90f,
+            _ => 120f,
+        };
 
         // Save data
         DataManager.instance.SaveData(lobbyData);
@@ -212,41 +260,32 @@ public class LobbyUI : MonoBehaviour
         TransitionManager.instance.LoadMainMenuScene();
     }
 
-    public void SetRoundTime(int value)
-    {
-        turnTime = value switch
-        {
-            0 => 10f,
-            1 => 20f,
-            2 => 30f,
-            3 => 45f,
-            4 => 60f,
-            5 => 90,
-            _ => 120f,
-        };
-    }
+    #endregion
 
-    public void SetGameLength(int value)
-    {
-        gameLength = value switch
-        {
-            0 => 1,
-            1 => 3,
-            2 => 5,
-            3 => 10,
-            4 => 20,
-            _ => -1,
-        };
-    }
+    #region Helpers
 
-    public void SetTeamOrder(bool state)
+    private void InitializeDropdowns()
     {
-        randomTeams = state;
-    }
+        // Total rounds
+        totalRoundsDropdown.options.Clear();
+        totalRoundsDropdown.options.Add(new TMP_Dropdown.OptionData("1 Round"));
+        totalRoundsDropdown.options.Add(new TMP_Dropdown.OptionData("3 Rounds"));
+        totalRoundsDropdown.options.Add(new TMP_Dropdown.OptionData("5 Rounds"));
+        totalRoundsDropdown.options.Add(new TMP_Dropdown.OptionData("10 Rounds"));
+        totalRoundsDropdown.options.Add(new TMP_Dropdown.OptionData("20 Rounds"));
+        totalRoundsDropdown.options.Add(new TMP_Dropdown.OptionData("Infinite"));
+        totalRoundsDropdown.RefreshShownValue();
 
-    public void SetPlayerOrder(bool state)
-    {
-        randomPlayers = state;
+        // Turn time
+        turnTimeDropdown.options.Clear();
+        turnTimeDropdown.options.Add(new TMP_Dropdown.OptionData("10 Seconds"));
+        turnTimeDropdown.options.Add(new TMP_Dropdown.OptionData("20 Seconds"));
+        turnTimeDropdown.options.Add(new TMP_Dropdown.OptionData("30 Seconds"));
+        turnTimeDropdown.options.Add(new TMP_Dropdown.OptionData("45 Seconds"));
+        turnTimeDropdown.options.Add(new TMP_Dropdown.OptionData("60 Seconds"));
+        turnTimeDropdown.options.Add(new TMP_Dropdown.OptionData("90 Seconds"));
+        turnTimeDropdown.options.Add(new TMP_Dropdown.OptionData("120 Seconds"));
+        turnTimeDropdown.RefreshShownValue();
     }
 
     #endregion

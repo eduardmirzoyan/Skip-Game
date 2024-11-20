@@ -14,8 +14,14 @@ public class PlayerData : ScriptableObject
     public void Initialize(string name, TeamData teamData = null)
     {
         this.name = name;
-        score = 0;
         this.teamData = teamData;
+        score = 0;
+        numTurns = 0;
+    }
+
+    public void Reset()
+    {
+        score = 0;
         numTurns = 0;
     }
 
@@ -29,7 +35,7 @@ public class PlayerData : ScriptableObject
     {
         // If player hasn't gotten a turn, return their score
         if (numTurns == 0) return score;
-        
+
         // Calculate average
         float average = score / numTurns;
 

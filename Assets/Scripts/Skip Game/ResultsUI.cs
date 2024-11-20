@@ -39,22 +39,22 @@ public class ResultsUI : MonoBehaviour
         animator.Play("Show");
 
         // Set name
-        playerText.text = "Player: " + data.playerData.name;
+        playerText.text = $"Player: {data.playerData.name}";
 
         // Update text values
-        scoreText.text = "Score: " + data.score + " pts";
+        scoreText.text = $"Score: {data.score} pts";
 
-        correctText.text = "Number of Guesses: " + data.numCorrect;
+        correctText.text = $"Number of Guesses: {data.numCorrect}";
 
         int numberOfSkips = data.numWords - data.numCorrect;
-        skipsText.text = "Number of SKIPs: " + numberOfSkips;
+        skipsText.text = $"Number of SKIPs: {numberOfSkips}";
 
-        totalwordsText.text = "Total Words Seen: " + data.numWords;
+        totalwordsText.text = $"Total Words Seen: {data.numWords}";
 
         float rate = (float)data.numCorrect / data.numWords * 100;
-        wpsText.text = "Accuracy: " + (int)rate + "%";
+        wpsText.text = $"Accuracy: {(int)rate}%";
 
-        penalityText.text = "Number of Penalities: " + data.numPenalties;
+        penalityText.text = $"Number of Penalities: {data.numPenalties}";
 
         string encounteredWords = "";
         foreach (var pair in data.encounteredWords)
@@ -65,7 +65,7 @@ public class ResultsUI : MonoBehaviour
             else
                 tag = $"[S]";
 
-            encounteredWords += $"{pair.Item1} {tag} \n";
+            encounteredWords += $"{pair.Item1} {tag}\n";
         }
         wordsText.text = encounteredWords;
     }
@@ -73,7 +73,7 @@ public class ResultsUI : MonoBehaviour
     private void UpdateScore(int score, int change)
     {
         // Update text values
-        scoreText.text = "Score: " + score + " pts";
+        scoreText.text = $"Score: {score} pts";
     }
 
     private void HideResults()

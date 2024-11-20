@@ -6,6 +6,8 @@ public class SkipOverlayManager : MonoBehaviour
 {
     [SerializeField] private LobbyData lobbyData;
 
+    const float WAIT_TIME = 0.1f;
+
     private void Start()
     {
         // Get saved data
@@ -14,7 +16,7 @@ public class SkipOverlayManager : MonoBehaviour
         // Trigger event
         SkipOverlayEvents.instance.TriggerOnEnterOverlay(lobbyData);
 
-        StartCoroutine(Wait(0.1f));
+        StartCoroutine(Wait(WAIT_TIME));
     }
 
     private IEnumerator Wait(float duration)
@@ -55,11 +57,13 @@ public class SkipOverlayManager : MonoBehaviour
         // Change team index
         lobbyData.IncrementIndex();
 
+        var team = lobbyData.GetIndexedTeam();
+
         // Select team
-        SkipOverlayEvents.instance.TriggerOnSelectTeam(lobbyData.GetIndexedTeam());
+        SkipOverlayEvents.instance.TriggerOnSelectTeam(team);
 
         // Select player on that team
-        SkipOverlayEvents.instance.TriggerOnSelectPlayer(lobbyData.GetIndexedTeam().GetIndexedPlayer());
+        SkipOverlayEvents.instance.TriggerOnSelectPlayer(team.GetIndexedPlayer());
 
         // Check if game is over
         if (lobbyData.GameOver())
@@ -71,11 +75,24 @@ public class SkipOverlayManager : MonoBehaviour
 
     public void SkipPlayer()
     {
-        // Change player index
-        lobbyData.GetIndexedTeam().IncrementIndex();
+        var team = lobbyData.GetIndexedTeam();
 
-        // Select player on that team
-        SkipOverlayEvents.instance.TriggerOnSelectPlayer(lobbyData.GetIndexedTeam().GetIndexedPlayer());
+        // Change player index
+        team.IncrementIndex();
+
+        // Trigger event
+        SkipOverlayEvents.instance.TriggerOnSelectPlayer(team.GetIndexedPlayer());
+    }
+
+    public void SkipLanguage()
+    {
+        var team = lobbyData.GetIndexedTeam();
+
+        // Change to next language
+        team.IncrementLanguage();
+
+        // Trigger event
+        SkipOverlayEvents.instance.TriggerOnSelectLanguage(team);
     }
 
     public void EndGame()
@@ -89,6 +106,9 @@ public class SkipOverlayManager : MonoBehaviour
     public void NewGame()
     {
         // Clear lobby
+        lobbyData.Reset();
+
+        // Save
         DataManager.instance.SaveData(lobbyData);
 
         // Change scnes

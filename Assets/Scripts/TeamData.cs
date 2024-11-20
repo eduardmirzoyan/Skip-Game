@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 public enum Language { English, Russian, Armenian, French }
 
@@ -27,6 +28,14 @@ public class TeamData : ScriptableObject
         playerIndex = 0;
 
         this.lobbyData = lobbyData;
+    }
+
+    public void Reset()
+    {
+        foreach (var player in players)
+        {
+            player.Reset();
+        }
     }
 
     public void AddPlayer(PlayerData playerData)
@@ -63,8 +72,19 @@ public class TeamData : ScriptableObject
         }
     }
 
+    public void IncrementLanguage()
+    {
+        int size = Enum.GetNames(typeof(Language)).Length;
+
+        language++;
+        if ((int)language >= size)
+        {
+            language = 0;
+        }
+    }
+
     public void RandomizePlayers()
     {
-        players.Sort((player1, player2) => Random.value.CompareTo(Random.value));
+        players.Sort((player1, player2) => UnityEngine.Random.value.CompareTo(UnityEngine.Random.value));
     }
 }

@@ -20,19 +20,19 @@ public class SkipPlayerUI : MonoBehaviour
     private void Start()
     {
         // Sub to events
-        SkipOverlayEvents.instance.onSelectPlayer += SelectPlayer;
+        SkipOverlayEvents.instance.OnSelectPlayer += SelectPlayer;
     }
 
     private void OnDestroy()
     {
         // Unsub to events
-        SkipOverlayEvents.instance.onSelectPlayer -= SelectPlayer; ;
+        SkipOverlayEvents.instance.OnSelectPlayer -= SelectPlayer; ;
     }
 
     public void Initialize(PlayerData playerData)
     {
         this.playerData = playerData;
-        nameText.text = playerData.name + " -- " + playerData.score + " pts";
+        nameText.text = $"{playerData.name} -- {playerData.score} pts";
     }
 
     private void SelectPlayer(PlayerData playerData)

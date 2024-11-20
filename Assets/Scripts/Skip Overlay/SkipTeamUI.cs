@@ -19,22 +19,24 @@ public class SkipTeamUI : MonoBehaviour
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private TeamData teamData;
 
-    private void Start()
+    private void Awake()
     {
         // Sub to events
-        SkipOverlayEvents.instance.onSelectTeam += SelectTeam;
+        SkipOverlayEvents.instance.OnSelectTeam += SelectTeam;
+        SkipOverlayEvents.instance.OnSelectLanguage += SelectLanguage;
     }
 
     private void OnDestroy()
     {
         // Unsub to events
-        SkipOverlayEvents.instance.onSelectTeam -= SelectTeam;
+        SkipOverlayEvents.instance.OnSelectTeam -= SelectTeam;
+        SkipOverlayEvents.instance.OnSelectLanguage -= SelectLanguage;
     }
 
     public void Initialize(TeamData teamData)
     {
         this.teamData = teamData;
-        nameText.text = teamData.name + " -- " + teamData.GetScore() + " pts"; ;
+        nameText.text = $"{teamData.name} -- {teamData.GetScore()} pts";
         languageText.text = teamData.language.ToString();
 
         foreach (var playerData in teamData.players)
@@ -59,5 +61,12 @@ public class SkipTeamUI : MonoBehaviour
             outline.enabled = false;
             animator.Play("Idle");
         }
+    }
+
+    private void SelectLanguage(TeamData teamData)
+    {
+        if (this.teamData != teamData) return;
+
+        languageText.text = teamData.language.ToString();
     }
 }

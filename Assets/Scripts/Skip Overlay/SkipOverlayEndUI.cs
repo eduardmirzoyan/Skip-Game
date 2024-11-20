@@ -23,13 +23,13 @@ public class SkipOverlayEndUI : MonoBehaviour
     private void Start()
     {
         // Sub
-        SkipOverlayEvents.instance.onEnd += DisplayResults;
+        SkipOverlayEvents.instance.OnEnd += DisplayResults;
     }
 
     private void OnDestroy()
     {
         // Unsub
-        SkipOverlayEvents.instance.onEnd -= DisplayResults;
+        SkipOverlayEvents.instance.OnEnd -= DisplayResults;
     }
 
     private void DisplayResults(LobbyData lobbyData)
