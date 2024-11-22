@@ -10,7 +10,7 @@ public class SkipOverlayEndUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI teamsText;
     [SerializeField] private TextMeshProUGUI playersText;
     [SerializeField] private Animator windowAnimator;
-    [SerializeField] private ParticleSystem fireworkParticles;
+    [SerializeField] private ParticleSystem[] fireworkParticlesList;
 
     [Header("Pedastal")]
     [SerializeField] private TextMeshProUGUI[] placedTeamNames;
@@ -88,6 +88,7 @@ public class SkipOverlayEndUI : MonoBehaviour
         playersText.text = result;
 
         // Play vfx
-        fireworkParticles.Play();
+        foreach (var p in fireworkParticlesList)
+            p.Play();
     }
 }

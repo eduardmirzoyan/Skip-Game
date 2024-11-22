@@ -12,6 +12,9 @@ public class SettingsManager : MonoBehaviour
     [SerializeField] private TMP_Dropdown resolutionsDropdown;
     [SerializeField] private TextMeshProUGUI fontSizeText;
 
+    [Header("Settings")]
+    [SerializeField] private KeyCode toggleKey = KeyCode.Tab;
+
     private Resolution[] resolutions;
     private bool isOpen;
 
@@ -61,7 +64,7 @@ public class SettingsManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && isOpen)
+        if (Input.GetKeyDown(toggleKey) && isOpen)
         {
             // Close settings
             Close();

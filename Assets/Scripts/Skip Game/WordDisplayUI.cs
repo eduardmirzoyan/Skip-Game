@@ -9,16 +9,19 @@ public class WordDisplayUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI wordText;
     [SerializeField] private Text normalWordText;
 
+    const string SIZE_PREF = "Size";
+    const float DEFAULT_SIZE = 108f;
+
     private void Start()
     {
         // Sub to events
-        SkipGameEvents.instance.OnNewWord += ShowWordNormal;
+        SkipGameEvents.instance.OnNewWord += ShowWord;
     }
 
     private void OnDestroy()
     {
         // Unsub to events
-        SkipGameEvents.instance.OnNewWord -= ShowWordNormal;
+        SkipGameEvents.instance.OnNewWord -= ShowWord;
     }
 
     private void ShowWord(string word)
@@ -27,7 +30,7 @@ public class WordDisplayUI : MonoBehaviour
         wordText.color = Color.black;
 
         // Get float size if exists
-        float size = PlayerPrefs.GetFloat("Size", 108f);
+        float size = PlayerPrefs.GetFloat(SIZE_PREF, DEFAULT_SIZE);
         // Set size
         wordText.fontSizeMax = size;
 
@@ -41,7 +44,7 @@ public class WordDisplayUI : MonoBehaviour
         normalWordText.color = Color.black;
 
         // Get float size if exists
-        float size = PlayerPrefs.GetFloat("Size", 108f);
+        float size = PlayerPrefs.GetFloat(SIZE_PREF, DEFAULT_SIZE);
         // Set size
         normalWordText.fontSize = (int)size;
 

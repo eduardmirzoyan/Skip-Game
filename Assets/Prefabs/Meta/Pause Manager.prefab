@@ -825,7 +825,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasGroup: {fileID: 5977348181268878414}
-  pauseKey: 27
+  pauseKey: 9
   isPaused: 0
 --- !u!1 &5977348180759525349
 GameObject:

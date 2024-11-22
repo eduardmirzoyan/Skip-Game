@@ -14,7 +14,7 @@ public class ResultsUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI skipsText;
     [SerializeField] private TextMeshProUGUI totalwordsText;
     [SerializeField] private TextMeshProUGUI penalityText;
-    [SerializeField] private Text wordsText;
+    [SerializeField] private TextMeshProUGUI wordsText;
     [SerializeField] private Animator animator;
 
     private void Start()
@@ -60,7 +60,7 @@ public class ResultsUI : MonoBehaviour
         foreach (var pair in data.encounteredWords)
         {
             string tag = "";
-            if (pair.Item2)
+            if (pair.Item2) // If guessed correctly
                 tag = $"[C]";
             else
                 tag = $"[S]";

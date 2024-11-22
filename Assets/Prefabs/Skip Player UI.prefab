@@ -90,7 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 1, g: 0, b: 0, a: 1}
+  m_EffectColor: {r: 0.8, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 3, y: 3}
   m_UseGraphicAlpha: 1
 --- !u!114 &6425082191111411968
@@ -164,7 +164,7 @@ MonoBehaviour:
   selectShadow: {fileID: 6425082191111411968}
   selectOutline: {fileID: 8745903884502022801}
   defaultColor: {r: 0.96862745, g: 0.96862745, b: 0.96862745, a: 1}
-  selectColor: {r: 0.8901961, g: 0.7372549, b: 0.70980394, a: 1}
+  selectColor: {r: 0.8, g: 0.4, b: 0.4, a: 1}
   playerData: {fileID: 0}
 --- !u!1 &1762096852451626109
 GameObject:

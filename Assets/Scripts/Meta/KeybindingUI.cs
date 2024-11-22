@@ -13,6 +13,7 @@ public class KeybindingUI : MonoBehaviour
 
     [Header("Setting")]
     [SerializeField] private KeyType keyType;
+    [SerializeField] private KeyCode cancelKey = KeyCode.Escape;
 
     [Header("Debug")]
     [SerializeField] private bool awaitingInput;
@@ -40,7 +41,7 @@ public class KeybindingUI : MonoBehaviour
             {
                 if (Input.GetKey(keyCode))
                 {
-                    if (keyCode == KeyCode.Escape)
+                    if (keyCode == cancelKey)
                     {
                         ResetToSavedValue();
 
@@ -66,7 +67,7 @@ public class KeybindingUI : MonoBehaviour
     public void ChangeKey()
     {
         buttonLabel.color = Color.red;
-        buttonLabel.text = "Press ANY key.";
+        buttonLabel.text = "Press ANY key";
 
         awaitingInput = true;
     }
