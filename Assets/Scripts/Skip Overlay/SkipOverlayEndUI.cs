@@ -16,10 +16,6 @@ public class SkipOverlayEndUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI[] placedTeamNames;
     [SerializeField] private TextMeshProUGUI[] placedTeamScores;
 
-    [Header("Settings")]
-    [SerializeField] private int maxTeamsDisplay = 10;
-    [SerializeField] private int maxPlayersDisplay = 10;
-
     private void Start()
     {
         // Sub
@@ -40,55 +36,91 @@ public class SkipOverlayEndUI : MonoBehaviour
         // Show UI
         windowAnimator.Play("Show");
 
+        // Update UI
+        DisplayTeams(lobbyData);
+        DisplayPlayers(lobbyData);
+
+        // Play vfx
+        foreach (var p in fireworkParticlesList)
+            p.Play();
+    }
+
+    private void DisplayTeams(LobbyData lobbyData)
+    {
         // Get team with highest score
         var orderedTeams = lobbyData.teams.OrderByDescending(team => team.GetScore());
 
-        // Get a list of all players
-        var players = new List<PlayerData>();
+        // Get team placements
+        Dictionary<int, int> placementTable = new(); // Score - Placement
+        int placement = 1;
+        foreach (var team in orderedTeams)
+        {
+            int score = team.GetScore();
+
+            // If we have placed this team, then stop
+            if (placementTable.ContainsKey(score))
+                continue;
+
+            placementTable.Add(score, placement);
+            placement++;
+        }
 
         string result = "";
         int count = 1;
         // Update team leaderboard
         foreach (var team in orderedTeams)
         {
-            // Skip past 10
-            if (count > maxTeamsDisplay) continue;
+            int score = team.GetScore();
+            int place = placementTable[score];
 
             // Update list
-            result += count + ". " + team.name + " -- " + team.GetScore() + " pts\n";
+            result += $"{place}. {team.name} -- {score} pts\n";
 
             // Update pedastals
             if (count - 1 < placedTeamNames.Length)
             {
                 placedTeamNames[count - 1].text = team.name;
-                placedTeamScores[count - 1].text = "" + team.GetScore();
+                placedTeamScores[count - 1].text = $"{score}";
+                count++;
             }
-
-            // Add players
-            players.AddRange(team.players);
-
-            count++;
         }
         teamsText.text = result;
+    }
+
+    private void DisplayPlayers(LobbyData lobbyData)
+    {
+        // Get all players from lobby
+        List<PlayerData> players = new();
+        foreach (var team in lobbyData.teams)
+            players.AddRange(team.players);
 
         // Sort players
         var orderedPlayers = players.OrderByDescending(player => player.score);
 
-        // Update player leaderboard
-        result = "";
-        count = 1;
+        // Get team placements
+        Dictionary<int, int> placementTable = new(); // Score - Placement
+        int placement = 1;
         foreach (var player in orderedPlayers)
         {
-            // Skip past 10
-            if (count > maxPlayersDisplay) continue;
+            int score = player.score;
 
-            result += count + ". " + player.name + " -- " + player.score + " pts\n";
-            count++;
+            // If we have placed this team, then stop
+            if (placementTable.ContainsKey(score))
+                continue;
+
+            placementTable.Add(score, placement);
+            placement++;
+        }
+
+        // Update player leaderboard
+        string result = "";
+        foreach (var player in orderedPlayers)
+        {
+            int score = player.score;
+            int place = placementTable[score];
+
+            result += $"{place}. {player.name} -- {score} pts\n";
         }
         playersText.text = result;
-
-        // Play vfx
-        foreach (var p in fireworkParticlesList)
-            p.Play();
     }
 }

@@ -32,6 +32,7 @@ public class TeamData : ScriptableObject
 
     public void Reset()
     {
+        playerIndex = 0;
         foreach (var player in players)
         {
             player.Reset();
