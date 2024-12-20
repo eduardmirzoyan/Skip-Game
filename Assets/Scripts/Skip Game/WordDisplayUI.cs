@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
 
 public class WordDisplayUI : MonoBehaviour
 {
+    [Header("Components")]
     [SerializeField] private TextMeshProUGUI wordText;
-    [SerializeField] private Text normalWordText;
+
+    [Header("Fonts")]
+    [SerializeField] private TMP_FontAsset defaultFont;
+    [SerializeField] private TMP_FontAsset armenianFont;
 
     const string SIZE_PREF = "Size";
     const float DEFAULT_SIZE = 108f;
@@ -15,13 +18,24 @@ public class WordDisplayUI : MonoBehaviour
     private void Start()
     {
         // Sub to events
+        SkipGameEvents.instance.OnSetPlayer += SetFont;
         SkipGameEvents.instance.OnNewWord += ShowWord;
     }
 
     private void OnDestroy()
     {
         // Unsub to events
+        SkipGameEvents.instance.OnSetPlayer -= SetFont;
         SkipGameEvents.instance.OnNewWord -= ShowWord;
+    }
+
+    private void SetFont(PlayerData playerData)
+    {
+        Language language = playerData.teamData.language;
+        if (language == Language.Armenian)
+            wordText.font = armenianFont;
+        else
+            wordText.font = defaultFont;
     }
 
     private void ShowWord(string word)
@@ -36,19 +50,5 @@ public class WordDisplayUI : MonoBehaviour
 
         // Change text
         wordText.text = word;
-    }
-
-    private void ShowWordNormal(string word)
-    {
-        // Change color
-        normalWordText.color = Color.black;
-
-        // Get float size if exists
-        float size = PlayerPrefs.GetFloat(SIZE_PREF, DEFAULT_SIZE);
-        // Set size
-        normalWordText.fontSize = (int)size;
-
-        // Change text
-        normalWordText.text = word;
     }
 }

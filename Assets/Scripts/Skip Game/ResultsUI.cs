@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
 
 public class ResultsUI : MonoBehaviour
 {
@@ -17,9 +16,14 @@ public class ResultsUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI wordsText;
     [SerializeField] private Animator animator;
 
+    [Header("Fonts")]
+    [SerializeField] private TMP_FontAsset defaultFont;
+    [SerializeField] private TMP_FontAsset armenianFont;
+
     private void Start()
     {
         // Sub
+        SkipGameEvents.instance.OnSetPlayer += SetFont;
         SkipGameEvents.instance.OnEnd += DisplayResults;
         SkipGameEvents.instance.OnRedo += HideResults;
         SkipGameEvents.instance.OnScoreChanged += UpdateScore;
@@ -28,9 +32,19 @@ public class ResultsUI : MonoBehaviour
     private void OnDestroy()
     {
         // Sub
+        SkipGameEvents.instance.OnSetPlayer -= SetFont;
         SkipGameEvents.instance.OnEnd -= DisplayResults;
         SkipGameEvents.instance.OnRedo -= HideResults;
         SkipGameEvents.instance.OnScoreChanged -= UpdateScore;
+    }
+
+    private void SetFont(PlayerData playerData)
+    {
+        Language language = playerData.teamData.language;
+        if (language == Language.Armenian)
+            wordsText.font = armenianFont;
+        else
+            wordsText.font = defaultFont;
     }
 
     private void DisplayResults(TurnData data)

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e5dcb70f3f97b0543b9897b7b4f9b9d8
+guid: a857e0a2d8bf4de4da5eef285dedd384
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Arian AMU
+  - Noto Sans
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

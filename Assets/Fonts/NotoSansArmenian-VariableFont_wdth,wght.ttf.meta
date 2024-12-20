@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 73fc0bddd1d00a845a322fd2bae525b0
+guid: 93f5be346b8a98c46b98171076126259
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - DejaVu Sans
+  - Noto Sans Armenian
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

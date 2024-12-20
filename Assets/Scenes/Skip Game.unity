@@ -1049,7 +1049,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 45}
+  m_SizeDelta: {x: 0, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &211065958
 MonoBehaviour:
@@ -2011,8 +2011,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 22dca334d55937d4a99742befe87cfff, type: 2}
-  m_sharedMaterial: {fileID: -3976654647365221747, guid: 22dca334d55937d4a99742befe87cfff, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2251,7 +2251,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 45}
+  m_SizeDelta: {x: 0, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &550533563
 MonoBehaviour:
@@ -2401,7 +2401,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wordText: {fileID: 1846543374}
-  normalWordText: {fileID: 0}
+  defaultFont: {fileID: 11400000, guid: 48fccbe8e75b131479c46bf5c5404a54, type: 2}
+  armenianFont: {fileID: 11400000, guid: 607bbc7599a704b48a3d7771b7d7b50b, type: 2}
 --- !u!1 &581977020
 GameObject:
   m_ObjectHideFlags: 0
@@ -2438,7 +2439,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 45}
+  m_SizeDelta: {x: 0, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &581977022
 MonoBehaviour:
@@ -3537,7 +3538,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Final Score: ##'
+  m_text: 'Final Score: XX'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3570,7 +3571,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -5268,7 +5269,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 45}
+  m_SizeDelta: {x: 0, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1309887272
 MonoBehaviour:
@@ -5498,6 +5499,8 @@ MonoBehaviour:
   penalityText: {fileID: 1309887272}
   wordsText: {fileID: 469259267}
   animator: {fileID: 1422538269}
+  defaultFont: {fileID: 11400000, guid: 48fccbe8e75b131479c46bf5c5404a54, type: 2}
+  armenianFont: {fileID: 11400000, guid: 607bbc7599a704b48a3d7771b7d7b50b, type: 2}
 --- !u!225 &1422538268
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -6761,7 +6764,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 45}
+  m_SizeDelta: {x: 0, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1703826622
 MonoBehaviour:
@@ -7426,8 +7429,8 @@ MonoBehaviour:
   m_text: "\u0540\u0561\u0575\u0561\u057D\u057F\u0561\u0576 \u043D\u043A\u0438\u043F\u0436\u0449\u0449
     Hello"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 22dca334d55937d4a99742befe87cfff, type: 2}
-  m_sharedMaterial: {fileID: -3976654647365221747, guid: 22dca334d55937d4a99742befe87cfff, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 607bbc7599a704b48a3d7771b7d7b50b, type: 2}
+  m_sharedMaterial: {fileID: -7573474232110059521, guid: 607bbc7599a704b48a3d7771b7d7b50b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -8344,7 +8347,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 1
-  m_Spacing: 7
+  m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
