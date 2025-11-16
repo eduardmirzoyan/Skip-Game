@@ -56,7 +56,7 @@ public class TimerBarUI : MonoBehaviour
     private void UpdateScore(int score, int change)
     {
         // Update display
-        pointsText.text = score + " pts";
+        pointsText.text = $"{score} pts";
 
         // Get a random offset
         Vector3 offset = new Vector2(Random.Range(-popupVariance.x, popupVariance.x), Random.Range(-popupVariance.y, popupVariance.y));
@@ -67,12 +67,12 @@ public class TimerBarUI : MonoBehaviour
         if (change > 0)
         {
             // Increase
-            popup.Initialize("+" + change + " pt", correctColor);
+            popup.Initialize($"+{change} pt", correctColor);
         }
         else if (change < 0)
         {
             // Decrease
-            popup.Initialize("-" + -change + " pt", skipColor);
+            popup.Initialize($"-{-change} pt", skipColor);
         }
         else
         {
@@ -85,9 +85,6 @@ public class TimerBarUI : MonoBehaviour
     private void UpdateTurnRule(ExtraRule rule)
     {
         // Set text
-        if (rule != null)
-            turnRuleText.text = rule.name + ": " + rule.description;
-        else
-            turnRuleText.text = "";
+        turnRuleText.text = rule != null ? rule.name + ": " + rule.description : "";
     }
 }

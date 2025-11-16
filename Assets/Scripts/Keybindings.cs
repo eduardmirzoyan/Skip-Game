@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu]
-public class Keybindings : ScriptableObject
+[System.Serializable]
+public class Keybindings
 {
-    public KeyCode correctKey = KeyCode.C;
-    public KeyCode skipKey = KeyCode.S;
-    public KeyCode penalityKey = KeyCode.D;
-    public KeyCode endKey = KeyCode.E;
+    public KeyCode correctKey;
+    public KeyCode skipKey;
+    public KeyCode penalityKey;
+    public KeyCode endKey;
+    public KeyCode silenceKey;
 }

@@ -42,7 +42,7 @@ public class LobbyUI : MonoBehaviour
     private void Start()
     {
         // Attempt to load saved data
-        LobbyData lobbyData = DataManager.instance.LoadData();
+        LobbyData lobbyData = DataManager.instance.LoadLobbyData();
 
         // If no saved lobby, then create a new one
         if (lobbyData == null)
@@ -245,7 +245,7 @@ public class LobbyUI : MonoBehaviour
         };
 
         // Save data
-        DataManager.instance.SaveData(lobbyData);
+        DataManager.instance.SaveLobbyData(lobbyData);
 
         // Change scenes
         TransitionManager.instance.LoadNextScene();
@@ -254,7 +254,7 @@ public class LobbyUI : MonoBehaviour
     public void MainMenuButton()
     {
         // Save data
-        DataManager.instance.SaveData(null);
+        DataManager.instance.SaveLobbyData(null);
 
         // Change scenes
         TransitionManager.instance.LoadMainMenuScene();

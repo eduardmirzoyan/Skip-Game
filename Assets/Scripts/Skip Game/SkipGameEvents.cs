@@ -19,7 +19,7 @@ public class SkipGameEvents : MonoBehaviour
     }
 
     public event Action<PlayerData> OnSetPlayer;
-    public event Action<string> OnNewWord;
+    public event Action<string, string> OnNewWord;
     public event Action<int, int> OnScoreChanged;
     public event Action<float, float> OnTimeChanged;
     public event Action<TurnData> OnEnd;
@@ -31,9 +31,9 @@ public class SkipGameEvents : MonoBehaviour
         OnSetPlayer?.Invoke(playerData);
     }
 
-    public void TriggerOnNewWord(string word)
+    public void TriggerOnNewWord(string mainWord, string subWord)
     {
-        OnNewWord?.Invoke(word);
+        OnNewWord?.Invoke(mainWord, subWord);
     }
 
     public void TriggerOnScoreChanged(int points, int change)

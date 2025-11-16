@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using TMPro;
+using UnityEngine.UI;
 
 public class SettingsManager : MonoBehaviour
 {
     public static SettingsManager instance;
+
+    [Header("Components")]
     [SerializeField] private AudioMixer audioMixer;
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private TMP_Dropdown resolutionsDropdown;
     [SerializeField] private TextMeshProUGUI fontSizeText;
+    [SerializeField] private Toggle englishTranslationToggle;
+    [SerializeField] private Slider fontSizeSlider;
 
     [Header("Settings")]
     [SerializeField] private KeyCode toggleKey = KeyCode.Tab;
@@ -40,7 +45,7 @@ public class SettingsManager : MonoBehaviour
         resolutionsDropdown.ClearOptions();
 
         // Format resolutions
-        List<string> options = new List<string>();
+        List<string> options = new();
         int currentResIndex = 0;
 
         for (int i = 0; i < resolutions.Length; i++)
@@ -54,21 +59,23 @@ public class SettingsManager : MonoBehaviour
             }
         }
 
-        // Update possible resolutions
         resolutionsDropdown.AddOptions(options);
-        // Mark your current resolution
         resolutionsDropdown.value = currentResIndex;
-        // Update the options
         resolutionsDropdown.RefreshShownValue();
+
+        bool enableTranslationDisplay = PlayerPrefs.GetInt(GameConstants.DISPLAY_TRANSLATION_KEY, 0) == 1;
+        englishTranslationToggle.isOn = enableTranslationDisplay;
+
+        // Set size
+        float size = PlayerPrefs.GetInt(GameConstants.WORD_SIZE_KEY, GameConstants.DEFUALT_WORD_SIZE);
+        fontSizeText.text = $"Word Size: {(int)size}";
+        fontSizeSlider.value = size;
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(toggleKey) && isOpen)
-        {
-            // Close settings
             Close();
-        }
     }
 
     public void Open()
@@ -89,43 +96,24 @@ public class SettingsManager : MonoBehaviour
         isOpen = false;
     }
 
-    /// ~~~~~ Functionality Here ~~~~~
+    /// ~~~~~ External Functions ~~~~~
 
     public void SetMasterVolume(float volume)
     {
         // Set mixer volume 
         audioMixer.SetFloat("MasterVolume", volume);
-
-        // Debug
-        //Debug.Log("Master volume set to: " + volume);
     }
 
     public void SetMusicVolume(float volume)
     {
         // Set mixer volume 
         audioMixer.SetFloat("MusicVolume", volume);
-
-        // Debug
-        //Debug.Log("Music volume set to: " + volume);
     }
 
     public void SetSFXVolume(float volume)
     {
         // Set mixer volume 
         audioMixer.SetFloat("SFXVolume", volume);
-
-        // Debug
-        //Debug.Log("SFX volume set to: " + volume);
-    }
-
-    public void SetQuality(int qualityIndex)
-    {
-        // Not used yet...
-
-        QualitySettings.SetQualityLevel(qualityIndex);
-
-        // Debug
-        //Debug.Log("Quality set to: " + qualityIndex);
     }
 
     public void SetResolution(int resolutionIndex)
@@ -134,30 +122,30 @@ public class SettingsManager : MonoBehaviour
         Resolution resolution = resolutions[resolutionIndex];
 
         // Update resolution
-        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
-
-        // Debug
-        //Debug.Log("Resolution set to: " + resolution.width + " x " + resolution.height);
+        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen); ;
     }
 
     public void SetFullscreen(bool isFullscreen)
     {
         // Set fullscreen
         Screen.fullScreen = isFullscreen;
-
-        // Debug
-        //Debug.Log("Fullscreen set to: " + isFullscreen.ToString());
     }
 
     public void SetTextSize(float size)
     {
         // Set size
-        //PlayerPrefs.SetFloat("Size", size);
+        PlayerPrefs.SetInt(GameConstants.WORD_SIZE_KEY, (int)size);
 
         // Set text
-        fontSizeText.text = "Word Size: " + (int)size;
+        fontSizeText.text = $"Word Size: {(int)size}";
+    }
 
-        // Debug
-        //Debug.Log("Text Size set to: " + size);
+    public void SetDisplayEnglishTranslation(bool display)
+    {
+        // Set preference
+        int val = display ? 1 : 0;
+        PlayerPrefs.SetInt(GameConstants.DISPLAY_TRANSLATION_KEY, val);
+
+        englishTranslationToggle.isOn = display;
     }
 }

@@ -20,6 +20,9 @@ public class ResultsUI : MonoBehaviour
     [SerializeField] private TMP_FontAsset defaultFont;
     [SerializeField] private TMP_FontAsset armenianFont;
 
+    [Header("Data")]
+    [SerializeField] private ColorData colorData;
+
     private void Start()
     {
         // Sub
@@ -73,13 +76,13 @@ public class ResultsUI : MonoBehaviour
         string encounteredWords = "";
         foreach (var pair in data.encounteredWords)
         {
-            string tag = "";
+            string word = "";
             if (pair.Item2) // If guessed correctly
-                tag = $"[C]";
+                word = $"<color={colorData.CorrectColorHex}>{pair.Item1} [C]</color>\n";
             else
-                tag = $"[S]";
+                word = $"<color={colorData.SkipColorHex}>{pair.Item1} [S]</color>\n";
 
-            encounteredWords += $"{pair.Item1} {tag}\n";
+            encounteredWords += word;
         }
         wordsText.text = encounteredWords;
     }

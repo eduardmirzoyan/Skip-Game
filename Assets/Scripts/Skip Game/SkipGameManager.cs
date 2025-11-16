@@ -16,6 +16,10 @@ public class SkipGameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI penHotkey;
     [SerializeField] private Button skipButton;
     [SerializeField] private TextMeshProUGUI skipHotkey;
+    [SerializeField] private Button nextRoundButton;
+    [SerializeField] private TextMeshProUGUI nextRoundHotkey;
+    [SerializeField] private Button redoRoundButton;
+    [SerializeField] private TextMeshProUGUI redoRoundHotkey;
 
     [Header("Hotkeys")]
     [SerializeField] private Keybindings keybindings;
@@ -32,11 +36,12 @@ public class SkipGameManager : MonoBehaviour
     [SerializeField] private float remainingTime;
 
     private bool roundStarted;
+    private bool roundOver;
 
     private void Start()
     {
         // Get saved data
-        lobbyData = DataManager.instance.LoadData();
+        lobbyData = DataManager.instance.LoadLobbyData();
 
         // Get indexed team
         teamData = lobbyData.GetIndexedTeam();
@@ -50,6 +55,7 @@ public class SkipGameManager : MonoBehaviour
         // Reset values
         currentWord = "";
         roundStarted = false;
+        roundOver = false;
         turnData = new TurnData();
         turnData.Initialize(playerData);
 
@@ -59,7 +65,7 @@ public class SkipGameManager : MonoBehaviour
         SetupHotkeys();
 
         // Trigger events
-        SkipGameEvents.instance.TriggerOnNewWord("Press SKIP to start");
+        SkipGameEvents.instance.TriggerOnNewWord("Press SKIP to start", string.Empty);
         SkipGameEvents.instance.TriggerSetTurnRule(rule);
         SkipGameEvents.instance.TriggerOnSetPlayer(playerData);
         SkipGameEvents.instance.TriggerOnTimeChanged(lobbyData.turnTime, lobbyData.turnTime);
@@ -70,83 +76,60 @@ public class SkipGameManager : MonoBehaviour
 
     private void Update()
     {
-        // Always allow skip
-        if (Input.GetKeyDown(keybindings.skipKey))
+        if (!roundOver)
         {
-            // Press corresponding button
-            ExecuteEvents.Execute(skipButton.gameObject, new BaseEventData(null), ExecuteEvents.submitHandler);
+            if (Input.GetKeyDown(keybindings.skipKey))
+            {
+                // Press corresponding button
+                ExecuteEvents.Execute(skipButton.gameObject, new BaseEventData(null), ExecuteEvents.submitHandler);
+            }
         }
 
-        if (!roundStarted) return;
+        if (roundStarted)
+        {
+            if (Input.GetKeyDown(keybindings.correctKey))
+            {
+                // Press corresponding button
+                ExecuteEvents.Execute(correctButton.gameObject, new BaseEventData(null), ExecuteEvents.submitHandler);
+            }
+            else if (Input.GetKeyDown(keybindings.penalityKey))
+            {
+                // Press corresponding button
+                ExecuteEvents.Execute(penalityButton.gameObject, new BaseEventData(null), ExecuteEvents.submitHandler);
+            }
+            else if (Input.GetKeyDown(keybindings.endKey))
+            {
+                // Press corresponding button
+                ExecuteEvents.Execute(endButton.gameObject, new BaseEventData(null), ExecuteEvents.submitHandler);
+            }
+        }
 
-        // Check for hotkeys
-        if (Input.GetKeyDown(keybindings.correctKey))
+        if (roundOver)
         {
-            // Press corresponding button
-            ExecuteEvents.Execute(correctButton.gameObject, new BaseEventData(null), ExecuteEvents.submitHandler);
-        }
-        else if (Input.GetKeyDown(keybindings.penalityKey))
-        {
-            // Press corresponding button
-            ExecuteEvents.Execute(penalityButton.gameObject, new BaseEventData(null), ExecuteEvents.submitHandler);
-        }
-        else if (Input.GetKeyDown(keybindings.endKey))
-        {
-            // Press corresponding button
-            ExecuteEvents.Execute(endButton.gameObject, new BaseEventData(null), ExecuteEvents.submitHandler);
+            if (Input.GetKeyDown(keybindings.correctKey))
+            {
+                // Press corresponding button
+                ExecuteEvents.Execute(redoRoundButton.gameObject, new BaseEventData(null), ExecuteEvents.submitHandler);
+            }
+            else if (Input.GetKeyDown(keybindings.skipKey))
+            {
+                // Press corresponding button
+                ExecuteEvents.Execute(nextRoundButton.gameObject, new BaseEventData(null), ExecuteEvents.submitHandler);
+            }
         }
     }
 
     private void SetupHotkeys()
     {
-        int keycodeID = PlayerPrefs.GetInt(KeyType.Correct.ToString(), -1);
-        if (keycodeID == -1)
-        {
-            keybindings.correctKey = KeyCode.None;
-            correctHotkey.text = "";
-        }
-        else
-        {
-            keybindings.correctKey = (KeyCode)keycodeID;
-            correctHotkey.text = $"[{keybindings.correctKey}]";
-        }
+        keybindings = DataManager.instance.LoadKeybindings();
 
-        keycodeID = PlayerPrefs.GetInt(KeyType.Skip.ToString(), -1);
-        if (keycodeID == -1)
-        {
-            keybindings.skipKey = KeyCode.None;
-            skipHotkey.text = "";
-        }
-        else
-        {
-            keybindings.skipKey = (KeyCode)keycodeID;
-            skipHotkey.text = $"[{keybindings.skipKey}]";
-        }
+        correctHotkey.text = $"[{keybindings.correctKey}]";
+        skipHotkey.text = $"[{keybindings.skipKey}]";
+        penHotkey.text = $"[{keybindings.penalityKey}]";
+        endHotkey.text = $"[{keybindings.endKey}]";
 
-
-        keycodeID = PlayerPrefs.GetInt(KeyType.Penalty.ToString(), -1);
-        if (keycodeID == -1)
-        {
-            keybindings.penalityKey = KeyCode.None;
-            penHotkey.text = "";
-        }
-        else
-        {
-            keybindings.penalityKey = (KeyCode)keycodeID;
-            penHotkey.text = $"[{keybindings.penalityKey}]";
-        }
-
-        keycodeID = PlayerPrefs.GetInt(KeyType.End.ToString(), -1);
-        if (keycodeID == -1)
-        {
-            keybindings.endKey = KeyCode.None;
-            endHotkey.text = "";
-        }
-        else
-        {
-            keybindings.endKey = (KeyCode)keycodeID;
-            endHotkey.text = $"[{keybindings.endKey}]";
-        }
+        nextRoundHotkey.text = $"[{keybindings.skipKey}]";
+        redoRoundHotkey.text = $"[{keybindings.correctKey}]";
     }
 
     public void StartRound()
@@ -253,10 +236,12 @@ public class SkipGameManager : MonoBehaviour
         turnData.numWords++;
 
         // Get a different word based on language
-        currentWord = wordBank.GetRandomWord(teamData.language);
+        int randomIndex = wordBank.GetRandomWordIndex();
+        string subWord = wordBank.PeakWordAtIndex(randomIndex, Language.English);
+        currentWord = wordBank.PopWordAtIndex(randomIndex, teamData.language); // wordBank.GetRandomWord(teamData.language);
 
         // Trigger event
-        SkipGameEvents.instance.TriggerOnNewWord(currentWord);
+        SkipGameEvents.instance.TriggerOnNewWord(currentWord, subWord);
     }
 
     private void AddTime(float amount)
@@ -268,6 +253,8 @@ public class SkipGameManager : MonoBehaviour
 
     public void End()
     {
+        roundOver = true;
+
         // Add word
         turnData.encounteredWords.Add((currentWord, false));
 
@@ -315,7 +302,7 @@ public class SkipGameManager : MonoBehaviour
         lobbyData.IncrementIndex();
 
         // Save
-        DataManager.instance.SaveData(lobbyData);
+        DataManager.instance.SaveLobbyData(lobbyData);
 
         // Load Previous Scene
         TransitionManager.instance.LoadPreviousScene();
@@ -325,6 +312,7 @@ public class SkipGameManager : MonoBehaviour
     {
         // Reset values
         roundStarted = false;
+        roundOver = false;
 
         turnData = new TurnData();
         turnData.Initialize(playerData);
@@ -336,7 +324,7 @@ public class SkipGameManager : MonoBehaviour
 
         // Trigger events
         SkipGameEvents.instance.TriggerOnScoreChanged(turnData.score, 0);
-        SkipGameEvents.instance.TriggerOnNewWord("Press SKIP to start");
+        SkipGameEvents.instance.TriggerOnNewWord("Press SKIP to start", string.Empty);
         SkipGameEvents.instance.TriggerOnSetPlayer(playerData);
         SkipGameEvents.instance.TriggerOnTimeChanged(lobbyData.turnTime, lobbyData.turnTime);
 

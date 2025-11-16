@@ -52,6 +52,54 @@ public class WordBank : ScriptableObject
         Debug.Log($"Word Bank Size: {englishWords.Count}");
     }
 
+    public int GetRandomWordIndex()
+    {
+        return Random.Range(0, englishWords.Count);
+    }
+
+    public string PopWordAtIndex(int index, Language language)
+    {
+        string englishWord = englishWords[index];
+
+        string translatedWord;
+        switch (language)
+        {
+            case Language.Russian:
+                translatedWord = russianDict[englishWord];
+                russianDict.Remove(englishWord);
+                break;
+            case Language.Armenian:
+                translatedWord = armenianDict[englishWord];
+                armenianDict.Remove(englishWord);
+                break;
+            case Language.French:
+                translatedWord = frenchDict[englishWord];
+                frenchDict.Remove(englishWord);
+                break;
+            default:
+                translatedWord = englishWord;
+                break;
+        }
+
+        // Remove word from bank
+        englishWords.RemoveAt(index);
+
+        return translatedWord;
+    }
+
+    public string PeakWordAtIndex(int index, Language language)
+    {
+        string englishWord = englishWords[index];
+        string translatedWord = language switch
+        {
+            Language.Russian => russianDict[englishWord],
+            Language.Armenian => armenianDict[englishWord],
+            Language.French => frenchDict[englishWord],
+            _ => englishWord,
+        };
+        return translatedWord;
+    }
+
     public string GetRandomWord(Language language)
     {
         // Get random index
@@ -72,7 +120,7 @@ public class WordBank : ScriptableObject
             case Language.Armenian:
                 // Search dict
                 translatedWord = armenianDict[englishWord];
-                russianDict.Remove(englishWord);
+                armenianDict.Remove(englishWord);
                 break;
             case Language.French:
                 // Search dict

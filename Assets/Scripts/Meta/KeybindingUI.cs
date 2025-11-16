@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public enum KeyType { Correct, Skip, Penalty, End }
+public enum KeyType { Correct, Skip, Penalty, End, Silence }
 
 public class KeybindingUI : MonoBehaviour
 {
@@ -27,7 +27,8 @@ public class KeybindingUI : MonoBehaviour
             { KeyType.Correct, KeyCode.A },
             { KeyType.Skip, KeyCode.S },
             { KeyType.Penalty, KeyCode.D },
-            { KeyType.End, KeyCode.F }
+            { KeyType.End, KeyCode.F },
+            { KeyType.Silence, KeyCode.M }
         };
 
         ResetToSavedValue();

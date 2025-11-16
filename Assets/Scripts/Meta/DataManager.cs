@@ -20,13 +20,35 @@ public class DataManager : MonoBehaviour
         instance = this;
     }
 
-    public void SaveData(LobbyData lobbyData)
+    public void SaveLobbyData(LobbyData lobbyData)
     {
         this.lobbyData = lobbyData;
     }
 
-    public LobbyData LoadData()
+    public LobbyData LoadLobbyData()
     {
         return lobbyData;
+    }
+
+    public Keybindings LoadKeybindings()
+    {
+        Keybindings keybindings = new();
+
+        int keycodeID = PlayerPrefs.GetInt(KeyType.Correct.ToString(), -1);
+        keybindings.correctKey = keycodeID == -1 ? KeyCode.None : (KeyCode)keycodeID;
+
+        keycodeID = PlayerPrefs.GetInt(KeyType.Skip.ToString(), -1);
+        keybindings.skipKey = keycodeID == -1 ? KeyCode.None : (KeyCode)keycodeID;
+
+        keycodeID = PlayerPrefs.GetInt(KeyType.Penalty.ToString(), -1);
+        keybindings.penalityKey = keycodeID == -1 ? KeyCode.None : (KeyCode)keycodeID;
+
+        keycodeID = PlayerPrefs.GetInt(KeyType.End.ToString(), -1);
+        keybindings.endKey = keycodeID == -1 ? KeyCode.None : (KeyCode)keycodeID;
+
+        keycodeID = PlayerPrefs.GetInt(KeyType.Silence.ToString(), -1);
+        keybindings.silenceKey = keycodeID == -1 ? KeyCode.None : (KeyCode)keycodeID;
+
+        return keybindings;
     }
 }

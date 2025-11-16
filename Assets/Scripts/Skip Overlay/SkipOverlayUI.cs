@@ -38,7 +38,7 @@ public class SkipOverlayUI : MonoBehaviour
         CreateTeamsAroundPoint(lobbyData, teamsTransform.position, xRadius, yRadius);
 
         // Update display
-        roundDisplayText.text = "Round " + lobbyData.roundNumber + "/" + lobbyData.totalRounds;
+        roundDisplayText.text = $"Round {lobbyData.roundNumber}/{lobbyData.totalRounds}";
     }
 
     public void CreateTeamsAroundPoint(LobbyData lobbyData, Vector3 point, float xRadius, float yRadius)
