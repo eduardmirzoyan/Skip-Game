@@ -60,8 +60,7 @@ public class LobbyUI : MonoBehaviour
             lobbyData.AddTeam(teamData);
 
             // Create one player
-            var playerData = ScriptableObject.CreateInstance<PlayerData>();
-            playerData.Initialize($"Player 1", teamData);
+            var playerData = new PlayerData("Player 1", teamData);
 
             // Add to team
             teamData.AddPlayer(playerData);
@@ -71,10 +70,8 @@ public class LobbyUI : MonoBehaviour
 
         InitializeSettings(lobbyData);
 
-        // Update visuals
         InitializeVisuals(lobbyData);
 
-        // Open scene
         TransitionManager.instance.OpenScene();
     }
 
@@ -150,8 +147,7 @@ public class LobbyUI : MonoBehaviour
         // ============================================================== //
 
         // Create a new player
-        var playerData = ScriptableObject.CreateInstance<PlayerData>();
-        playerData.Initialize($"Player {teamData.Size + 1}", teamData);
+        var playerData = new PlayerData($"Player {teamData.Size + 1}", teamData);
 
         // Add to team
         teamData.AddPlayer(playerData);

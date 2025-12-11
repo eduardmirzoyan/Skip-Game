@@ -54,8 +54,8 @@ public class SkipOverlayManager : MonoBehaviour
         if (lobbyData.GameOver())
         {
             // Trigger event
-            SkipOverlayEvents.instance.TriggerOnEnd(lobbyData);
-
+            // SkipOverlayEvents.instance.TriggerOnEnd(lobbyData);
+            EndGame();
         }
         else
         {
@@ -96,7 +96,9 @@ public class SkipOverlayManager : MonoBehaviour
         if (lobbyData.GameOver())
         {
             // Trigger event
-            SkipOverlayEvents.instance.TriggerOnEnd(lobbyData);
+            // SkipOverlayEvents.instance.TriggerOnEnd(lobbyData);
+
+            EndGame();
         }
     }
 
@@ -124,10 +126,16 @@ public class SkipOverlayManager : MonoBehaviour
 
     public void EndGame()
     {
-        // End the game prematurely
+        // // End the game prematurely
 
-        // Trigger event
-        SkipOverlayEvents.instance.TriggerOnEnd(lobbyData);
+        // // Trigger event
+        // SkipOverlayEvents.instance.TriggerOnEnd(lobbyData);
+
+        // Save
+        DataManager.instance.SaveLobbyData(lobbyData);
+
+        // Load Scene
+        TransitionManager.instance.LoadSceneAt(4);
     }
 
     public void NewGame()

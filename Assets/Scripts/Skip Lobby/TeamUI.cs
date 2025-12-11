@@ -77,8 +77,7 @@ public class TeamUI : MonoBehaviour
         if (teamData.Size >= teamData.maxSize) return;
 
         // Create a new player
-        var playerData = ScriptableObject.CreateInstance<PlayerData>();
-        playerData.Initialize($"Player {teamData.Size + 1}", teamData);
+        var playerData = new PlayerData($"Player {teamData.Size + 1}", teamData);
 
         // Add to team
         teamData.AddPlayer(playerData);

@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using System;
 
 public enum Language { English, Russian, Armenian, French }
 
@@ -49,9 +48,14 @@ public class TeamData : ScriptableObject
         return players.Remove(playerData);
     }
 
-    public int GetScore()
+    public int GetTurns()
     {
-        return players.Sum(player => player.score);
+        return players.Sum(player => player.numTurns);
+    }
+
+    public int GetPoints()
+    {
+        return players.Sum(player => player.points);
     }
 
     public bool IsFull()
@@ -75,7 +79,7 @@ public class TeamData : ScriptableObject
 
     public void IncrementLanguage()
     {
-        int size = Enum.GetNames(typeof(Language)).Length;
+        int size = System.Enum.GetNames(typeof(Language)).Length;
 
         language++;
         if ((int)language >= size)

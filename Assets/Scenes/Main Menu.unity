@@ -462,9 +462,16 @@ MonoBehaviour:
     loop: 1
     audioSource: {fileID: 0}
     audioMixerGroup: {fileID: -5577867728944642122, guid: 874d9dfb56c5ead4497997b85c3582f6, type: 2}
-  - name: Background 4
+  - name: Game Background
     audioClip: {fileID: 8300000, guid: dec1bce795aa06f4fa94b4d78baf3749, type: 3}
     volume: 0.2
+    pitch: 1
+    loop: 1
+    audioSource: {fileID: 0}
+    audioMixerGroup: {fileID: -5577867728944642122, guid: 874d9dfb56c5ead4497997b85c3582f6, type: 2}
+  - name: Background 4
+    audioClip: {fileID: 8300000, guid: 5e1165fbaed86fc4e809e64bce97b53b, type: 3}
+    volume: 0.1
     pitch: 1
     loop: 1
     audioSource: {fileID: 0}

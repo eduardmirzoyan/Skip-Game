@@ -7,17 +7,18 @@ using TMPro;
 public class SkipTeamUI : MonoBehaviour
 {
     [Header("Components")]
-    [SerializeField] private VerticalLayoutGroup verticalLayoutGroup;
+    [SerializeField] private GameObject containerObject;
+    [SerializeField] private Transform playersTransform;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI languageText;
-    [SerializeField] private Image background;
-    [SerializeField] private Shadow shadow;
+    [SerializeField] private TextMeshProUGUI turnsText;
+    [SerializeField] private TextMeshProUGUI pointsText;
     [SerializeField] private Outline outline;
-    [SerializeField] private Animator animator;
 
     [Header("Data")]
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private TeamData teamData;
+    [SerializeField] private bool shouldMoveRight;
 
     private void Awake()
     {
@@ -33,16 +34,18 @@ public class SkipTeamUI : MonoBehaviour
         SkipOverlayEvents.instance.OnSelectLanguage -= SelectLanguage;
     }
 
-    public void Initialize(TeamData teamData)
+    public void Initialize(TeamData teamData, bool shouldMoveRight)
     {
         this.teamData = teamData;
-        nameText.text = $"{teamData.name} -- {teamData.GetScore()} pts";
+        this.shouldMoveRight = shouldMoveRight;
+        nameText.text = teamData.name;
         languageText.text = teamData.language.ToString();
+        turnsText.text = $"<b>Total Turns:</b> {teamData.GetTurns()}";
+        pointsText.text = $"<b>Total Points:</b> {teamData.GetPoints()}";
 
         foreach (var playerData in teamData.players)
         {
-            // Visuals
-            var playerUI = Instantiate(playerPrefab, verticalLayoutGroup.transform).GetComponent<SkipPlayerUI>();
+            var playerUI = Instantiate(playerPrefab, playersTransform).GetComponent<SkipPlayerUI>();
             playerUI.Initialize(playerData);
         }
     }
@@ -51,15 +54,14 @@ public class SkipTeamUI : MonoBehaviour
     {
         if (this.teamData == teamData)
         {
-            // Select this
             outline.enabled = true;
-            animator.Play("Selected");
+            float offset = shouldMoveRight ? 50f : -50f;
+            LeanTween.moveLocalX(containerObject, offset, GameConstants.ANIMATION_DURATION).setEaseOutQuad();
         }
         else
         {
-            // Deselect
             outline.enabled = false;
-            animator.Play("Idle");
+            LeanTween.moveLocalX(containerObject, 0f, GameConstants.ANIMATION_DURATION).setEaseOutQuad();
         }
     }
 

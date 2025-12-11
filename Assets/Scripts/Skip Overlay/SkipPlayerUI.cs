@@ -8,9 +8,10 @@ public class SkipPlayerUI : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField] private TextMeshProUGUI nameText;
+    [SerializeField] private TextMeshProUGUI turnsText;
+    [SerializeField] private TextMeshProUGUI pointsText;
+    [SerializeField] private TextMeshProUGUI averageText;
     [SerializeField] private Image background;
-    [SerializeField] private Shadow selectShadow;
-    [SerializeField] private Outline selectOutline;
     [SerializeField] private Color defaultColor;
     [SerializeField] private Color selectColor;
 
@@ -32,7 +33,10 @@ public class SkipPlayerUI : MonoBehaviour
     public void Initialize(PlayerData playerData)
     {
         this.playerData = playerData;
-        nameText.text = $"{playerData.name} -- {playerData.score} pts";
+        nameText.text = playerData.name;
+        turnsText.text = playerData.numTurns.ToString();
+        pointsText.text = playerData.points.ToString();
+        averageText.text = $"{playerData.AveragePoints:F1}";
     }
 
     private void SelectPlayer(PlayerData playerData)
@@ -41,15 +45,11 @@ public class SkipPlayerUI : MonoBehaviour
         {
             // Select this
             background.color = selectColor;
-            selectShadow.enabled = true;
-            selectOutline.enabled = true;
         }
         else
         {
             // Deselect this
             background.color = defaultColor;
-            selectShadow.enabled = false;
-            selectOutline.enabled = false;
         }
     }
 }

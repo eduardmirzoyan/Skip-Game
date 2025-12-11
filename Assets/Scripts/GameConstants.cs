@@ -8,4 +8,6 @@ public static class GameConstants
     public const int DEFUALT_WORD_SIZE = 100;
 
     public const string DISPLAY_TRANSLATION_KEY = "DisplayEnglishTranslation";
+
+    public const float ANIMATION_DURATION = 0.25f;
 }

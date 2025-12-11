@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Skip Game.unity
     guid: e41a367615e6c364b970f09b1f3ebced
+  - enabled: 1
+    path: Assets/Scenes/Skip End.unity
+    guid: bf10d2d33bb4ed0449fa8f65aee85a8c
   m_configObjects: {}

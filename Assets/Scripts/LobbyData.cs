@@ -42,10 +42,10 @@ public class LobbyData : ScriptableObject
         wordBank.Initialize(textAsset);
 
         // Basic Settings
-        totalRounds = 5;
-        turnTime = 30f;
-        randomTeams = false;
-        randomPlayers = false;
+        totalRounds = -1;
+        turnTime = 60f;
+        randomTeams = true;
+        randomPlayers = true;
 
         // Advanced settings
         advancedSettings = CreateInstance<AdvancedSettings>();

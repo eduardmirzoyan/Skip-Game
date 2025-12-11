@@ -61,17 +61,17 @@ public class ResultsUI : MonoBehaviour
         // Update text values
         scoreText.text = $"Score: {data.score} pts";
 
-        correctText.text = $"Number of Guesses: {data.numCorrect}";
+        correctText.text = $"Guesses: {data.numCorrect}";
 
         int numberOfSkips = data.numWords - data.numCorrect;
-        skipsText.text = $"Number of SKIPs: {numberOfSkips}";
+        skipsText.text = $"SKEEPs: {numberOfSkips}";
 
-        totalwordsText.text = $"Total Words Seen: {data.numWords}";
+        totalwordsText.text = $"Total Words: {data.numWords}";
 
         float rate = (float)data.numCorrect / data.numWords * 100;
-        wpsText.text = $"Accuracy: {(int)rate}%";
+        wpsText.text = $"Guess Rate: {(int)rate}%";
 
-        penalityText.text = $"Number of Penalities: {data.numPenalties}";
+        penalityText.text = $"Penalities: {data.numPenalties}";
 
         string encounteredWords = "";
         foreach (var pair in data.encounteredWords)

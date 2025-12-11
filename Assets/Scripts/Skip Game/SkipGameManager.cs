@@ -37,6 +37,7 @@ public class SkipGameManager : MonoBehaviour
 
     private bool roundStarted;
     private bool roundOver;
+    private float snapshotTime;
 
     private void Start()
     {
@@ -141,7 +142,7 @@ public class SkipGameManager : MonoBehaviour
 
         // Start background music
         AudioManager.instance.StopImm("Background 3");
-        AudioManager.instance.Play("Background 4");
+        AudioManager.instance.Play("Game Background");
 
         // Start timer
         StartCoroutine(StartTimer(lobbyData.turnTime));
@@ -174,6 +175,15 @@ public class SkipGameManager : MonoBehaviour
 
         // Store word
         turnData.encounteredWords.Add((currentWord, true));
+
+        // Update stats
+        string maxWord = playerData.stats.longestWord;
+        if (currentWord.Length > maxWord.Length)
+            playerData.stats.longestWord = currentWord;
+
+        float timeTaken = Time.time - snapshotTime;
+        if (timeTaken > playerData.stats.longestTimeSeconds)
+            playerData.stats.longestTimeSeconds = timeTaken;
 
         // Increase score
         IncreaseScore();
@@ -240,6 +250,9 @@ public class SkipGameManager : MonoBehaviour
         string subWord = wordBank.PeakWordAtIndex(randomIndex, Language.English);
         currentWord = wordBank.PopWordAtIndex(randomIndex, teamData.language); // wordBank.GetRandomWord(teamData.language);
 
+        // Take snapshot of time
+        snapshotTime = Time.time;
+
         // Trigger event
         SkipGameEvents.instance.TriggerOnNewWord(currentWord, subWord);
     }
@@ -262,7 +275,7 @@ public class SkipGameManager : MonoBehaviour
         StopAllCoroutines();
 
         // Stop audio
-        AudioManager.instance.StopImm("Background 4");
+        AudioManager.instance.StopImm("Game Background");
 
         // Play audio
         AudioManager.instance.PlayImm("Turn End");
@@ -293,7 +306,12 @@ public class SkipGameManager : MonoBehaviour
     public void NextRound()
     {
         // Give points to player
-        playerData.score += turnData.score;
+        playerData.points += turnData.score;
+        playerData.numTurns++;
+
+        // Update stats
+        playerData.stats.maxPointsInRound = Mathf.Max(turnData.score, playerData.stats.maxPointsInRound);
+        playerData.stats.numSkips += turnData.numWords - turnData.numCorrect;
 
         // Increment this player first
         lobbyData.GetIndexedTeam().IncrementIndex();

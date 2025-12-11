@@ -3,43 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-[CreateAssetMenu]
-public class PlayerData : ScriptableObject
+public class PlayerData
 {
-    public new string name;
-    public int score; /// How many points this player has earned
+    public string name;
+    public int points;
     public int numTurns;
+    public PlayerStats stats;
     public TeamData teamData;
 
-    public void Initialize(string name, TeamData teamData = null)
+    public float AveragePoints
+    {
+        get
+        {
+            if (numTurns == 0) return 0f;
+            return (float)points / numTurns;
+        }
+    }
+
+    public PlayerData(string name, TeamData teamData = null)
     {
         this.name = name;
         this.teamData = teamData;
-        score = 0;
+        stats = new();
+        points = 0;
         numTurns = 0;
     }
 
     public void Reset()
     {
-        score = 0;
+        points = 0;
         numTurns = 0;
-    }
-
-    public void IncrementTurn()
-    {
-        // Increase num turns
-        numTurns++;
-    }
-
-    public float GetAverageScore()
-    {
-        // If player hasn't gotten a turn, return their score
-        if (numTurns == 0) return score;
-
-        // Calculate average
-        float average = score / numTurns;
-
-        // Return average, rounded to 2 decimals
-        return Mathf.Round(average * 100f) / 100f;
+        stats.Reset();
     }
 }

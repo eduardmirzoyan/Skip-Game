@@ -8,13 +8,10 @@ public class SkipOverlayUI : MonoBehaviour
     [Header("Components")]
     [SerializeField] private Transform teamsTransform;
     [SerializeField] private TextMeshProUGUI nextTeamText;
-    [SerializeField] private TextMeshProUGUI nextPlayerText;
     [SerializeField] private TextMeshProUGUI roundDisplayText;
 
     [Header("Data")]
     [SerializeField] private GameObject teamPrefab;
-    [SerializeField] private float xRadius = 5f;
-    [SerializeField] private float yRadius = 3f;
 
     private void Start()
     {
@@ -34,36 +31,18 @@ public class SkipOverlayUI : MonoBehaviour
 
     private void DisplayTeams(LobbyData lobbyData)
     {
-        // Show teams around the center
-        CreateTeamsAroundPoint(lobbyData, teamsTransform.position, xRadius, yRadius);
-
-        // Update display
+        SpawnTeams(lobbyData);
         roundDisplayText.text = $"Round {lobbyData.roundNumber}/{lobbyData.totalRounds}";
     }
 
-    public void CreateTeamsAroundPoint(LobbyData lobbyData, Vector3 point, float xRadius, float yRadius)
+    private void SpawnTeams(LobbyData lobbyData)
     {
-        // Loop through each team
-        int num = lobbyData.Size;
-        for (int i = 0; i < num; i++)
+        int i = 0;
+        foreach (var team in lobbyData.teams)
         {
-            /* Distance around the circle */
-            var radians = 2 * Mathf.PI / num * i + Mathf.PI / 2;
-
-            /* Get the vector direction */
-            var vertical = Mathf.Sin(radians);
-            var horizontal = Mathf.Cos(radians);
-
-            var spawnDir = new Vector3(horizontal * xRadius, vertical * yRadius, 0);
-
-            /* Get the spawn position */
-            var spawnPos = point + spawnDir * 1; // Radius is just the distance away from the point
-
-            Debug.DrawLine(Vector3.zero, spawnPos, Color.red, 30f);
-
-            /* Now spawn UI */
-            var teamUI = Instantiate(teamPrefab, spawnPos, Quaternion.identity, teamsTransform).GetComponent<SkipTeamUI>();
-            teamUI.Initialize(lobbyData.teams[i]);
+            var teamUI = Instantiate(teamPrefab, teamsTransform).GetComponent<SkipTeamUI>();
+            teamUI.Initialize(team, i % 2 == 0);
+            i++;
         }
     }
 
@@ -71,8 +50,6 @@ public class SkipOverlayUI : MonoBehaviour
     {
         if (teamData != null)
         {
-            // Update display
-
             // If infinite, the display only round #
             if (teamData.lobbyData.totalRounds == -1)
             {
@@ -91,8 +68,7 @@ public class SkipOverlayUI : MonoBehaviour
         if (playerData != null)
         {
             // Update text
-            nextPlayerText.text = $"Next Team: {playerData.teamData.name}\nNext Player: {playerData.name}";
+            nextTeamText.text = $"Next Team: {playerData.teamData.name}\nNext Player: {playerData.name}";
         }
-
     }
 }

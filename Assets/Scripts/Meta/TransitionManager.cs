@@ -42,38 +42,58 @@ public class TransitionManager : MonoBehaviour
 
     public void LoadNextScene()
     {
+        int index = GetSceneIndex();
+
         // Stop any background music
-        AudioManager.instance.Stop("Background " + GetSceneIndex());
+        AudioManager.instance.Stop("Background " + index);
 
         // Stop any transition if one was happening
         if (coroutine != null) StopCoroutine(coroutine);
 
         // Transition to next scene
-        coroutine = StartCoroutine(LoadScene(SceneManager.GetActiveScene().buildIndex + 1));
+        coroutine = StartCoroutine(LoadScene(index + 1));
     }
 
     public void LoadPreviousScene()
     {
+        int index = GetSceneIndex();
+
         // Stop any background music
-        AudioManager.instance.Stop("Background " + GetSceneIndex());
+        AudioManager.instance.Stop("Background " + index);
 
         // Stop any transition if one was happening
         if (coroutine != null) StopCoroutine(coroutine);
 
         // Transition to next scene
-        coroutine = StartCoroutine(LoadScene(SceneManager.GetActiveScene().buildIndex - 1));
+        coroutine = StartCoroutine(LoadScene(index - 1));
     }
 
     public void ReloadScene()
     {
+        int index = GetSceneIndex();
+
         // Stop any background music
-        AudioManager.instance.Stop("Background " + GetSceneIndex());
-        
+        AudioManager.instance.Stop("Background " + index);
+
         // Stop any transition if one was happening
         if (coroutine != null) StopCoroutine(coroutine);
 
         // Transition to same scene
-        coroutine = StartCoroutine(LoadScene(SceneManager.GetActiveScene().buildIndex));
+        coroutine = StartCoroutine(LoadScene(index));
+    }
+
+    public void LoadSceneAt(int nextIndex)
+    {
+        int index = GetSceneIndex();
+
+        // Stop any background music
+        AudioManager.instance.Stop("Background " + index);
+
+        // Stop any transition if one was happening
+        if (coroutine != null) StopCoroutine(coroutine);
+
+        // Transition to next scene
+        coroutine = StartCoroutine(LoadScene(nextIndex));
     }
 
     public void LoadMainMenuScene()
