@@ -9,6 +9,8 @@ public class WordBank : ScriptableObject
     public Dictionary<string, string> russianDict;
     public Dictionary<string, string> armenianDict;
     public Dictionary<string, string> frenchDict;
+    // vietnamese 
+    public Dictionary<string, string> vietnameseDict;
 
     public void Initialize(TextAsset textAsset)
     {
@@ -17,6 +19,7 @@ public class WordBank : ScriptableObject
         russianDict = new Dictionary<string, string>();
         armenianDict = new Dictionary<string, string>();
         frenchDict = new Dictionary<string, string>();
+        vietnameseDict = new Dictionary<string, string>();
 
         // Parse CSV into lists
         ReadCSV(textAsset);
@@ -47,6 +50,7 @@ public class WordBank : ScriptableObject
             russianDict.Add(words[0], words[1]);
             armenianDict.Add(words[0], words[2]);
             frenchDict.Add(words[0], words[3]);
+            vietnameseDict.Add(words[0], words[4]);
         }
 
         Debug.Log($"Word Bank Size: {englishWords.Count}");
@@ -76,6 +80,10 @@ public class WordBank : ScriptableObject
                 translatedWord = frenchDict[englishWord];
                 frenchDict.Remove(englishWord);
                 break;
+            case Language.Vietnamese:
+                translatedWord = vietnameseDict[englishWord];
+                vietnameseDict.Remove(englishWord);
+                break;
             default:
                 translatedWord = englishWord;
                 break;
@@ -95,46 +103,9 @@ public class WordBank : ScriptableObject
             Language.Russian => russianDict[englishWord],
             Language.Armenian => armenianDict[englishWord],
             Language.French => frenchDict[englishWord],
+            Language.Vietnamese => vietnameseDict[englishWord],
             _ => englishWord,
         };
-        return translatedWord;
-    }
-
-    public string GetRandomWord(Language language)
-    {
-        // Get random index
-        int index = Random.Range(0, englishWords.Count);
-
-        // Get english word
-        string englishWord = englishWords[index];
-
-        string translatedWord;
-        // Translate if needed
-        switch (language)
-        {
-            case Language.Russian:
-                // Search dict
-                translatedWord = russianDict[englishWord];
-                russianDict.Remove(englishWord);
-                break;
-            case Language.Armenian:
-                // Search dict
-                translatedWord = armenianDict[englishWord];
-                armenianDict.Remove(englishWord);
-                break;
-            case Language.French:
-                // Search dict
-                translatedWord = frenchDict[englishWord];
-                frenchDict.Remove(englishWord);
-                break;
-            default:
-                translatedWord = englishWord;
-                break;
-        }
-
-        // Remove word from bank
-        englishWords.Remove(englishWord);
-
         return translatedWord;
     }
 }

@@ -78,9 +78,9 @@ public class ResultsUI : MonoBehaviour
         {
             string word = "";
             if (pair.Item2) // If guessed correctly
-                word = $"<color={colorData.CorrectColorHex}>{pair.Item1} [C]</color>\n";
+                word = $"<color={colorData.CorrectColorHex}>[C] {pair.Item1}</color>\n";
             else
-                word = $"<color={colorData.SkipColorHex}>{pair.Item1} [S]</color>\n";
+                word = $"<color={colorData.SkipColorHex}>[S] {pair.Item1}</color>\n";
 
             encounteredWords += word;
         }
